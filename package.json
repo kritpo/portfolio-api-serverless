@@ -1,0 +1,31 @@
+{
+	"name": "portfolio-api-serverless",
+	"version": "0.1.0",
+	"private": true,
+	"dependencies": {
+		"aws-sdk": "^2.843.0",
+		"dotenv": "^8.2.0"
+	},
+	"devDependencies": {
+		"aws-sdk-mock": "^5.1.0",
+		"chai": "^4.3.0",
+		"dirty-chai": "^2.0.1",
+		"jest": "^26.6.3",
+		"serverless-domain-manager": "^5.1.0",
+		"serverless-offline": "^6.8.0",
+		"sinon": "^9.2.4",
+		"sinon-chai": "^3.5.0"
+	},
+	"scripts": {
+		"start": "sls offline",
+		"test": "jest",
+		"coverage": "jest --coverage",
+		"deploy": "sls deploy"
+	},
+	"jest": {
+		"setupFiles": [
+			"./setupTest"
+		]
+	},
+	"license": "MIT"
+}

@@ -1,0 +1,7 @@
+hello:
+    handler: src/infra/handler.hello
+    events:
+        - http:
+              path: /hello
+              method: get
+              cors: true
