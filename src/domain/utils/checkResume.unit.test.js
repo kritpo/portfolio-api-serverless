@@ -61,6 +61,35 @@ describe('checkResume', () => {
 			});
 
 			checkReqParamTypeStub.should.have.been.calledWith(
+				{
+					name: 'John DOE',
+					label: 'Programmer',
+					picture: 'https://website.com/picture.jpg',
+					email: 'john@gmail.com',
+					phone: '(912) 555-4321',
+					website: 'http://johndoe.com',
+					summary: 'A summary of John Doe...',
+					location: {
+						address: '2712 Broadway St',
+						postalCode: 'CA 94115',
+						city: 'San Francisco',
+						countryCode: 'US',
+						region: 'California'
+					},
+					profiles: [
+						{
+							network: 'Twitter',
+							username: 'john',
+							url: 'http://twitter.com/john'
+						}
+					]
+				},
+				'object',
+				'basics',
+				'check-resume',
+				'basics'
+			);
+			checkReqParamTypeStub.should.have.been.calledWith(
 				'John DOE',
 				'string',
 				'basics.name',
@@ -223,6 +252,24 @@ describe('checkResume', () => {
 			);
 
 			checkReqParamTypeStub.should.have.been.calledWith(
+				[
+					{
+						isInternship: true,
+						company: 'Company',
+						position: 'Programmer',
+						website: 'https://company.com/',
+						startDate: '2019-01-01',
+						endDate: '2020-01-01',
+						summary: 'Description...',
+						highlights: ['CProject']
+					}
+				],
+				'object',
+				'career',
+				'check-resume',
+				'career'
+			);
+			checkReqParamTypeStub.should.have.been.calledWith(
 				'Company',
 				'string',
 				'experience.company',
@@ -320,6 +367,23 @@ describe('checkResume', () => {
 			);
 
 			checkReqParamTypeStub.should.have.been.calledWith(
+				[
+					{
+						organization: 'Organization',
+						position: 'Volunteer',
+						website: 'https://organization.fr/',
+						startDate: '2019-01-01',
+						endDate: '2020-01-01',
+						summary: 'Description...',
+						highlights: ["Organization's website"]
+					}
+				],
+				'object',
+				'career',
+				'check-resume',
+				'career'
+			);
+			checkReqParamTypeStub.should.have.been.calledWith(
 				'Organization',
 				'string',
 				'experience.organization',
@@ -414,6 +478,28 @@ describe('checkResume', () => {
 				}
 			]);
 
+			checkReqParamTypeStub.should.have.been.calledWith(
+				[
+					{
+						institution: 'School',
+						area: 'Computer Science',
+						studyType: 'Engineering Studies',
+						startDate: '2018-09-01',
+						endDate: '2020-07-01',
+						gpa: '4',
+						courses: [
+							{
+								category: 'Y1',
+								courses: ['TS1001 - Algorithmic']
+							}
+						]
+					}
+				],
+				'object',
+				'education',
+				'check-resume',
+				'education'
+			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'School',
 				'string',
@@ -524,6 +610,23 @@ describe('checkResume', () => {
 			]);
 
 			checkReqParamTypeStub.should.have.been.calledWith(
+				[
+					{
+						name: 'Project',
+						summary: 'A single project to do everything!',
+						startDate: '2018-09-01',
+						endDate: '2020-07-01',
+						picture: 'https://website.com/cproject-picture.jpg',
+						url: 'https://github.com/john/cproject',
+						technologies: ['Javascript']
+					}
+				],
+				'object',
+				'projects',
+				'check-resume',
+				'projects'
+			);
+			checkReqParamTypeStub.should.have.been.calledWith(
 				'Project',
 				'string',
 				'project.name',
@@ -612,6 +715,18 @@ describe('checkResume', () => {
 			);
 
 			checkReqParamTypeStub.should.have.been.calledWith(
+				[
+					{
+						name: 'Javascript',
+						level: 'Advanced'
+					}
+				],
+				'object',
+				'skills',
+				'check-resume',
+				'skills'
+			);
+			checkReqParamTypeStub.should.have.been.calledWith(
 				'Javascript',
 				'string',
 				'skill.name',
@@ -641,6 +756,18 @@ describe('checkResume', () => {
 			);
 
 			checkReqParamTypeStub.should.have.been.calledWith(
+				[
+					{
+						language: 'French',
+						fluency: 'Advanced'
+					}
+				],
+				'object',
+				'skills',
+				'check-resume',
+				'skills'
+			);
+			checkReqParamTypeStub.should.have.been.calledWith(
 				'French',
 				'string',
 				'skill.language',
@@ -669,6 +796,18 @@ describe('checkResume', () => {
 				}
 			]);
 
+			checkReqParamTypeStub.should.have.been.calledWith(
+				[
+					{
+						name: 'Computer',
+						keywords: ['Problem solving']
+					}
+				],
+				'object',
+				'interests',
+				'check-resume',
+				'interests'
+			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'Computer',
 				'string',
@@ -705,6 +844,18 @@ describe('checkResume', () => {
 				}
 			]);
 
+			checkReqParamTypeStub.should.have.been.calledWith(
+				[
+					{
+						name: 'Jane Doe',
+						reference: 'Reference...'
+					}
+				],
+				'object',
+				'references',
+				'check-resume',
+				'references'
+			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'Jane Doe',
 				'string',

@@ -15,6 +15,13 @@ const checkParamFormat = require('../../utils/checkParamFormat');
 function basics(basics) {
 	// check basics information types
 	checkRequiredParamType(
+		basics,
+		'object',
+		'basics',
+		'check-resume',
+		'basics'
+	);
+	checkRequiredParamType(
 		basics.name,
 		'string',
 		'basics.name',
@@ -155,6 +162,15 @@ function basics(basics) {
  * @param {boolean} isWork if the career experiences array is a work experiences array
  */
 function career(career, isWork) {
+	// check experiences information types
+	checkRequiredParamType(
+		career,
+		'object',
+		'career',
+		'check-resume',
+		'career'
+	);
+
 	// loop career experience list
 	for (const experience of career) {
 		// check experience information types
@@ -264,6 +280,15 @@ function career(career, isWork) {
  * @param {array} education the academic background array to check
  */
 function education(education) {
+	// check experiences information types
+	checkRequiredParamType(
+		education,
+		'object',
+		'education',
+		'check-resume',
+		'education'
+	);
+
 	// loop academic background list
 	for (const entry of education) {
 		// check experience information types
@@ -371,6 +396,15 @@ function education(education) {
  * @param {array} projects the projects array to check
  */
 function projects(projects) {
+	// check project information types
+	checkRequiredParamType(
+		projects,
+		'object',
+		'projects',
+		'check-resume',
+		'projects'
+	);
+
 	// loop projects list
 	for (const project of projects) {
 		// check project information types
@@ -460,6 +494,15 @@ function projects(projects) {
  * @param {boolean} isSkills if the skills array is a pure skills array
  */
 function skills(skills, isSkills) {
+	// check skills information types
+	checkRequiredParamType(
+		skills,
+		'object',
+		'skills',
+		'check-resume',
+		'skills'
+	);
+
 	// loop skills list
 	for (const skill of skills) {
 		// check skill information types
@@ -485,6 +528,15 @@ function skills(skills, isSkills) {
  * @param {array} interests the interests array to check
  */
 function interests(interests) {
+	// check interests information types
+	checkRequiredParamType(
+		interests,
+		'object',
+		'interests',
+		'check-resume',
+		'interests'
+	);
+
 	// loop interests list
 	for (const interest of interests) {
 		// check interest information types
@@ -522,6 +574,15 @@ function interests(interests) {
  * @param {array} references the references array to check
  */
 function references(references) {
+	// check references information types
+	checkRequiredParamType(
+		references,
+		'object',
+		'references',
+		'check-resume',
+		'references'
+	);
+
 	// loop references list
 	for (const reference of references) {
 		// check reference information types
