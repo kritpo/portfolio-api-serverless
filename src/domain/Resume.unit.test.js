@@ -141,7 +141,7 @@ describe('Resume', () => {
 			});
 		});
 
-		// configure the tests of basics
+		// configure the tests of work
 		describe('work', () => {
 			// configure the test with get
 			it('with get', () => {
@@ -222,7 +222,7 @@ describe('Resume', () => {
 			});
 		});
 
-		// configure the tests of basics
+		// configure the tests of volunteer
 		describe('volunteer', () => {
 			// configure the test with get
 			it('with get', () => {
@@ -276,7 +276,7 @@ describe('Resume', () => {
 			});
 		});
 
-		// configure the tests of basics
+		// configure the tests of education
 		describe('education', () => {
 			// configure the test with get
 			it('with get', () => {
@@ -354,7 +354,7 @@ describe('Resume', () => {
 			});
 		});
 
-		// configure the tests of basics
+		// configure the tests of projects
 		describe('projects', () => {
 			// configure the test with get
 			it('with get', () => {
@@ -405,7 +405,7 @@ describe('Resume', () => {
 			});
 		});
 
-		// configure the tests of basics
+		// configure the tests of skills
 		describe('skills', () => {
 			// configure the test with get
 			it('with get', () => {
@@ -444,7 +444,7 @@ describe('Resume', () => {
 			});
 		});
 
-		// configure the tests of basics
+		// configure the tests of languages
 		describe('languages', () => {
 			// configure the test with get
 			it('with get', () => {
@@ -483,7 +483,7 @@ describe('Resume', () => {
 			});
 		});
 
-		// configure the tests of basics
+		// configure the tests of interests
 		describe('interests', () => {
 			// configure the test with get
 			it('with get', () => {
@@ -531,7 +531,7 @@ describe('Resume', () => {
 			});
 		});
 
-		// configure the tests of basics
+		// configure the tests of references
 		describe('references', () => {
 			// configure the test with get
 			it('with get', () => {
