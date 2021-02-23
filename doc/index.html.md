@@ -244,7 +244,7 @@ On error, the HTTP status code in the response header is an <a href="#errors"><s
 ## Read a Specific Resume
 
 ```http
-GET https://api.jimmyweng.fr/resume/{username}
+GET https://api.jimmyweng.fr/resumes/{username}
 ```
 
 > JSON response:
@@ -390,7 +390,7 @@ On error, the HTTP status code in the response header is an <a href="#errors"><s
 ## Update a Specific Resume
 
 ```http
-PUT https://api.jimmyweng.fr/resume/{username}
+PUT https://api.jimmyweng.fr/resumes/{username}
 ```
 
 > JSON request:
@@ -616,7 +616,7 @@ On error, the HTTP status code in the response header is an <a href="#errors"><s
 ## Delete a Specific Resume
 
 ```http
-DELETE https://api.jimmyweng.fr/resume/{username}
+DELETE https://api.jimmyweng.fr/resumes/{username}
 ```
 
 Delete a specific resume.
@@ -648,7 +648,7 @@ On error, the HTTP status code in the response header is an <a href="#errors"><s
 ## Retrieve All Languages of a Resume
 
 ```http
-GET https://api.jimmyweng.fr/resume/{username}/languages
+GET https://api.jimmyweng.fr/resumes/{username}/languages
 ```
 
 > JSON response:
