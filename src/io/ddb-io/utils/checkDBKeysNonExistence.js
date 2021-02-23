@@ -8,10 +8,9 @@ const dbReadByIdAndFilter = require('../dbReadByIdAndFilter');
  * @param {string} id1 the first primary key
  * @param {string} filter the filter key
  * @param {string} id2 the second primary key
- * @param {string} service the current service for error message purpose
- * @param {string} context the current context for error message purpose
+ * @param {string} scope the current scope for error message purpose
  */
-const checkDBKeysNonExistence = async (id1, filter, id2, service, context) => {
+const checkDBKeysNonExistence = async (id1, filter, id2, scope) => {
 	// check if the [id1 and filter] set is defined in the database
 	// loose equality to match both undefined and null
 	if (
@@ -19,7 +18,7 @@ const checkDBKeysNonExistence = async (id1, filter, id2, service, context) => {
 		(await dbReadByIdAndFilter(id1, filter)) !== undefined
 	) {
 		throw new Error(
-			`${service}(${context}): the set \`id1\` and \`filter\` is already defined`
+			`${scope}: the set \`id1\` and \`filter\` is already defined`
 		);
 	}
 
@@ -30,7 +29,7 @@ const checkDBKeysNonExistence = async (id1, filter, id2, service, context) => {
 		(await dbReadByIdAndFilter(null, filter, id2)) !== undefined
 	) {
 		throw new Error(
-			`${service}(${context}): the set \`id2\` and \`filter\` is already defined`
+			`${scope}: the set \`id2\` and \`filter\` is already defined`
 		);
 	}
 };

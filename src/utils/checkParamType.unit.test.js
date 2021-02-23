@@ -8,13 +8,7 @@ describe('checkParamType', () => {
 	// configure the test with right param
 	it('with right param', () => {
 		// execute the function
-		checkParamType(
-			42,
-			'number',
-			'dumb_name',
-			'dumb_service',
-			'dumb_context'
-		);
+		checkParamType(42, 'number', 'dumb_name', 'dumb_scope');
 
 		// nothing should happen
 	});
@@ -24,13 +18,7 @@ describe('checkParamType', () => {
 		// try to execute the function
 		try {
 			// execute the function
-			checkParamType(
-				42,
-				'string',
-				'dumb_name',
-				'dumb_service',
-				'dumb_context'
-			);
+			checkParamType(42, 'string', 'dumb_name', 'dumb_scope');
 
 			// shouldn't be executed
 			true.should.be.equal(false, 'should not be executed');
@@ -39,7 +27,7 @@ describe('checkParamType', () => {
 				.a('Error')
 				.which.have.property(
 					'message',
-					'dumb_service(dumb_context): `dumb_name` parameter is not `string` type'
+					'dumb_scope: `dumb_name` parameter is not `string` type'
 				);
 		}
 	});

@@ -70,29 +70,25 @@ describe('httpRequestDecode', () => {
 				sampleHttpEvent,
 				'object',
 				'event',
-				'http-io',
-				'request-decode'
+				'http-io(request-decode)'
 			);
 			checkReqParamStub.should.have.been.calledWith(
 				true,
 				'boolean',
 				'includeParams',
-				'http-io',
-				'request-decode'
+				'http-io(request-decode)'
 			);
 			checkReqParamStub.should.have.been.calledWith(
 				true,
 				'boolean',
 				'includeQueries',
-				'http-io',
-				'request-decode'
+				'http-io(request-decode)'
 			);
 			checkReqParamStub.should.have.been.calledWith(
 				true,
 				'boolean',
 				'includeHeaders',
-				'http-io',
-				'request-decode'
+				'http-io(request-decode)'
 			);
 			debugStub.should.have.been.calledWith({
 				method: 'GET',
@@ -128,29 +124,25 @@ describe('httpRequestDecode', () => {
 				sampleHttpEvent,
 				'object',
 				'event',
-				'http-io',
-				'request-decode'
+				'http-io(request-decode)'
 			);
 			checkReqParamStub.should.have.been.calledWith(
 				false,
 				'boolean',
 				'includeParams',
-				'http-io',
-				'request-decode'
+				'http-io(request-decode)'
 			);
 			checkReqParamStub.should.have.been.calledWith(
 				false,
 				'boolean',
 				'includeQueries',
-				'http-io',
-				'request-decode'
+				'http-io(request-decode)'
 			);
 			checkReqParamStub.should.have.been.calledWith(
 				false,
 				'boolean',
 				'includeHeaders',
-				'http-io',
-				'request-decode'
+				'http-io(request-decode)'
 			);
 			debugStub.should.have.been.calledWith({
 				method: 'GET',
@@ -187,29 +179,25 @@ describe('httpRequestDecode', () => {
 				sampleHttpEvent,
 				'object',
 				'event',
-				'http-io',
-				'request-decode'
+				'http-io(request-decode)'
 			);
 			checkReqParamStub.should.have.been.calledWith(
 				true,
 				'boolean',
 				'includeParams',
-				'http-io',
-				'request-decode'
+				'http-io(request-decode)'
 			);
 			checkReqParamStub.should.have.been.calledWith(
 				true,
 				'boolean',
 				'includeQueries',
-				'http-io',
-				'request-decode'
+				'http-io(request-decode)'
 			);
 			checkReqParamStub.should.have.been.calledWith(
 				true,
 				'boolean',
 				'includeHeaders',
-				'http-io',
-				'request-decode'
+				'http-io(request-decode)'
 			);
 			debugStub.should.have.been.calledWith({
 				method: 'GET',
@@ -238,29 +226,25 @@ describe('httpRequestDecode', () => {
 				sampleHttpEvent,
 				'object',
 				'event',
-				'http-io',
-				'request-decode'
+				'http-io(request-decode)'
 			);
 			checkReqParamStub.should.have.been.calledWith(
 				false,
 				'boolean',
 				'includeParams',
-				'http-io',
-				'request-decode'
+				'http-io(request-decode)'
 			);
 			checkReqParamStub.should.have.been.calledWith(
 				false,
 				'boolean',
 				'includeQueries',
-				'http-io',
-				'request-decode'
+				'http-io(request-decode)'
 			);
 			checkReqParamStub.should.have.been.calledWith(
 				false,
 				'boolean',
 				'includeHeaders',
-				'http-io',
-				'request-decode'
+				'http-io(request-decode)'
 			);
 			debugStub.should.have.been.calledWith({
 				method: 'GET',

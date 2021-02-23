@@ -17,13 +17,16 @@ const checkDBKeysExistence = require('./utils/checkDBKeysExistence');
  */
 // async as the function must return a promise
 const dbDelete = async (id1, filter) => {
+	// setup the scope for error message purpose
+	const scope = 'ddb-io(delete)';
+
 	// create the dynamodb document client
 	const ddb = new AWS.DynamoDB.DocumentClient();
 
 	// check if the keys parameters are right
-	checkRequiredParamType(id1, 'string', 'id1', 'ddb-io', 'delete');
-	checkRequiredParamType(filter, 'string', 'filter', 'ddb-io', 'delete');
-	await checkDBKeysExistence(id1, filter, 'ddb-io', 'delete');
+	checkRequiredParamType(id1, 'string', 'id1', scope);
+	checkRequiredParamType(filter, 'string', 'filter', scope);
+	await checkDBKeysExistence(id1, filter, scope);
 
 	// configure the params object to send to dynamodb
 	const params = {
@@ -39,7 +42,7 @@ const dbDelete = async (id1, filter) => {
 		.delete(params)
 		.promise()
 		.then(() => ({
-			message: 'ddb-io(delete): the item is successfully deleted'
+			message: `${scope}: the item is successfully deleted`
 		}));
 };
 

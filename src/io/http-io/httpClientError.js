@@ -12,8 +12,7 @@ const badRequest = (headers = {}) => {
 		400,
 		{ ...headers },
 		{ message: 'Bad Request' },
-		'http-io',
-		'bad-request'
+		'http-io(bad-request)'
 	);
 };
 
@@ -26,8 +25,7 @@ const forbidden = (headers = {}) => {
 		403,
 		{ ...headers },
 		{ message: 'Forbidden' },
-		'http-io',
-		'forbidden'
+		'http-io(forbidden)'
 	);
 };
 
@@ -40,8 +38,7 @@ const notFound = (headers = {}) => {
 		404,
 		{ ...headers },
 		{ message: 'Not Found' },
-		'http-io',
-		'not-found'
+		'http-io(not-found)'
 	);
 };
 

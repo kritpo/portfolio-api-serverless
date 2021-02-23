@@ -79,42 +79,36 @@ describe('dbUpdateByExpression', () => {
 			'good_id1',
 			'string',
 			'id1',
-			'ddb-io',
-			'update-by-expression'
+			'ddb-io(update-by-expression)'
 		);
 		checkReqParamStub.should.have.been.calledWith(
 			'good_filter',
 			'string',
 			'filter',
-			'ddb-io',
-			'update-by-expression'
+			'ddb-io(update-by-expression)'
 		);
 		checkReqParamStub.should.have.been.calledWith(
 			'#data = :data',
 			'string',
 			'setExpression',
-			'ddb-io',
-			'update-by-expression'
+			'ddb-io(update-by-expression)'
 		);
 		checkParamStub.should.have.been.calledWith(
 			{ '#data': 'data' },
 			'object',
 			'setNames',
-			'ddb-io',
-			'update-by-expression'
+			'ddb-io(update-by-expression)'
 		);
 		checkParamStub.should.have.been.calledWith(
 			{ ':data': 42 },
 			'object',
 			'setValues',
-			'ddb-io',
-			'update-by-expression'
+			'ddb-io(update-by-expression)'
 		);
 		checkExistStub.should.have.been.calledWith(
 			'good_id1',
 			'good_filter',
-			'ddb-io',
-			'update-by-expression'
+			'ddb-io(update-by-expression)'
 		);
 	});
 });

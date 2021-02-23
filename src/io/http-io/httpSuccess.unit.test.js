@@ -33,8 +33,7 @@ describe('httpSuccess', () => {
 				200,
 				{ dumb_header: 42 },
 				{ data: 42 },
-				'http-io',
-				'ok'
+				'http-io(ok)'
 			);
 		});
 
@@ -47,8 +46,7 @@ describe('httpSuccess', () => {
 				200,
 				{},
 				{ data: 42 },
-				'http-io',
-				'ok'
+				'http-io(ok)'
 			);
 		});
 	});
@@ -64,8 +62,7 @@ describe('httpSuccess', () => {
 				201,
 				{ dumb_header: 42 },
 				null,
-				'http-io',
-				'created'
+				'http-io(created)'
 			);
 		});
 
@@ -78,8 +75,7 @@ describe('httpSuccess', () => {
 				201,
 				{},
 				null,
-				'http-io',
-				'created'
+				'http-io(created)'
 			);
 		});
 	});
@@ -95,8 +91,7 @@ describe('httpSuccess', () => {
 				204,
 				{ dumb_header: 42 },
 				null,
-				'http-io',
-				'no-content'
+				'http-io(no-content)'
 			);
 		});
 
@@ -109,8 +104,7 @@ describe('httpSuccess', () => {
 				204,
 				{},
 				null,
-				'http-io',
-				'no-content'
+				'http-io(no-content)'
 			);
 		});
 	});

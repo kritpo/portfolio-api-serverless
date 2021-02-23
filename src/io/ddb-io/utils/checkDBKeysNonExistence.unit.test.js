@@ -36,8 +36,7 @@ describe('checkDBKeysNonExistence', () => {
 				'good_id1',
 				'good_filter',
 				null,
-				'dumb_service',
-				'dumb_context'
+				'dumb_scope'
 			);
 
 			readStub.should.have.been.calledWith('good_id1', 'good_filter');
@@ -50,8 +49,7 @@ describe('checkDBKeysNonExistence', () => {
 				null,
 				'good_filter',
 				'good_id2',
-				'dumb_service',
-				'dumb_context'
+				'dumb_scope'
 			);
 
 			readStub.should.have.been.calledWith(
@@ -73,8 +71,7 @@ describe('checkDBKeysNonExistence', () => {
 					'wrong_id1',
 					'wrong_filter',
 					null,
-					'dumb_service',
-					'dumb_context'
+					'dumb_scope'
 				);
 
 				// shouldn't be executed
@@ -84,7 +81,7 @@ describe('checkDBKeysNonExistence', () => {
 					.a('Error')
 					.which.have.property(
 						'message',
-						'dumb_service(dumb_context): the set `id1` and `filter` is already defined'
+						'dumb_scope: the set `id1` and `filter` is already defined'
 					);
 			}
 
@@ -100,8 +97,7 @@ describe('checkDBKeysNonExistence', () => {
 					null,
 					'wrong_filter',
 					'wrong_id2',
-					'dumb_service',
-					'dumb_context'
+					'dumb_scope'
 				);
 
 				// shouldn't be executed
@@ -111,7 +107,7 @@ describe('checkDBKeysNonExistence', () => {
 					.a('Error')
 					.which.have.property(
 						'message',
-						'dumb_service(dumb_context): the set `id2` and `filter` is already defined'
+						'dumb_scope: the set `id2` and `filter` is already defined'
 					);
 			}
 

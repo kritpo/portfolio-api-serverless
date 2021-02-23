@@ -23,34 +23,20 @@ const filterDataForDdb = require('./utils/filterDataForDdb');
  */
 // async as the function must return a promise
 const dbUpdateByReplace = async (id1, filter, data, id2) => {
+	// setup the scope for error message purpose
+	const scope = 'ddb-io(update-by-replace)';
+
 	// create the dynamodb document client
 	const ddb = new AWS.DynamoDB.DocumentClient();
 
 	// check if the keys parameters are right
-	checkRequiredParamType(id1, 'string', 'id1', 'ddb-io', 'update-by-replace');
-	checkRequiredParamType(
-		filter,
-		'string',
-		'filter',
-		'ddb-io',
-		'update-by-replace'
-	);
-	checkParamType(id2, 'string', 'id2', 'ddb-io', 'update-by-replace');
-	const previousData = await checkDBKeysExistence(
-		id1,
-		filter,
-		'ddb-io',
-		'update-by-replace'
-	);
+	checkRequiredParamType(id1, 'string', 'id1', scope);
+	checkRequiredParamType(filter, 'string', 'filter', scope);
+	checkParamType(id2, 'string', 'id2', scope);
+	const previousData = await checkDBKeysExistence(id1, filter, scope);
 
 	// check if the data parameter is right
-	checkRequiredParamType(
-		data,
-		'object',
-		'data',
-		'ddb-io',
-		'update-by-replace'
-	);
+	checkRequiredParamType(data, 'object', 'data', scope);
 
 	// filter data for dynamodb
 	filterDataForDdb(data);
@@ -72,8 +58,7 @@ const dbUpdateByReplace = async (id1, filter, data, id2) => {
 		.put(params)
 		.promise()
 		.then(() => ({
-			message:
-				'ddb-io(update-by-replace): the item is successfully updated'
+			message: `${scope}: the item is successfully updated`
 		}));
 };
 

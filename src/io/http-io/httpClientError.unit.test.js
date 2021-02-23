@@ -33,8 +33,7 @@ describe('httpClientError', () => {
 				400,
 				{ dumb_header: 42 },
 				{ message: 'Bad Request' },
-				'http-io',
-				'bad-request'
+				'http-io(bad-request)'
 			);
 		});
 
@@ -47,8 +46,7 @@ describe('httpClientError', () => {
 				400,
 				{},
 				{ message: 'Bad Request' },
-				'http-io',
-				'bad-request'
+				'http-io(bad-request)'
 			);
 		});
 	});
@@ -64,8 +62,7 @@ describe('httpClientError', () => {
 				403,
 				{ dumb_header: 42 },
 				{ message: 'Forbidden' },
-				'http-io',
-				'forbidden'
+				'http-io(forbidden)'
 			);
 		});
 
@@ -78,8 +75,7 @@ describe('httpClientError', () => {
 				403,
 				{},
 				{ message: 'Forbidden' },
-				'http-io',
-				'forbidden'
+				'http-io(forbidden)'
 			);
 		});
 	});
@@ -95,8 +91,7 @@ describe('httpClientError', () => {
 				404,
 				{ dumb_header: 42 },
 				{ message: 'Not Found' },
-				'http-io',
-				'not-found'
+				'http-io(not-found)'
 			);
 		});
 
@@ -109,8 +104,7 @@ describe('httpClientError', () => {
 				404,
 				{},
 				{ message: 'Not Found' },
-				'http-io',
-				'not-found'
+				'http-io(not-found)'
 			);
 		});
 	});

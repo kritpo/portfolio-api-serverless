@@ -13,120 +13,57 @@ const checkParamFormat = require('../../utils/checkParamFormat');
  * @param {object} basics the basics information object to check
  */
 function checkBasics(basics) {
+	// setup the scope for error message purpose
+	const scope = 'check-resume(basics)';
+
 	// check basics information types
-	checkRequiredParamType(
-		basics,
-		'object',
-		'basics',
-		'check-resume',
-		'basics'
-	);
-	checkRequiredParamType(
-		basics.name,
-		'string',
-		'basics.name',
-		'check-resume',
-		'basics'
-	);
-	checkRequiredParamType(
-		basics.label,
-		'string',
-		'basics.label',
-		'check-resume',
-		'basics'
-	);
-	checkRequiredParamType(
-		basics.picture,
-		'string',
-		'basics.picture',
-		'check-resume',
-		'basics'
-	);
-	checkRequiredParamType(
-		basics.email,
-		'string',
-		'basics.email',
-		'check-resume',
-		'basics'
-	);
-	checkRequiredParamType(
-		basics.phone,
-		'string',
-		'basics.phone',
-		'check-resume',
-		'basics'
-	);
-	checkRequiredParamType(
-		basics.website,
-		'string',
-		'basics.website',
-		'check-resume',
-		'basics'
-	);
-	checkRequiredParamType(
-		basics.summary,
-		'string',
-		'basics.summary',
-		'check-resume',
-		'basics'
-	);
-	checkRequiredParamType(
-		basics.location,
-		'object',
-		'basics.location',
-		'check-resume',
-		'basics'
-	);
+	checkRequiredParamType(basics, 'object', 'basics', scope);
+	checkRequiredParamType(basics.name, 'string', 'basics.name', scope);
+	checkRequiredParamType(basics.label, 'string', 'basics.label', scope);
+	checkRequiredParamType(basics.picture, 'string', 'basics.picture', scope);
+	checkRequiredParamType(basics.email, 'string', 'basics.email', scope);
+	checkRequiredParamType(basics.phone, 'string', 'basics.phone', scope);
+	checkRequiredParamType(basics.website, 'string', 'basics.website', scope);
+	checkRequiredParamType(basics.summary, 'string', 'basics.summary', scope);
+	checkRequiredParamType(basics.location, 'object', 'basics.location', scope);
 	checkRequiredParamType(
 		basics.location.address,
 		'string',
 		'basics.location.address',
-		'check-resume',
-		'basics'
+		scope
 	);
 	checkRequiredParamType(
 		basics.location.postalCode,
 		'string',
 		'basics.location.postalCode',
-		'check-resume',
-		'basics'
+		scope
 	);
 	checkRequiredParamType(
 		basics.location.city,
 		'string',
 		'basics.location.city',
-		'check-resume',
-		'basics'
+		scope
 	);
 	checkRequiredParamType(
 		basics.location.countryCode,
 		'string',
 		'basics.location.countryCode',
-		'check-resume',
-		'basics'
+		scope
 	);
 	checkRequiredParamType(
 		basics.location.region,
 		'string',
 		'basics.location.region',
-		'check-resume',
-		'basics'
+		scope
 	);
-	checkRequiredParamType(
-		basics.profiles,
-		'object',
-		'basics.profiles',
-		'check-resume',
-		'basics'
-	);
+	checkRequiredParamType(basics.profiles, 'object', 'basics.profiles', scope);
 
 	// check email address format
 	checkParamFormat(
 		basics.email,
 		/^[a-z0-9\.\-\_]+@[a-z0-9\.\-\_]+\.[a-z0-9]{2,}$/,
 		'basics.email',
-		'check-resume',
-		'basics'
+		scope
 	);
 
 	// loop profiles list
@@ -136,23 +73,15 @@ function checkBasics(basics) {
 			profile.network,
 			'string',
 			'profile.network',
-			'check-resume',
-			'basics'
+			scope
 		);
 		checkRequiredParamType(
 			profile.username,
 			'string',
 			'profile.username',
-			'check-resume',
-			'basics'
+			scope
 		);
-		checkRequiredParamType(
-			profile.url,
-			'string',
-			'profile.url',
-			'check-resume',
-			'basics'
-		);
+		checkRequiredParamType(profile.url, 'string', 'profile.url', scope);
 	}
 }
 
@@ -162,14 +91,11 @@ function checkBasics(basics) {
  * @param {boolean} isWork if the career experiences array is a work experiences array
  */
 function checkCareer(career, isWork) {
+	// setup the scope for error message purpose
+	const scope = 'check-resume(career)';
+
 	// check experiences information types
-	checkRequiredParamType(
-		career,
-		'object',
-		'career',
-		'check-resume',
-		'career'
-	);
+	checkRequiredParamType(career, 'object', 'career', scope);
 
 	// loop career experience list
 	for (const experience of career) {
@@ -178,43 +104,37 @@ function checkCareer(career, isWork) {
 			experience.position,
 			'string',
 			'experience.position',
-			'check-resume',
-			'career'
+			scope
 		);
 		checkRequiredParamType(
 			experience.website,
 			'string',
 			'experience.website',
-			'check-resume',
-			'career'
+			scope
 		);
 		checkRequiredParamType(
 			experience.startDate,
 			'string',
 			'experience.startDate',
-			'check-resume',
-			'career'
+			scope
 		);
 		checkRequiredParamType(
 			experience.summary,
 			'string',
 			'experience.summary',
-			'check-resume',
-			'career'
+			scope
 		);
 		checkRequiredParamType(
 			experience.highlights,
 			'object',
 			'experience.highlights',
-			'check-resume',
-			'career'
+			scope
 		);
 		checkParamType(
 			experience.endDate,
 			'string',
 			'experience.endDate',
-			'check-resume',
-			'career'
+			scope
 		);
 
 		// check date formats
@@ -222,27 +142,19 @@ function checkCareer(career, isWork) {
 			experience.startDate,
 			DATE_REGEX,
 			'experience.startDate',
-			'check-resume',
-			'career'
+			scope
 		);
 		checkParamFormat(
 			experience.endDate,
 			DATE_REGEX,
 			'experience.endDate',
-			'check-resume',
-			'career'
+			scope
 		);
 
 		// loop highlights list
 		for (const highlight of experience.highlights) {
 			// check highlight type
-			checkRequiredParamType(
-				highlight,
-				'string',
-				'highlight',
-				'check-resume',
-				'career'
-			);
+			checkRequiredParamType(highlight, 'string', 'highlight', scope);
 		}
 
 		// check if the career experiences array is a work experiences array
@@ -252,15 +164,13 @@ function checkCareer(career, isWork) {
 				experience.company,
 				'string',
 				'experience.company',
-				'check-resume',
-				'career'
+				scope
 			);
 			checkParamType(
 				experience.isInternship,
 				'boolean',
 				'experience.isInternship',
-				'check-resume',
-				'career'
+				scope
 			);
 		} else {
 			// otherwise check volunteering specific experience information types
@@ -268,8 +178,7 @@ function checkCareer(career, isWork) {
 				experience.organization,
 				'string',
 				'experience.organization',
-				'check-resume',
-				'career'
+				scope
 			);
 		}
 	}
@@ -280,14 +189,11 @@ function checkCareer(career, isWork) {
  * @param {array} education the academic background array to check
  */
 function checkEducation(education) {
+	// setup the scope for error message purpose
+	const scope = 'check-resume(education)';
+
 	// check experiences information types
-	checkRequiredParamType(
-		education,
-		'object',
-		'education',
-		'check-resume',
-		'education'
-	);
+	checkRequiredParamType(education, 'object', 'education', scope);
 
 	// loop academic background list
 	for (const entry of education) {
@@ -296,67 +202,28 @@ function checkEducation(education) {
 			entry.institution,
 			'string',
 			'entry.institution',
-			'check-resume',
-			'education'
+			scope
 		);
-		checkRequiredParamType(
-			entry.area,
-			'string',
-			'entry.area',
-			'check-resume',
-			'education'
-		);
+		checkRequiredParamType(entry.area, 'string', 'entry.area', scope);
 		checkRequiredParamType(
 			entry.studyType,
 			'string',
 			'entry.studyType',
-			'check-resume',
-			'education'
+			scope
 		);
 		checkRequiredParamType(
 			entry.startDate,
 			'string',
 			'entry.startDate',
-			'check-resume',
-			'education'
+			scope
 		);
-		checkRequiredParamType(
-			entry.gpa,
-			'string',
-			'entry.gpa',
-			'check-resume',
-			'education'
-		);
-		checkRequiredParamType(
-			entry.courses,
-			'object',
-			'entry.courses',
-			'check-resume',
-			'education'
-		);
-		checkParamType(
-			entry.endDate,
-			'string',
-			'entry.endDate',
-			'check-resume',
-			'education'
-		);
+		checkRequiredParamType(entry.gpa, 'string', 'entry.gpa', scope);
+		checkRequiredParamType(entry.courses, 'object', 'entry.courses', scope);
+		checkParamType(entry.endDate, 'string', 'entry.endDate', scope);
 
 		// check date formats
-		checkParamFormat(
-			entry.startDate,
-			DATE_REGEX,
-			'entry.startDate',
-			'check-resume',
-			'education'
-		);
-		checkParamFormat(
-			entry.endDate,
-			DATE_REGEX,
-			'entry.endDate',
-			'check-resume',
-			'education'
-		);
+		checkParamFormat(entry.startDate, DATE_REGEX, 'entry.startDate', scope);
+		checkParamFormat(entry.endDate, DATE_REGEX, 'entry.endDate', scope);
 
 		// loop courses list
 		for (const course of entry.courses) {
@@ -365,15 +232,13 @@ function checkEducation(education) {
 				course.category,
 				'string',
 				'course.category',
-				'check-resume',
-				'education'
+				scope
 			);
 			checkRequiredParamType(
 				course.courses,
 				'object',
 				'course.courses',
-				'check-resume',
-				'education'
+				scope
 			);
 
 			// loop courses list
@@ -383,8 +248,7 @@ function checkEducation(education) {
 					courseTitle,
 					'string',
 					'courseTitle',
-					'check-resume',
-					'education'
+					scope
 				);
 			}
 		}
@@ -396,94 +260,56 @@ function checkEducation(education) {
  * @param {array} projects the projects array to check
  */
 function checkProjects(projects) {
+	// setup the scope for error message purpose
+	const scope = 'check-resume(projects)';
+
 	// check project information types
-	checkRequiredParamType(
-		projects,
-		'object',
-		'projects',
-		'check-resume',
-		'projects'
-	);
+	checkRequiredParamType(projects, 'object', 'projects', scope);
 
 	// loop projects list
 	for (const project of projects) {
 		// check project information types
-		checkRequiredParamType(
-			project.name,
-			'string',
-			'project.name',
-			'check-resume',
-			'projects'
-		);
+		checkRequiredParamType(project.name, 'string', 'project.name', scope);
 		checkRequiredParamType(
 			project.summary,
 			'string',
 			'project.summary',
-			'check-resume',
-			'projects'
+			scope
 		);
 		checkRequiredParamType(
 			project.startDate,
 			'string',
 			'project.startDate',
-			'check-resume',
-			'projects'
+			scope
 		);
 		checkRequiredParamType(
 			project.picture,
 			'string',
 			'project.picture',
-			'check-resume',
-			'projects'
+			scope
 		);
-		checkRequiredParamType(
-			project.url,
-			'string',
-			'project.url',
-			'check-resume',
-			'projects'
-		);
+		checkRequiredParamType(project.url, 'string', 'project.url', scope);
 		checkRequiredParamType(
 			project.technologies,
 			'object',
 			'project.technologies',
-			'check-resume',
-			'projects'
+			scope
 		);
-		checkParamType(
-			project.endDate,
-			'string',
-			'project.endDate',
-			'check-resume',
-			'projects'
-		);
+		checkParamType(project.endDate, 'string', 'project.endDate', scope);
 
 		// check date formats
 		checkParamFormat(
 			project.startDate,
 			DATE_REGEX,
 			'project.startDate',
-			'check-resume',
-			'projects'
+			scope
 		);
-		checkParamFormat(
-			project.endDate,
-			DATE_REGEX,
-			'project.endDate',
-			'check-resume',
-			'projects'
-		);
+		checkParamFormat(project.endDate, DATE_REGEX, 'project.endDate', scope);
 
 		// loop technologies list
 		for (const technology of project.technologies) {
 			// check technology type
-			checkRequiredParamType(
-				technology,
-				'string',
-				'technology',
-				'check-resume',
-				'projects'
-			);
+			checkRequiredParamType(technology, 'string', 'technology', scope);
 		}
 	}
 }
@@ -494,14 +320,11 @@ function checkProjects(projects) {
  * @param {boolean} isSkills if the skills array is a pure skills array
  */
 function checkSkills(skills, isSkills) {
+	// setup the scope for error message purpose
+	const scope = 'check-resume(skills)';
+
 	// check skills information types
-	checkRequiredParamType(
-		skills,
-		'object',
-		'skills',
-		'check-resume',
-		'skills'
-	);
+	checkRequiredParamType(skills, 'object', 'skills', scope);
 
 	// loop skills list
 	for (const skill of skills) {
@@ -510,15 +333,13 @@ function checkSkills(skills, isSkills) {
 			isSkills ? skill.name : skill.language,
 			'string',
 			isSkills ? 'skill.name' : 'skill.language',
-			'check-resume',
-			'skills'
+			scope
 		);
 		checkRequiredParamType(
 			isSkills ? skill.level : skill.fluency,
 			'string',
 			isSkills ? 'skill.level' : 'skill.fluency',
-			'check-resume',
-			'skills'
+			scope
 		);
 	}
 }
@@ -528,43 +349,27 @@ function checkSkills(skills, isSkills) {
  * @param {array} interests the interests array to check
  */
 function checkInterests(interests) {
+	// setup the scope for error message purpose
+	const scope = 'check-resume(interests)';
+
 	// check interests information types
-	checkRequiredParamType(
-		interests,
-		'object',
-		'interests',
-		'check-resume',
-		'interests'
-	);
+	checkRequiredParamType(interests, 'object', 'interests', scope);
 
 	// loop interests list
 	for (const interest of interests) {
 		// check interest information types
-		checkRequiredParamType(
-			interest.name,
-			'string',
-			'interest.name',
-			'check-resume',
-			'interests'
-		);
+		checkRequiredParamType(interest.name, 'string', 'interest.name', scope);
 		checkRequiredParamType(
 			interest.keywords,
 			'object',
 			'interest.keywords',
-			'check-resume',
-			'interests'
+			scope
 		);
 
 		// loop keywords list
 		for (const keyword of interest.keywords) {
 			// check keyword type
-			checkRequiredParamType(
-				keyword,
-				'string',
-				'keyword',
-				'check-resume',
-				'interests'
-			);
+			checkRequiredParamType(keyword, 'string', 'keyword', scope);
 		}
 	}
 }
@@ -574,14 +379,11 @@ function checkInterests(interests) {
  * @param {array} references the references array to check
  */
 function checkReferences(references) {
+	// setup the scope for error message purpose
+	const scope = 'check-resume(references)';
+
 	// check references information types
-	checkRequiredParamType(
-		references,
-		'object',
-		'references',
-		'check-resume',
-		'references'
-	);
+	checkRequiredParamType(references, 'object', 'references', scope);
 
 	// loop references list
 	for (const reference of references) {
@@ -590,15 +392,13 @@ function checkReferences(references) {
 			reference.name,
 			'string',
 			'reference.name',
-			'check-resume',
-			'references'
+			scope
 		);
 		checkRequiredParamType(
 			reference.reference,
 			'string',
 			'reference.reference',
-			'check-resume',
-			'references'
+			scope
 		);
 	}
 }

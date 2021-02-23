@@ -63,21 +63,18 @@ describe('dbDelete', () => {
 			'good_id1',
 			'string',
 			'id1',
-			'ddb-io',
-			'delete'
+			'ddb-io(delete)'
 		);
 		checkReqParamStub.should.have.been.calledWith(
 			'good_filter',
 			'string',
 			'filter',
-			'ddb-io',
-			'delete'
+			'ddb-io(delete)'
 		);
 		checkExistStub.should.have.been.calledWith(
 			'good_id1',
 			'good_filter',
-			'ddb-io',
-			'delete'
+			'ddb-io(delete)'
 		);
 	});
 });

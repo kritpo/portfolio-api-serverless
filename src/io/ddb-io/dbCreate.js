@@ -23,17 +23,20 @@ const filterDataForDdb = require('./utils/filterDataForDdb');
  */
 // async as the function must return a promise
 const dbCreate = async (id1, filter, id2, data) => {
+	// setup the scope for error message purpose
+	const scope = 'ddb-io(create)';
+
 	// create the dynamodb document client
 	const ddb = new AWS.DynamoDB.DocumentClient();
 
 	// check if the keys parameters are right
-	checkRequiredParamType(id1, 'string', 'id1', 'ddb-io', 'create');
-	checkRequiredParamType(filter, 'string', 'filter', 'ddb-io', 'create');
-	checkParamType(id2, 'string', 'id2', 'ddb-io', 'create');
-	await checkDBKeysNonExistence(id1, filter, id2, 'ddb-io', 'create');
+	checkRequiredParamType(id1, 'string', 'id1', scope);
+	checkRequiredParamType(filter, 'string', 'filter', scope);
+	checkParamType(id2, 'string', 'id2', scope);
+	await checkDBKeysNonExistence(id1, filter, id2, scope);
 
 	// check if the data parameter is right
-	checkRequiredParamType(data, 'object', 'data', 'ddb-io', 'create');
+	checkRequiredParamType(data, 'object', 'data', scope);
 
 	// filter data for dynamodb
 	filterDataForDdb(data);
@@ -54,7 +57,7 @@ const dbCreate = async (id1, filter, id2, data) => {
 		.put(params)
 		.promise()
 		.then(() => ({
-			message: 'ddb-io(create): the item is successfully created'
+			message: `${scope}: the item is successfully created`
 		}));
 };
 

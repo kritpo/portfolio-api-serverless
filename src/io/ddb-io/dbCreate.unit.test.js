@@ -73,36 +73,31 @@ describe('dbCreate', () => {
 			'good_id1',
 			'string',
 			'id1',
-			'ddb-io',
-			'create'
+			'ddb-io(create)'
 		);
 		checkReqParamStub.should.have.been.calledWith(
 			'good_filter',
 			'string',
 			'filter',
-			'ddb-io',
-			'create'
+			'ddb-io(create)'
 		);
 		checkReqParamStub.should.have.been.calledWith(
 			{ data: 42 },
 			'object',
 			'data',
-			'ddb-io',
-			'create'
+			'ddb-io(create)'
 		);
 		checkParamStub.should.have.been.calledWith(
 			'good_id2',
 			'string',
 			'id2',
-			'ddb-io',
-			'create'
+			'ddb-io(create)'
 		);
 		checkNonExistStub.should.have.been.calledWith(
 			'good_id1',
 			'good_filter',
 			'good_id2',
-			'ddb-io',
-			'create'
+			'ddb-io(create)'
 		);
 		filterDataStub.should.have.been.calledWith({ data: 42 });
 	});

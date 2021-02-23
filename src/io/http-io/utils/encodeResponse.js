@@ -8,20 +8,13 @@ const checkRequiredParamType = require('../../../utils/checkRequiredParamType');
  * @param {number} statusCode the status code
  * @param {object} headers the additional headers
  * @param {object} body the body
- * @param {string} service the current service for error message purpose
- * @param {string} context the current context for error message purpose
+ * @param {string} scope the current scope for error message purpose
  */
-const encodeResponse = (statusCode, headers, body, service, context) => {
+const encodeResponse = (statusCode, headers, body, scope) => {
 	// check if the parameters are right
-	checkRequiredParamType(
-		statusCode,
-		'number',
-		'statusCode',
-		service,
-		context
-	);
-	checkRequiredParamType(headers, 'object', 'headers', service, context);
-	checkRequiredParamType(body, 'object', 'body', service, context);
+	checkRequiredParamType(statusCode, 'number', 'statusCode', scope);
+	checkRequiredParamType(headers, 'object', 'headers', scope);
+	checkRequiredParamType(body, 'object', 'body', scope);
 
 	// configure the encoded response
 	const response = {

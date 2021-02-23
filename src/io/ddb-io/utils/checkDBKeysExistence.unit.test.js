@@ -31,8 +31,7 @@ describe('checkDBKeysExistence', () => {
 		const result = await checkDBKeysExistence(
 			'good_id1',
 			'good_filter',
-			'dumb_service',
-			'dumb_context'
+			'dumb_scope'
 		);
 
 		result.should.have.property('data', 42);
@@ -47,8 +46,7 @@ describe('checkDBKeysExistence', () => {
 			await checkDBKeysExistence(
 				'wrong_id1',
 				'wrong_filter',
-				'dumb_service',
-				'dumb_context'
+				'dumb_scope'
 			);
 
 			// shouldn't be executed
@@ -58,7 +56,7 @@ describe('checkDBKeysExistence', () => {
 				.a('Error')
 				.which.have.property(
 					'message',
-					'dumb_service(dumb_context): the set `id1` and `filter` is not defined'
+					'dumb_scope: the set `id1` and `filter` is not defined'
 				);
 		}
 

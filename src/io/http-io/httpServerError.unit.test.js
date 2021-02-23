@@ -33,8 +33,7 @@ describe('httpServerError', () => {
 				500,
 				{ dumb_header: 42 },
 				{ message: 'Internal Server Error' },
-				'http-io',
-				'internal-server-error'
+				'http-io(internal-server-error)'
 			);
 		});
 
@@ -47,8 +46,7 @@ describe('httpServerError', () => {
 				500,
 				{},
 				{ message: 'Internal Server Error' },
-				'http-io',
-				'internal-server-error'
+				'http-io(internal-server-error)'
 			);
 		});
 	});

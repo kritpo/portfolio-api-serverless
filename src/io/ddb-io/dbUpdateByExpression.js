@@ -27,48 +27,21 @@ const dbUpdateByExpression = async (
 	setNames,
 	setValues
 ) => {
+	// setup the scope for error message purpose
+	const scope = 'ddb-io(update-by-expression)';
+
 	// create the dynamodb document client
 	const ddb = new AWS.DynamoDB.DocumentClient();
 
 	// check if the keys parameters are right
-	checkRequiredParamType(
-		id1,
-		'string',
-		'id1',
-		'ddb-io',
-		'update-by-expression'
-	);
-	checkRequiredParamType(
-		filter,
-		'string',
-		'filter',
-		'ddb-io',
-		'update-by-expression'
-	);
-	await checkDBKeysExistence(id1, filter, 'ddb-io', 'update-by-expression');
+	checkRequiredParamType(id1, 'string', 'id1', scope);
+	checkRequiredParamType(filter, 'string', 'filter', scope);
+	await checkDBKeysExistence(id1, filter, scope);
 
 	// check if the expressions parameters are right
-	checkRequiredParamType(
-		setExpression,
-		'string',
-		'setExpression',
-		'ddb-io',
-		'update-by-expression'
-	);
-	checkParamType(
-		setNames,
-		'object',
-		'setNames',
-		'ddb-io',
-		'update-by-expression'
-	);
-	checkParamType(
-		setValues,
-		'object',
-		'setValues',
-		'ddb-io',
-		'update-by-expression'
-	);
+	checkRequiredParamType(setExpression, 'string', 'setExpression', scope);
+	checkParamType(setNames, 'object', 'setNames', scope);
+	checkParamType(setValues, 'object', 'setValues', scope);
 
 	// configure the params object to send to dynamodb
 	const params = {
@@ -87,8 +60,7 @@ const dbUpdateByExpression = async (
 		.update(params)
 		.promise()
 		.then(() => ({
-			message:
-				'ddb-io(update-by-expression): the item is successfully updated'
+			message: `${scope}: the item is successfully updated`
 		}));
 };
 

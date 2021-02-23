@@ -83,35 +83,30 @@ describe('dbUpdateByReplace', () => {
 			'good_id1',
 			'string',
 			'id1',
-			'ddb-io',
-			'update-by-replace'
+			'ddb-io(update-by-replace)'
 		);
 		checkReqParamStub.should.have.been.calledWith(
 			'good_filter',
 			'string',
 			'filter',
-			'ddb-io',
-			'update-by-replace'
+			'ddb-io(update-by-replace)'
 		);
 		checkReqParamStub.should.have.been.calledWith(
 			{ data: 42 },
 			'object',
 			'data',
-			'ddb-io',
-			'update-by-replace'
+			'ddb-io(update-by-replace)'
 		);
 		checkParamStub.should.have.been.calledWith(
 			'new_id2',
 			'string',
 			'id2',
-			'ddb-io',
-			'update-by-replace'
+			'ddb-io(update-by-replace)'
 		);
 		checkExistStub.should.have.been.calledWith(
 			'good_id1',
 			'good_filter',
-			'ddb-io',
-			'update-by-replace'
+			'ddb-io(update-by-replace)'
 		);
 		filterDataStub.should.have.been.calledWith({ data: 42 });
 	});
@@ -143,35 +138,30 @@ describe('dbUpdateByReplace', () => {
 			'good_id1',
 			'string',
 			'id1',
-			'ddb-io',
-			'update-by-replace'
+			'ddb-io(update-by-replace)'
 		);
 		checkReqParamStub.should.have.been.calledWith(
 			'good_filter',
 			'string',
 			'filter',
-			'ddb-io',
-			'update-by-replace'
+			'ddb-io(update-by-replace)'
 		);
 		checkReqParamStub.should.have.been.calledWith(
 			{ data: 42 },
 			'object',
 			'data',
-			'ddb-io',
-			'update-by-replace'
+			'ddb-io(update-by-replace)'
 		);
 		checkParamStub.should.have.been.calledWith(
 			undefined,
 			'string',
 			'id2',
-			'ddb-io',
-			'update-by-replace'
+			'ddb-io(update-by-replace)'
 		);
 		checkExistStub.should.have.been.calledWith(
 			'good_id1',
 			'good_filter',
-			'ddb-io',
-			'update-by-replace'
+			'ddb-io(update-by-replace)'
 		);
 		filterDataStub.should.have.been.calledWith({ data: 42 });
 	});

@@ -39,22 +39,18 @@ describe('checkResumeLang', () => {
 				{ languageCode: 'en', language: 'english' },
 				'object',
 				'language',
-				'check-resume-lang',
-				'language'
+				'check-resume-lang(language)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'en',
 				'string',
-				'language.languageCode',
-				'check-resume-lang',
-				'language'
+				'language.languageCode'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'english',
 				'string',
 				'language.language',
-				'check-resume-lang',
-				'language'
+				'check-resume-lang(language)'
 			);
 		});
 	});
@@ -72,29 +68,25 @@ describe('checkResumeLang', () => {
 				[{ languageCode: 'en', language: 'english' }],
 				'object',
 				'languages',
-				'check-resume-lang',
-				'languages'
+				'check-resume-lang(languages)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				{ languageCode: 'en', language: 'english' },
 				'object',
 				'language',
-				'check-resume-lang',
-				'language'
+				'check-resume-lang(language)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'en',
 				'string',
 				'language.languageCode',
-				'check-resume-lang',
-				'language'
+				'check-resume-lang(language)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'english',
 				'string',
 				'language.language',
-				'check-resume-lang',
-				'language'
+				'check-resume-lang(language)'
 			);
 		});
 	});

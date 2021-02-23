@@ -86,57 +86,49 @@ describe('checkResume', () => {
 				},
 				'object',
 				'basics',
-				'check-resume',
-				'basics'
+				'check-resume(basics)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'John DOE',
 				'string',
 				'basics.name',
-				'check-resume',
-				'basics'
+				'check-resume(basics)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'Programmer',
 				'string',
 				'basics.label',
-				'check-resume',
-				'basics'
+				'check-resume(basics)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'https://website.com/picture.jpg',
 				'string',
 				'basics.picture',
-				'check-resume',
-				'basics'
+				'check-resume(basics)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'john@gmail.com',
 				'string',
 				'basics.email',
-				'check-resume',
-				'basics'
+				'check-resume(basics)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'(912) 555-4321',
 				'string',
 				'basics.phone',
-				'check-resume',
-				'basics'
+				'check-resume(basics)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'http://johndoe.com',
 				'string',
 				'basics.website',
-				'check-resume',
-				'basics'
+				'check-resume(basics)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'A summary of John Doe...',
 				'string',
 				'basics.summary',
-				'check-resume',
-				'basics'
+				'check-resume(basics)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				{
@@ -148,43 +140,37 @@ describe('checkResume', () => {
 				},
 				'object',
 				'basics.location',
-				'check-resume',
-				'basics'
+				'check-resume(basics)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'2712 Broadway St',
 				'string',
 				'basics.location.address',
-				'check-resume',
-				'basics'
+				'check-resume(basics)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'CA 94115',
 				'string',
 				'basics.location.postalCode',
-				'check-resume',
-				'basics'
+				'check-resume(basics)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'San Francisco',
 				'string',
 				'basics.location.city',
-				'check-resume',
-				'basics'
+				'check-resume(basics)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'US',
 				'string',
 				'basics.location.countryCode',
-				'check-resume',
-				'basics'
+				'check-resume(basics)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'California',
 				'string',
 				'basics.location.region',
-				'check-resume',
-				'basics'
+				'check-resume(basics)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				[
@@ -196,36 +182,31 @@ describe('checkResume', () => {
 				],
 				'object',
 				'basics.profiles',
-				'check-resume',
-				'basics'
+				'check-resume(basics)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'Twitter',
 				'string',
 				'profile.network',
-				'check-resume',
-				'basics'
+				'check-resume(basics)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'john',
 				'string',
 				'profile.username',
-				'check-resume',
-				'basics'
+				'check-resume(basics)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'http://twitter.com/john',
 				'string',
 				'profile.url',
-				'check-resume',
-				'basics'
+				'check-resume(basics)'
 			);
 			checkParamFormatStub.should.have.been.calledWith(
 				'john@gmail.com',
 				/^[a-z0-9\.\-\_]+@[a-z0-9\.\-\_]+\.[a-z0-9]{2,}$/,
 				'basics.email',
-				'check-resume',
-				'basics'
+				'check-resume(basics)'
 			);
 		});
 	});
@@ -266,85 +247,73 @@ describe('checkResume', () => {
 				],
 				'object',
 				'career',
-				'check-resume',
-				'career'
+				'check-resume(career)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'Company',
 				'string',
 				'experience.company',
-				'check-resume',
-				'career'
+				'check-resume(career)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'Programmer',
 				'string',
 				'experience.position',
-				'check-resume',
-				'career'
+				'check-resume(career)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'https://company.com/',
 				'string',
 				'experience.website',
-				'check-resume',
-				'career'
+				'check-resume(career)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'2019-01-01',
 				'string',
 				'experience.startDate',
-				'check-resume',
-				'career'
+				'check-resume(career)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'Description...',
 				'string',
 				'experience.summary',
-				'check-resume',
-				'career'
+				'check-resume(career)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				['CProject'],
 				'object',
 				'experience.highlights',
-				'check-resume',
-				'career'
+				'check-resume(career)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'CProject',
 				'string',
 				'highlight',
-				'check-resume',
-				'career'
+				'check-resume(career)'
 			);
 			checkParamTypeStub.should.have.been.calledWith(
 				true,
 				'boolean',
 				'experience.isInternship',
-				'check-resume',
-				'career'
+				'check-resume(career)'
 			);
 			checkParamTypeStub.should.have.been.calledWith(
 				'2020-01-01',
 				'string',
 				'experience.endDate',
-				'check-resume',
-				'career'
+				'check-resume(career)'
 			);
 			checkParamFormatStub.should.have.been.calledWith(
 				'2019-01-01',
 				checkResume.DATE_REGEX,
 				'experience.startDate',
-				'check-resume',
-				'career'
+				'check-resume(career)'
 			);
 			checkParamFormatStub.should.have.been.calledWith(
 				'2020-01-01',
 				checkResume.DATE_REGEX,
 				'experience.endDate',
-				'check-resume',
-				'career'
+				'check-resume(career)'
 			);
 		});
 
@@ -380,78 +349,67 @@ describe('checkResume', () => {
 				],
 				'object',
 				'career',
-				'check-resume',
-				'career'
+				'check-resume(career)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'Organization',
 				'string',
 				'experience.organization',
-				'check-resume',
-				'career'
+				'check-resume(career)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'Volunteer',
 				'string',
 				'experience.position',
-				'check-resume',
-				'career'
+				'check-resume(career)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'https://organization.fr/',
 				'string',
 				'experience.website',
-				'check-resume',
-				'career'
+				'check-resume(career)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'2019-01-01',
 				'string',
 				'experience.startDate',
-				'check-resume',
-				'career'
+				'check-resume(career)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'Description...',
 				'string',
 				'experience.summary',
-				'check-resume',
-				'career'
+				'check-resume(career)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				["Organization's website"],
 				'object',
 				'experience.highlights',
-				'check-resume',
-				'career'
+				'check-resume(career)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				"Organization's website",
 				'string',
 				'highlight',
-				'check-resume',
-				'career'
+				'check-resume(career)'
 			);
 			checkParamTypeStub.should.have.been.calledWith(
 				'2020-01-01',
 				'string',
 				'experience.endDate',
-				'check-resume',
-				'career'
+				'check-resume(career)'
 			);
 			checkParamFormatStub.should.have.been.calledWith(
 				'2019-01-01',
 				checkResume.DATE_REGEX,
 				'experience.startDate',
-				'check-resume',
-				'career'
+				'check-resume(career)'
 			);
 			checkParamFormatStub.should.have.been.calledWith(
 				'2020-01-01',
 				checkResume.DATE_REGEX,
 				'experience.endDate',
-				'check-resume',
-				'career'
+				'check-resume(career)'
 			);
 		});
 	});
@@ -497,43 +455,37 @@ describe('checkResume', () => {
 				],
 				'object',
 				'education',
-				'check-resume',
-				'education'
+				'check-resume(education)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'School',
 				'string',
 				'entry.institution',
-				'check-resume',
-				'education'
+				'check-resume(education)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'Computer Science',
 				'string',
 				'entry.area',
-				'check-resume',
-				'education'
+				'check-resume(education)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'Engineering Studies',
 				'string',
 				'entry.studyType',
-				'check-resume',
-				'education'
+				'check-resume(education)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'2018-09-01',
 				'string',
 				'entry.startDate',
-				'check-resume',
-				'education'
+				'check-resume(education)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'4',
 				'string',
 				'entry.gpa',
-				'check-resume',
-				'education'
+				'check-resume(education)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				[
@@ -544,50 +496,43 @@ describe('checkResume', () => {
 				],
 				'object',
 				'entry.courses',
-				'check-resume',
-				'education'
+				'check-resume(education)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'Y1',
 				'string',
 				'course.category',
-				'check-resume',
-				'education'
+				'check-resume(education)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				['TS1001 - Algorithmic'],
 				'object',
 				'course.courses',
-				'check-resume',
-				'education'
+				'check-resume(education)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'TS1001 - Algorithmic',
 				'string',
 				'courseTitle',
-				'check-resume',
-				'education'
+				'check-resume(education)'
 			);
 			checkParamTypeStub.should.have.been.calledWith(
 				'2020-07-01',
 				'string',
 				'entry.endDate',
-				'check-resume',
-				'education'
+				'check-resume(education)'
 			);
 			checkParamFormatStub.should.have.been.calledWith(
 				'2018-09-01',
 				checkResume.DATE_REGEX,
 				'entry.startDate',
-				'check-resume',
-				'education'
+				'check-resume(education)'
 			);
 			checkParamFormatStub.should.have.been.calledWith(
 				'2020-07-01',
 				checkResume.DATE_REGEX,
 				'entry.endDate',
-				'check-resume',
-				'education'
+				'check-resume(education)'
 			);
 		});
 	});
@@ -623,78 +568,67 @@ describe('checkResume', () => {
 				],
 				'object',
 				'projects',
-				'check-resume',
-				'projects'
+				'check-resume(projects)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'Project',
 				'string',
 				'project.name',
-				'check-resume',
-				'projects'
+				'check-resume(projects)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'A single project to do everything!',
 				'string',
 				'project.summary',
-				'check-resume',
-				'projects'
+				'check-resume(projects)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'2018-09-01',
 				'string',
 				'project.startDate',
-				'check-resume',
-				'projects'
+				'check-resume(projects)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'https://website.com/cproject-picture.jpg',
 				'string',
 				'project.picture',
-				'check-resume',
-				'projects'
+				'check-resume(projects)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'https://github.com/john/cproject',
 				'string',
 				'project.url',
-				'check-resume',
-				'projects'
+				'check-resume(projects)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				['Javascript'],
 				'object',
 				'project.technologies',
-				'check-resume',
-				'projects'
+				'check-resume(projects)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'Javascript',
 				'string',
 				'technology',
-				'check-resume',
-				'projects'
+				'check-resume(projects)'
 			);
 			checkParamTypeStub.should.have.been.calledWith(
 				'2020-07-01',
 				'string',
 				'project.endDate',
-				'check-resume',
-				'projects'
+				'check-resume(projects)'
 			);
 			checkParamFormatStub.should.have.been.calledWith(
 				'2018-09-01',
 				checkResume.DATE_REGEX,
 				'project.startDate',
-				'check-resume',
-				'projects'
+				'check-resume(projects)'
 			);
 			checkParamFormatStub.should.have.been.calledWith(
 				'2020-07-01',
 				checkResume.DATE_REGEX,
 				'project.endDate',
-				'check-resume',
-				'projects'
+				'check-resume(projects)'
 			);
 		});
 	});
@@ -723,22 +657,18 @@ describe('checkResume', () => {
 				],
 				'object',
 				'skills',
-				'check-resume',
-				'skills'
+				'check-resume(skills)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'Javascript',
 				'string',
-				'skill.name',
-				'check-resume',
-				'skills'
+				'skill.name'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'Advanced',
 				'string',
 				'skill.level',
-				'check-resume',
-				'skills'
+				'check-resume(skills)'
 			);
 		});
 
@@ -764,22 +694,18 @@ describe('checkResume', () => {
 				],
 				'object',
 				'skills',
-				'check-resume',
-				'skills'
+				'check-resume(skills)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'French',
 				'string',
-				'skill.language',
-				'check-resume',
-				'skills'
+				'skill.language'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'Advanced',
 				'string',
 				'skill.fluency',
-				'check-resume',
-				'skills'
+				'check-resume(skills)'
 			);
 		});
 	});
@@ -805,29 +731,25 @@ describe('checkResume', () => {
 				],
 				'object',
 				'interests',
-				'check-resume',
-				'interests'
+				'check-resume(interests)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'Computer',
 				'string',
 				'interest.name',
-				'check-resume',
-				'interests'
+				'check-resume(interests)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				['Problem solving'],
 				'object',
 				'interest.keywords',
-				'check-resume',
-				'interests'
+				'check-resume(interests)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'Problem solving',
 				'string',
 				'keyword',
-				'check-resume',
-				'interests'
+				'check-resume(interests)'
 			);
 		});
 	});
@@ -853,22 +775,18 @@ describe('checkResume', () => {
 				],
 				'object',
 				'references',
-				'check-resume',
-				'references'
+				'check-resume(references)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'Jane Doe',
 				'string',
-				'reference.name',
-				'check-resume',
-				'references'
+				'reference.name'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
 				'Reference...',
 				'string',
 				'reference.reference',
-				'check-resume',
-				'references'
+				'check-resume(references)'
 			);
 		});
 	});

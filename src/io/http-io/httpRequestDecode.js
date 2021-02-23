@@ -16,35 +16,14 @@ const httpRequestDecode = (
 	includeQueries = false,
 	includeHeaders = false
 ) => {
+	// setup the scope for error message purpose
+	const scope = 'http-io(request-decode)';
+
 	// check if the parameters are right
-	checkRequiredParamType(
-		event,
-		'object',
-		'event',
-		'http-io',
-		'request-decode'
-	);
-	checkRequiredParamType(
-		includeParams,
-		'boolean',
-		'includeParams',
-		'http-io',
-		'request-decode'
-	);
-	checkRequiredParamType(
-		includeQueries,
-		'boolean',
-		'includeQueries',
-		'http-io',
-		'request-decode'
-	);
-	checkRequiredParamType(
-		includeHeaders,
-		'boolean',
-		'includeHeaders',
-		'http-io',
-		'request-decode'
-	);
+	checkRequiredParamType(event, 'object', 'event', scope);
+	checkRequiredParamType(includeParams, 'boolean', 'includeParams', scope);
+	checkRequiredParamType(includeQueries, 'boolean', 'includeQueries', scope);
+	checkRequiredParamType(includeHeaders, 'boolean', 'includeHeaders', scope);
 
 	// configure the decoded request
 	const request = {

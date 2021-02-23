@@ -32,8 +32,7 @@ describe('encodeResponse', () => {
 			200,
 			{ dumb_header: 42 },
 			{ data: 42 },
-			'dumb_service',
-			'dumb_context'
+			'dumb_scope'
 		);
 
 		result.should.be.deep.equal({
@@ -49,22 +48,19 @@ describe('encodeResponse', () => {
 			200,
 			'number',
 			'statusCode',
-			'dumb_service',
-			'dumb_context'
+			'dumb_scope'
 		);
 		checkReqParamStub.should.have.been.calledWith(
 			{ dumb_header: 42 },
 			'object',
 			'headers',
-			'dumb_service',
-			'dumb_context'
+			'dumb_scope'
 		);
 		checkReqParamStub.should.have.been.calledWith(
 			{ data: 42 },
 			'object',
 			'body',
-			'dumb_service',
-			'dumb_context'
+			'dumb_scope'
 		);
 	});
 });

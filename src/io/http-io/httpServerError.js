@@ -12,8 +12,7 @@ const internalServerError = (headers = {}) => {
 		500,
 		{ ...headers },
 		{ message: 'Internal Server Error' },
-		'http-io',
-		'internal-server-error'
+		'http-io(internal-server-error)'
 	);
 };
 

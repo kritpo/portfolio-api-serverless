@@ -9,7 +9,7 @@ const encodeResponse = require('./utils/encodeResponse');
  * @param {object} headers the optional additional headers
  */
 const ok = (body, headers = {}) => {
-	return encodeResponse(200, { ...headers }, body, 'http-io', 'ok');
+	return encodeResponse(200, { ...headers }, body, 'http-io(ok)');
 };
 
 /**
@@ -17,7 +17,7 @@ const ok = (body, headers = {}) => {
  * @param {object} headers the optional additional headers
  */
 const created = (headers = {}) => {
-	return encodeResponse(201, { ...headers }, null, 'http-io', 'created');
+	return encodeResponse(201, { ...headers }, null, 'http-io(created)');
 };
 
 /**
@@ -25,7 +25,7 @@ const created = (headers = {}) => {
  * @param {object} headers the optional additional headers
  */
 const noContent = (headers = {}) => {
-	return encodeResponse(204, { ...headers }, null, 'http-io', 'no-content');
+	return encodeResponse(204, { ...headers }, null, 'http-io(no-content)');
 };
 
 module.exports = {

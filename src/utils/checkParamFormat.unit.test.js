@@ -14,8 +14,7 @@ describe('checkParamFormat', () => {
 				'dumb@mail.address',
 				/^[a-z0-9\.\-\_]+@[a-z0-9\.\-\_]+\.[a-z0-9]{2,}$/,
 				'dumb_name',
-				'dumb_service',
-				'dumb_context'
+				'dumb_scope'
 			);
 
 			// nothing should happen
@@ -28,8 +27,7 @@ describe('checkParamFormat', () => {
 				'dumb@mail.address',
 				'^[a-z0-9\\.\\-\\_]+@[a-z0-9\\.\\-\\_]+\\.[a-z0-9]{2,}$',
 				'dumb_name',
-				'dumb_service',
-				'dumb_context'
+				'dumb_scope'
 			);
 
 			// nothing should happen
@@ -45,8 +43,7 @@ describe('checkParamFormat', () => {
 				'dumb@mail-address',
 				/^[a-z0-9\.\-\_]+@[a-z0-9\.\-\_]+\.[a-z0-9]{2,}$/,
 				'dumb_name',
-				'dumb_service',
-				'dumb_context'
+				'dumb_scope'
 			);
 
 			// shouldn't be executed
@@ -56,7 +53,7 @@ describe('checkParamFormat', () => {
 				.a('Error')
 				.which.have.property(
 					'message',
-					'dumb_service(dumb_context): `dumb_name` parameter is not `/^[a-z0-9\\.\\-\\_]+@[a-z0-9\\.\\-\\_]+\\.[a-z0-9]{2,}$/` format'
+					'dumb_scope: `dumb_name` parameter is not `/^[a-z0-9\\.\\-\\_]+@[a-z0-9\\.\\-\\_]+\\.[a-z0-9]{2,}$/` format'
 				);
 		}
 	});

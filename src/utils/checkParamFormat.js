@@ -5,10 +5,9 @@
  * @param {*} param the param to check
  * @param {RegExp} regex the regex formatter
  * @param {string} paramName the param name for error message purpose
- * @param {string} service the current service for error message purpose
- * @param {string} context the current context for error message purpose
+ * @param {string} scope the current scope for error message purpose
  */
-const checkParamFormat = (param, regex, paramName, service, context) => {
+const checkParamFormat = (param, regex, paramName, scope) => {
 	// check if the regex is a string
 	if (typeof regex === 'string') {
 		// convert it into a regex
@@ -19,7 +18,7 @@ const checkParamFormat = (param, regex, paramName, service, context) => {
 	// loose equality to match both undefined and null
 	if (param != undefined && !regex.test(param)) {
 		throw new Error(
-			`${service}(${context}): \`${paramName}\` parameter is not \`${regex}\` format`
+			`${scope}: \`${paramName}\` parameter is not \`${regex}\` format`
 		);
 	}
 };

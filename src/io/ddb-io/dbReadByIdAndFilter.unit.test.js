@@ -121,22 +121,19 @@ describe('dbReadByIdAndFilter', () => {
 				'good_id1',
 				'string',
 				'id1',
-				'ddb-io',
-				'read-by-id-and-filter'
+				'ddb-io(read-by-id-and-filter)'
 			);
 			checkReqParamStub.should.have.been.calledWith(
 				'good_filter',
 				'string',
 				'filter',
-				'ddb-io',
-				'read-by-id-and-filter'
+				'ddb-io(read-by-id-and-filter)'
 			);
 			checkParamStub.should.have.been.calledWith(
 				undefined,
 				'string',
 				'id2',
-				'ddb-io',
-				'read-by-id-and-filter'
+				'ddb-io(read-by-id-and-filter)'
 			);
 			filterDataStub.should.have.been.calledWith({
 				PK: 'good_id1',
@@ -161,22 +158,19 @@ describe('dbReadByIdAndFilter', () => {
 				null,
 				'string',
 				'id1',
-				'ddb-io',
-				'read-by-id-and-filter'
+				'ddb-io(read-by-id-and-filter)'
 			);
 			checkReqParamStub.should.have.been.calledWith(
 				'good_filter',
 				'string',
 				'filter',
-				'ddb-io',
-				'read-by-id-and-filter'
+				'ddb-io(read-by-id-and-filter)'
 			);
 			checkParamStub.should.have.been.calledWith(
 				'good_id2',
 				'string',
 				'id2',
-				'ddb-io',
-				'read-by-id-and-filter'
+				'ddb-io(read-by-id-and-filter)'
 			);
 			filterDataStub.should.have.been.calledWith({
 				GSI: 'good_id2',
@@ -210,22 +204,19 @@ describe('dbReadByIdAndFilter', () => {
 				null,
 				'string',
 				'id1',
-				'ddb-io',
-				'read-by-id-and-filter'
+				'ddb-io(read-by-id-and-filter)'
 			);
 			checkReqParamStub.should.have.been.calledWith(
 				'good_filter',
 				'string',
 				'filter',
-				'ddb-io',
-				'read-by-id-and-filter'
+				'ddb-io(read-by-id-and-filter)'
 			);
 			checkParamStub.should.have.been.calledWith(
 				undefined,
 				'string',
 				'id2',
-				'ddb-io',
-				'read-by-id-and-filter'
+				'ddb-io(read-by-id-and-filter)'
 			);
 			filterDataStub.should.have.not.been.called;
 		});
@@ -252,22 +243,19 @@ describe('dbReadByIdAndFilter', () => {
 				undefined,
 				'string',
 				'id1',
-				'ddb-io',
-				'read-by-id-and-filter'
+				'ddb-io(read-by-id-and-filter)'
 			);
 			checkReqParamStub.should.have.been.calledWith(
 				undefined,
 				'string',
 				'filter',
-				'ddb-io',
-				'read-by-id-and-filter'
+				'ddb-io(read-by-id-and-filter)'
 			);
 			checkParamStub.should.have.been.calledWith(
 				undefined,
 				'string',
 				'id2',
-				'ddb-io',
-				'read-by-id-and-filter'
+				'ddb-io(read-by-id-and-filter)'
 			);
 			filterDataStub.should.have.not.been.called;
 		});

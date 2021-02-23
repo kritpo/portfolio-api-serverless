@@ -21,26 +21,21 @@ const filterDataForApp = require('./utils/filterDataForApp');
  */
 // async as the function must return a promise
 const dbReadByIdAndFilter = async (id1, filter, id2) => {
+	// setup the scope for error message purpose
+	const scope = 'ddb-io(read-by-id-and-filter)';
+
 	// create the dynamodb document client
 	const ddb = new AWS.DynamoDB.DocumentClient();
 
 	// check if the keys parameters are right
-	checkParamType(id1, 'string', 'id1', 'ddb-io', 'read-by-id-and-filter');
-	checkRequiredParamType(
-		filter,
-		'string',
-		'filter',
-		'ddb-io',
-		'read-by-id-and-filter'
-	);
-	checkParamType(id2, 'string', 'id2', 'ddb-io', 'read-by-id-and-filter');
+	checkParamType(id1, 'string', 'id1', scope);
+	checkRequiredParamType(filter, 'string', 'filter', scope);
+	checkParamType(id2, 'string', 'id2', scope);
 
 	// check if either of the two keys is defined
 	// loose equality to match both undefined and null
 	if (id1 == undefined && id2 == undefined) {
-		throw new Error(
-			`ddb-io(read-by-id-and-filter): \`id1\` or \`id2\` parameter is missing`
-		);
+		throw new Error(`${scope}: \`id1\` or \`id2\` parameter is missing`);
 	}
 
 	// configure the params object with table name to send to dynamodb

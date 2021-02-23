@@ -25,20 +25,13 @@ describe('checkRequiredParamType', () => {
 	// configure the test with param
 	it('with param', () => {
 		// execute the function
-		checkRequiredParamType(
-			42,
-			'number',
-			'dumb_name',
-			'dumb_service',
-			'dumb_context'
-		);
+		checkRequiredParamType(42, 'number', 'dumb_name', 'dumb_scope');
 
 		checkTypeStub.should.have.been.calledWith(
 			42,
 			'number',
 			'dumb_name',
-			'dumb_service',
-			'dumb_context'
+			'dumb_scope'
 		);
 	});
 
@@ -53,8 +46,7 @@ describe('checkRequiredParamType', () => {
 					null,
 					'string',
 					'dumb_name',
-					'dumb_service',
-					'dumb_context'
+					'dumb_scope'
 				);
 
 				// shouldn't be executed
@@ -64,7 +56,7 @@ describe('checkRequiredParamType', () => {
 					.a('Error')
 					.which.have.property(
 						'message',
-						'dumb_service(dumb_context): `dumb_name` parameter is missing'
+						'dumb_scope: `dumb_name` parameter is missing'
 					);
 			}
 
@@ -80,8 +72,7 @@ describe('checkRequiredParamType', () => {
 					undefined,
 					'string',
 					'dumb_name',
-					'dumb_service',
-					'dumb_context'
+					'dumb_scope'
 				);
 
 				// shouldn't be executed
@@ -91,7 +82,7 @@ describe('checkRequiredParamType', () => {
 					.a('Error')
 					.which.have.property(
 						'message',
-						'dumb_service(dumb_context): `dumb_name` parameter is missing'
+						'dumb_scope: `dumb_name` parameter is missing'
 					);
 			}
 
