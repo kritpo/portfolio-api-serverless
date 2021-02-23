@@ -46,7 +46,7 @@ custom:
         enabled: ${self:custom.domainEnabled.${self:provider.stage}, self:custom.domainEnabled.other}
 
 functions:
-    - ${file(serverless/services/hello.yml)}
+    - ${file(serverless/services/resumes.yml)}
 
 resources:
     - ${file(serverless/resources/ddb.yml)}
