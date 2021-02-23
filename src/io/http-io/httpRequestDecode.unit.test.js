@@ -15,15 +15,17 @@ const httpRequestDecode = require('./httpRequestDecode');
 // configure the test suite
 describe('httpRequestDecode', () => {
 	let checkReqParamStub;
+	let debugStub;
 	let sampleHttpEvent;
 
 	// setup the tests variables
 	beforeEach(() => {
-		// initialize the stub
+		// initialize the stubs
 		checkReqParamStub = sinon.stub(
 			checkRequiredParamType,
 			'checkRequiredParamType'
 		);
+		debugStub = sinon.stub(console, 'debug');
 
 		// initialize the sample http event
 		sampleHttpEvent = httpEventGenerator(
@@ -92,6 +94,19 @@ describe('httpRequestDecode', () => {
 				'http-io',
 				'request-decode'
 			);
+			debugStub.should.have.been.calledWith({
+				method: 'GET',
+				body: { data: 42 },
+				ipAddress: 'dumb_ip',
+				params: { dumb_param: 42 },
+				queries: { dumb_query: 42 },
+				headers: { dumb_header: 42 },
+				user: {
+					username: 'dumb_username',
+					email: 'dumb_email',
+					phoneNumber: 'dumb_phone_number'
+				}
+			});
 		});
 
 		// configure the test with minimum params
@@ -137,6 +152,16 @@ describe('httpRequestDecode', () => {
 				'http-io',
 				'request-decode'
 			);
+			debugStub.should.have.been.calledWith({
+				method: 'GET',
+				body: { data: 42 },
+				ipAddress: 'dumb_ip',
+				user: {
+					username: 'dumb_username',
+					email: 'dumb_email',
+					phoneNumber: 'dumb_phone_number'
+				}
+			});
 		});
 	});
 
@@ -186,6 +211,14 @@ describe('httpRequestDecode', () => {
 				'http-io',
 				'request-decode'
 			);
+			debugStub.should.have.been.calledWith({
+				method: 'GET',
+				body: { data: 42 },
+				ipAddress: 'dumb_ip',
+				params: { dumb_param: 42 },
+				queries: { dumb_query: 42 },
+				headers: { dumb_header: 42 }
+			});
 		});
 
 		// configure the test with minimum params
@@ -229,6 +262,11 @@ describe('httpRequestDecode', () => {
 				'http-io',
 				'request-decode'
 			);
+			debugStub.should.have.been.calledWith({
+				method: 'GET',
+				body: { data: 42 },
+				ipAddress: 'dumb_ip'
+			});
 		});
 	});
 });

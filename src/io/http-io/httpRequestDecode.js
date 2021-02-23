@@ -84,6 +84,9 @@ const httpRequestDecode = (
 		};
 	}
 
+	// log the retrieved request for debug purpose
+	console.debug(request);
+
 	return request;
 };
 
