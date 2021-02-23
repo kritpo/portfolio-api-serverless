@@ -655,6 +655,7 @@ GET https://api.jimmyweng.fr/resumes/{username}/languages
 
 ```json
 {
+	"username": "john",
 	"defaultLanguage": { "languageCode": "en", "language": "english" },
 	"languages": [
 		{ "languageCode": "en", "language": "english" },
