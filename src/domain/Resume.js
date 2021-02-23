@@ -51,7 +51,7 @@ class Resume {
 	}
 	set basics(basics) {
 		// check the basics information object
-		checkResume.basics(basics);
+		checkResume.checkBasics(basics);
 
 		// transpose all data into object
 		this.#basics = {
@@ -90,7 +90,7 @@ class Resume {
 	}
 	set work(work) {
 		// check the work experiences array
-		checkResume.career(work, true);
+		checkResume.checkCareer(work, true);
 
 		// transpose all data into object
 		this.#work = work.map(experience => ({
@@ -118,7 +118,7 @@ class Resume {
 	}
 	set volunteer(volunteer) {
 		// check the volunteering experiences array
-		checkResume.career(volunteer, false);
+		checkResume.checkCareer(volunteer, false);
 
 		// transpose all data into object
 		this.#volunteer = volunteer.map(experience => ({
@@ -145,7 +145,7 @@ class Resume {
 	}
 	set education(education) {
 		// check the academic background array
-		checkResume.education(education);
+		checkResume.checkEducation(education);
 
 		// transpose all data into object
 		this.#education = education.map(entry => ({
@@ -175,7 +175,7 @@ class Resume {
 	}
 	set projects(projects) {
 		// check the projects array
-		checkResume.projects(projects);
+		checkResume.checkProjects(projects);
 
 		// transpose all data into object
 		this.#projects = projects.map(project => ({
@@ -202,7 +202,7 @@ class Resume {
 	}
 	set skills(skills) {
 		// check the skills array
-		checkResume.skills(skills, true);
+		checkResume.checkSkills(skills, true);
 
 		// transpose all data into object
 		this.#skills = skills.map(skill => ({
@@ -224,7 +224,7 @@ class Resume {
 	}
 	set languages(languages) {
 		// check the languages array
-		checkResume.skills(languages, false);
+		checkResume.checkSkills(languages, false);
 
 		// transpose all data into object
 		this.#languages = languages.map(language => ({
@@ -246,7 +246,7 @@ class Resume {
 	}
 	set interests(interests) {
 		// check the interests array
-		checkResume.interests(interests);
+		checkResume.checkInterests(interests);
 
 		// transpose all data into object
 		this.#interests = interests.map(interest => ({
@@ -268,7 +268,7 @@ class Resume {
 	}
 	set references(references) {
 		// check the references array
-		checkResume.references(references);
+		checkResume.checkReferences(references);
 
 		// transpose all data into object
 		this.#references = references.map(reference => ({

@@ -12,7 +12,7 @@ const checkParamFormat = require('../../utils/checkParamFormat');
  * check if a basics information object set is correct
  * @param {object} basics the basics information object to check
  */
-function basics(basics) {
+function checkBasics(basics) {
 	// check basics information types
 	checkRequiredParamType(
 		basics,
@@ -161,7 +161,7 @@ function basics(basics) {
  * @param {array} career the career experiences array to check
  * @param {boolean} isWork if the career experiences array is a work experiences array
  */
-function career(career, isWork) {
+function checkCareer(career, isWork) {
 	// check experiences information types
 	checkRequiredParamType(
 		career,
@@ -279,7 +279,7 @@ function career(career, isWork) {
  * check if a academic background array is correct
  * @param {array} education the academic background array to check
  */
-function education(education) {
+function checkEducation(education) {
 	// check experiences information types
 	checkRequiredParamType(
 		education,
@@ -395,7 +395,7 @@ function education(education) {
  * check if a projects array is correct
  * @param {array} projects the projects array to check
  */
-function projects(projects) {
+function checkProjects(projects) {
 	// check project information types
 	checkRequiredParamType(
 		projects,
@@ -493,7 +493,7 @@ function projects(projects) {
  * @param {array} skills the skills array to check
  * @param {boolean} isSkills if the skills array is a pure skills array
  */
-function skills(skills, isSkills) {
+function checkSkills(skills, isSkills) {
 	// check skills information types
 	checkRequiredParamType(
 		skills,
@@ -527,7 +527,7 @@ function skills(skills, isSkills) {
  * check if a interests array is correct
  * @param {array} interests the interests array to check
  */
-function interests(interests) {
+function checkInterests(interests) {
 	// check interests information types
 	checkRequiredParamType(
 		interests,
@@ -573,7 +573,7 @@ function interests(interests) {
  * check if a references array is correct
  * @param {array} references the references array to check
  */
-function references(references) {
+function checkReferences(references) {
 	// check references information types
 	checkRequiredParamType(
 		references,
@@ -604,13 +604,13 @@ function references(references) {
 }
 
 module.exports = {
-	basics,
-	career,
-	education,
-	projects,
-	skills,
-	interests,
-	references,
+	checkBasics,
+	checkCareer,
+	checkEducation,
+	checkProjects,
+	checkSkills,
+	checkInterests,
+	checkReferences,
 	// export for test purpose
 	DATE_REGEX
 };

@@ -115,7 +115,7 @@ describe('Resume', () => {
 						}
 					]
 				});
-				checkResumeStub.basics.should.have.been.calledWith({
+				checkResumeStub.checkBasics.should.have.been.calledWith({
 					name: 'John DOE',
 					label: 'Programmer',
 					picture: 'https://website.com/picture.jpg',
@@ -196,7 +196,7 @@ describe('Resume', () => {
 						highlights: ['CProject']
 					}
 				]);
-				checkResumeStub.career.should.have.been.calledWith(
+				checkResumeStub.checkCareer.should.have.been.calledWith(
 					[
 						{
 							company: 'Company',
@@ -259,7 +259,7 @@ describe('Resume', () => {
 						highlights: ["Organization's website"]
 					}
 				]);
-				checkResumeStub.career.should.have.been.calledWith(
+				checkResumeStub.checkCareer.should.have.been.calledWith(
 					[
 						{
 							organization: 'Organization',
@@ -331,7 +331,7 @@ describe('Resume', () => {
 						]
 					}
 				]);
-				checkResumeStub.education.should.have.been.calledWith([
+				checkResumeStub.checkEducation.should.have.been.calledWith([
 					{
 						institution: 'School',
 						area: 'Computer Science',
@@ -391,7 +391,7 @@ describe('Resume', () => {
 						technologies: ['Javascript']
 					}
 				]);
-				checkResumeStub.projects.should.have.been.calledWith([
+				checkResumeStub.checkProjects.should.have.been.calledWith([
 					{
 						name: 'Project',
 						summary: 'A single project to do everything!',
@@ -432,7 +432,7 @@ describe('Resume', () => {
 						level: 'Advanced'
 					}
 				]);
-				checkResumeStub.skills.should.have.been.calledWith(
+				checkResumeStub.checkSkills.should.have.been.calledWith(
 					[
 						{
 							name: 'Javascript',
@@ -471,7 +471,7 @@ describe('Resume', () => {
 						fluency: 'Advanced'
 					}
 				]);
-				checkResumeStub.skills.should.have.been.calledWith(
+				checkResumeStub.checkSkills.should.have.been.calledWith(
 					[
 						{
 							language: 'French',
@@ -518,7 +518,7 @@ describe('Resume', () => {
 						]
 					}
 				]);
-				checkResumeStub.interests.should.have.been.calledWith([
+				checkResumeStub.checkInterests.should.have.been.calledWith([
 					{
 						name: 'Computer',
 						keywords: [
@@ -558,7 +558,7 @@ describe('Resume', () => {
 						reference: 'Reference...'
 					}
 				]);
-				checkResumeStub.references.should.have.been.calledWith([
+				checkResumeStub.checkReferences.should.have.been.calledWith([
 					{
 						name: 'Jane Doe',
 						reference: 'Reference...'

@@ -36,7 +36,7 @@ describe('checkResume', () => {
 		// configure the test with sample set
 		it('with sample set', () => {
 			// execute the function
-			checkResume.basics({
+			checkResume.checkBasics({
 				name: 'John DOE',
 				label: 'Programmer',
 				picture: 'https://website.com/picture.jpg',
@@ -235,7 +235,7 @@ describe('checkResume', () => {
 		// configure the test with work sample set
 		it('with work sample set', () => {
 			// execute the function
-			checkResume.career(
+			checkResume.checkCareer(
 				[
 					{
 						isInternship: true,
@@ -351,7 +351,7 @@ describe('checkResume', () => {
 		// configure the test with volunteer sample set
 		it('with volunteer sample set', () => {
 			// execute the function
-			checkResume.career(
+			checkResume.checkCareer(
 				[
 					{
 						organization: 'Organization',
@@ -461,7 +461,7 @@ describe('checkResume', () => {
 		// configure the test with sample set
 		it('with sample set', () => {
 			// execute the function
-			checkResume.education([
+			checkResume.checkEducation([
 				{
 					institution: 'School',
 					area: 'Computer Science',
@@ -597,7 +597,7 @@ describe('checkResume', () => {
 		// configure the test with sample set
 		it('with sample set', () => {
 			// execute the function
-			checkResume.projects([
+			checkResume.checkProjects([
 				{
 					name: 'Project',
 					summary: 'A single project to do everything!',
@@ -704,7 +704,7 @@ describe('checkResume', () => {
 		// configure the test with pure skills sample set
 		it('with pure skills sample set', () => {
 			// execute the function
-			checkResume.skills(
+			checkResume.checkSkills(
 				[
 					{
 						name: 'Javascript',
@@ -745,7 +745,7 @@ describe('checkResume', () => {
 		// configure the test with languages sample set
 		it('with languages sample set', () => {
 			// execute the function
-			checkResume.skills(
+			checkResume.checkSkills(
 				[
 					{
 						language: 'French',
@@ -789,7 +789,7 @@ describe('checkResume', () => {
 		// configure the test with sample set
 		it('with sample set', () => {
 			// execute the function
-			checkResume.interests([
+			checkResume.checkInterests([
 				{
 					name: 'Computer',
 					keywords: ['Problem solving']
@@ -837,7 +837,7 @@ describe('checkResume', () => {
 		// configure the test with sample set
 		it('with sample set', () => {
 			// execute the function
-			checkResume.references([
+			checkResume.checkReferences([
 				{
 					name: 'Jane Doe',
 					reference: 'Reference...'
