@@ -22,6 +22,275 @@ describe('Resume', () => {
 	// reset the stubs
 	afterEach(() => sinon.restore());
 
+	// configure the tests of hydrate
+	describe('hydrate', () => {
+		let readStub;
+
+		// setup the resume
+		beforeEach(() => {
+			// initialize the stub
+			readStub = sinon.stub();
+
+			// configure the stub
+			readStub.withArgs('user_good_username', 'resume_en').resolves({
+				basics: {
+					name: 'John DOE',
+					label: 'Programmer',
+					picture: 'https://website.com/picture.jpg',
+					email: 'john@gmail.com',
+					phone: '(912) 555-4321',
+					website: 'http://johndoe.com',
+					summary: 'A summary of John Doe...',
+					location: {
+						address: '2712 Broadway St',
+						postalCode: 'CA 94115',
+						city: 'San Francisco',
+						countryCode: 'US',
+						region: 'California'
+					},
+					profiles: [
+						{
+							network: 'Twitter',
+							username: 'john',
+							url: 'http://twitter.com/john'
+						}
+					]
+				},
+				work: [
+					{
+						isInternship: true,
+						company: 'Company',
+						position: 'Programmer',
+						website: 'https://company.com/',
+						startDate: '2019-01-01',
+						endDate: '2020-01-01',
+						summary: 'Description...',
+						highlights: ['CProject']
+					}
+				],
+				volunteer: [
+					{
+						organization: 'Organization',
+						position: 'Volunteer',
+						website: 'https://organization.fr/',
+						startDate: '2019-01-01',
+						endDate: '2020-01-01',
+						summary: 'Description...',
+						highlights: ["Organization's website"]
+					}
+				],
+				education: [
+					{
+						institution: 'School',
+						area: 'Computer Science',
+						studyType: 'Engineering Studies',
+						startDate: '2018-09-01',
+						endDate: '2020-07-01',
+						gpa: '4',
+						courses: [
+							{
+								category: 'Y1',
+								courses: ['TS1001 - Algorithmic']
+							}
+						]
+					}
+				],
+				projects: [
+					{
+						name: 'Project',
+						summary: 'A single project to do everything!',
+						startDate: '2018-09-01',
+						endDate: '2020-07-01',
+						picture: 'https://website.com/cproject-picture.jpg',
+						url: 'https://github.com/john/cproject',
+						technologies: ['Javascript']
+					}
+				],
+				skills: [
+					{
+						name: 'Javascript',
+						level: 'Advanced'
+					}
+				],
+				languages: [
+					{
+						language: 'French',
+						fluency: 'Advanced'
+					}
+				],
+				interests: [
+					{
+						name: 'Computer',
+						keywords: [
+							'Problem solving',
+							'Programming',
+							'Algorithmic'
+						]
+					}
+				],
+				references: [
+					{
+						name: 'Jane Doe',
+						reference: 'Reference...'
+					}
+				]
+			});
+			readStub
+				.withArgs('user_wrong_username', 'resume_en')
+				.resolves(undefined);
+		});
+
+		// configure the test with right data
+		it('with right data', async () => {
+			// initialize the resume
+			const resume = new Resume('good_username', 'en');
+
+			// execute the function
+			await resume.hydrate(readStub);
+
+			resume.hydrated.should.be.equal(true);
+			resume.basics.should.be.deep.equal({
+				name: 'John DOE',
+				label: 'Programmer',
+				picture: 'https://website.com/picture.jpg',
+				email: 'john@gmail.com',
+				phone: '(912) 555-4321',
+				website: 'http://johndoe.com',
+				summary: 'A summary of John Doe...',
+				location: {
+					address: '2712 Broadway St',
+					postalCode: 'CA 94115',
+					city: 'San Francisco',
+					countryCode: 'US',
+					region: 'California'
+				},
+				profiles: [
+					{
+						network: 'Twitter',
+						username: 'john',
+						url: 'http://twitter.com/john'
+					}
+				]
+			});
+			resume.work.should.be.deep.equal([
+				{
+					isInternship: true,
+					company: 'Company',
+					position: 'Programmer',
+					website: 'https://company.com/',
+					startDate: '2019-01-01',
+					endDate: '2020-01-01',
+					summary: 'Description...',
+					highlights: ['CProject']
+				}
+			]);
+			resume.volunteer.should.be.deep.equal([
+				{
+					organization: 'Organization',
+					position: 'Volunteer',
+					website: 'https://organization.fr/',
+					startDate: '2019-01-01',
+					endDate: '2020-01-01',
+					summary: 'Description...',
+					highlights: ["Organization's website"]
+				}
+			]);
+			resume.education.should.be.deep.equal([
+				{
+					institution: 'School',
+					area: 'Computer Science',
+					studyType: 'Engineering Studies',
+					startDate: '2018-09-01',
+					endDate: '2020-07-01',
+					gpa: '4',
+					courses: [
+						{
+							category: 'Y1',
+							courses: ['TS1001 - Algorithmic']
+						}
+					]
+				}
+			]);
+			resume.projects.should.be.deep.equal([
+				{
+					name: 'Project',
+					summary: 'A single project to do everything!',
+					startDate: '2018-09-01',
+					endDate: '2020-07-01',
+					picture: 'https://website.com/cproject-picture.jpg',
+					url: 'https://github.com/john/cproject',
+					technologies: ['Javascript']
+				}
+			]);
+			resume.skills.should.be.deep.equal([
+				{
+					name: 'Javascript',
+					level: 'Advanced'
+				}
+			]);
+			resume.languages.should.be.deep.equal([
+				{
+					language: 'French',
+					fluency: 'Advanced'
+				}
+			]);
+			resume.interests.should.be.deep.equal([
+				{
+					name: 'Computer',
+					keywords: ['Problem solving', 'Programming', 'Algorithmic']
+				}
+			]);
+			resume.references.should.be.deep.equal([
+				{
+					name: 'Jane Doe',
+					reference: 'Reference...'
+				}
+			]);
+		});
+
+		// configure the test with wrong data
+		it('with wrong data', async () => {
+			// initialize the resume
+			const resume = new Resume('wrong_username', 'en');
+
+			// execute the function
+			await resume.hydrate(readStub);
+
+			resume.hydrated.should.be.equal(false);
+			should.not.exist(resume.basics);
+			should.not.exist(resume.work);
+			should.not.exist(resume.volunteer);
+			should.not.exist(resume.education);
+			should.not.exist(resume.projects);
+			should.not.exist(resume.skills);
+			should.not.exist(resume.languages);
+			should.not.exist(resume.interests);
+			should.not.exist(resume.references);
+		});
+
+		// configure the test with emulated db error
+		it('with emulated db error', async () => {
+			// try to execute the function
+			try {
+				// initialize the resume
+				const resume = new Resume('dumb_username', 'en');
+
+				// configure the stub
+				readStub.rejects(new Error('dumb_error'));
+
+				// execute the function
+				await resume.hydrate(readStub);
+
+				// shouldn't be executed
+				true.should.be.equal(false, 'should not be executed');
+			} catch (e) {
+				e.should.be
+					.a('Error')
+					.which.have.property('message', 'dumb_error');
+			}
+		});
+	});
+
 	// configure the tests of getters and setters
 	describe('getters and setters', () => {
 		let resume;
@@ -30,6 +299,17 @@ describe('Resume', () => {
 		beforeEach(() => {
 			// initialize the resume
 			resume = new Resume('dumb_username', 'dumb_language_code');
+		});
+
+		// configure the tests of hydrated
+		describe('hydrated', () => {
+			// configure the test with get
+			it('with get', () => {
+				// execute the function
+				const result = resume.hydrated;
+
+				result.should.be.equal(false);
+			});
 		});
 
 		// configure the tests of username

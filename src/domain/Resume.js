@@ -7,6 +7,9 @@ const checkResume = require('./utils/checkResume');
  * Manage resumes
  */
 class Resume {
+	#id1;
+	#filter;
+	#hydrated;
 	#username;
 	#languageCode;
 	#basics;
@@ -22,6 +25,47 @@ class Resume {
 	constructor(username, languageCode) {
 		this.#username = username;
 		this.#languageCode = languageCode;
+
+		// update the resource identification
+		this.#id1 = 'user_' + this.#username;
+		this.#filter = 'resume_' + this.#languageCode;
+		this.#hydrated = false;
+	}
+
+	/**
+	 * hydrate the resume
+	 * @param {function} dbReadByIdAndFilter the data reader
+	 */
+	async hydrate(dbReadByIdAndFilter) {
+		// get data from database
+		await dbReadByIdAndFilter(this.#id1, this.#filter)
+			.then(data => {
+				// check if the data is retrieved
+				if (data !== undefined) {
+					// hydrate with the data
+					this.#basics = data.basics;
+					this.#work = data.work;
+					this.#volunteer = data.volunteer;
+					this.#education = data.education;
+					this.#projects = data.projects;
+					this.#skills = data.skills;
+					this.#languages = data.languages;
+					this.#interests = data.interests;
+					this.#references = data.references;
+					this.#hydrated = true;
+				}
+			})
+			.catch(err => {
+				// throw db error to be catch by upper function
+				throw err;
+			});
+	}
+
+	/**
+	 * the hydration status
+	 */
+	get hydrated() {
+		return this.#hydrated;
 	}
 
 	/**
