@@ -253,4 +253,67 @@ describe('httpRequestDecode', () => {
 			});
 		});
 	});
+
+	// configure the tests with no data
+	it('with no data', () => {
+		// reset the sample http event
+		sampleHttpEvent = httpEventGenerator('GET');
+
+		// reset the authorizer of the sample http event
+		sampleHttpEvent.requestContext.authorizer = { claims: {} };
+
+		// execute the function
+		const result = httpRequestDecode(sampleHttpEvent, true, true, true);
+
+		result.should.be.deep.equal({
+			method: 'GET',
+			body: null,
+			ipAddress: '127.0.0.1',
+			params: {},
+			queries: {},
+			headers: {},
+			user: {
+				username: undefined,
+				email: undefined,
+				phoneNumber: undefined
+			}
+		});
+		checkReqParamStub.should.have.been.calledWith(
+			sampleHttpEvent,
+			'object',
+			'event',
+			'http-io(request-decode)'
+		);
+		checkReqParamStub.should.have.been.calledWith(
+			true,
+			'boolean',
+			'includeParams',
+			'http-io(request-decode)'
+		);
+		checkReqParamStub.should.have.been.calledWith(
+			true,
+			'boolean',
+			'includeQueries',
+			'http-io(request-decode)'
+		);
+		checkReqParamStub.should.have.been.calledWith(
+			true,
+			'boolean',
+			'includeHeaders',
+			'http-io(request-decode)'
+		);
+		debugStub.should.have.been.calledWith({
+			method: 'GET',
+			body: null,
+			ipAddress: '127.0.0.1',
+			params: {},
+			queries: {},
+			headers: {},
+			user: {
+				username: undefined,
+				email: undefined,
+				phoneNumber: undefined
+			}
+		});
+	});
 });

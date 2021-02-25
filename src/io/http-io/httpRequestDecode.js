@@ -35,25 +35,25 @@ const httpRequestDecode = (
 	// check if the decoded request need to includes params
 	if (includeParams === true) {
 		// configure the params
-		request.params = event.pathParameters;
+		request.params = { ...event.pathParameters };
 	}
 
 	// check if the decoded request need to includes queries
 	if (includeQueries === true) {
 		// configure the queries
-		request.queries = event.queryStringParameters;
+		request.queries = { ...event.queryStringParameters };
 	}
 
 	// check if the decoded request need to includes headers
 	if (includeHeaders === true) {
 		// configure the headers
-		request.headers = event.headers;
+		request.headers = { ...event.headers };
 	}
 
 	// check if the request includes an authorizer
 	if (event.requestContext.authorizer !== undefined) {
 		// retrieve cognito data
-		const cognito = event.requestContext.authorizer.claims;
+		const cognito = { ...event.requestContext.authorizer.claims };
 
 		// configure the user data
 		request.user = {
