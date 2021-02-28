@@ -46,6 +46,7 @@ custom:
         enabled: ${self:custom.domainEnabled.${self:provider.stage}, self:custom.domainEnabled.other}
 
 functions:
+    - ${file(serverless/services/resumesLanguages.yml)}
     - ${file(serverless/services/resumes.yml)}
 
 resources:

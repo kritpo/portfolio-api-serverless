@@ -645,6 +645,8 @@ On success, the HTTP status code in the response header is <strong><em>204 NO CO
 On error, the HTTP status code in the response header is an <a href="#errors"><strong><em>error code</em></strong></a> and the response body contains an object with the associated <a href="#errors"><strong><em>error message</em></strong></a> in the <em>message</em> property in JSON format.
 </aside>
 
+# Resumes Languages
+
 ## Retrieve All Languages of a Resume
 
 ```http

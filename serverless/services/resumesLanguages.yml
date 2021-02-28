@@ -1,8 +1,8 @@
-resumeGET:
-    handler: src/infra/resumes.resumeGET
+resumeLangGET:
+    handler: src/infra/resumesLanguages.resumeLangGET
     events:
         - http:
-              path: /resumes/{username}
+              path: /resumes/{username}/languages
               method: get
               cors: true
               request:
