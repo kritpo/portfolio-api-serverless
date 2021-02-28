@@ -5,6 +5,7 @@ const sinon = require('sinon');
 
 // import the tested function dependency
 const checkResumeLang = require('./utils/checkResumeLang');
+const errors = require('../utils/errors');
 
 // retrieve the tested class
 const ResumeLang = require('./ResumeLang');
@@ -12,11 +13,22 @@ const ResumeLang = require('./ResumeLang');
 // configure the test suite
 describe('ResumeLang', () => {
 	let checkResumeLangStub;
+	let clientErrorStub;
+	let notFoundErrorStub;
+	let serverErrorStub;
 
-	// setup the stub
+	// setup the stubs
 	beforeEach(() => {
-		// initialize the stub
+		// initialize the stubs
 		checkResumeLangStub = sinon.stub(checkResumeLang);
+		clientErrorStub = sinon.stub(errors, 'ClientError');
+		notFoundErrorStub = sinon.stub(errors, 'NotFoundError');
+		serverErrorStub = sinon.stub(errors, 'ServerError');
+
+		// configure the stubs
+		clientErrorStub.throws(new Error('dumb_client_error'));
+		notFoundErrorStub.throws(new Error('dumb_not_found_error'));
+		serverErrorStub.throws(new Error('dumb_server_error'));
 	});
 
 	// reset the stubs
@@ -49,7 +61,6 @@ describe('ResumeLang', () => {
 			// execute the function
 			await resumeLang.hydrate(readStub);
 
-			resumeLang.hydrated.should.be.equal(true);
 			resumeLang.defaultLanguage.should.be.deep.equal({
 				languageCode: 'en',
 				language: 'english'
@@ -61,15 +72,25 @@ describe('ResumeLang', () => {
 
 		// configure the test with wrong data
 		it('with wrong data', async () => {
-			// initialize the resume languages container
-			const resumeLang = new ResumeLang('wrong_username');
+			// try to execute the function
+			try {
+				// initialize the resume languages container
+				const resumeLang = new ResumeLang('wrong_username');
 
-			// execute the function
-			await resumeLang.hydrate(readStub);
+				// execute the function
+				await resumeLang.hydrate(readStub);
 
-			resumeLang.hydrated.should.be.equal(false);
-			should.not.exist(resumeLang.defaultLanguage);
-			should.not.exist(resumeLang.languages);
+				// shouldn't be executed
+				true.should.be.equal(false, 'should not be executed');
+			} catch (e) {
+				e.should.be
+					.a('Error')
+					.which.have.property('message', 'dumb_not_found_error');
+				notFoundErrorStub.should.have.been.calledWith(
+					'RESUME_LANG',
+					'resume languages not found'
+				);
+			}
 		});
 
 		// configure the test with emulated db error
@@ -90,7 +111,8 @@ describe('ResumeLang', () => {
 			} catch (e) {
 				e.should.be
 					.a('Error')
-					.which.have.property('message', 'dumb_error');
+					.which.have.property('message', 'dumb_server_error');
+				serverErrorStub.should.have.been.calledWith('DB', 'dumb_error');
 			}
 		});
 	});
@@ -103,17 +125,6 @@ describe('ResumeLang', () => {
 		beforeEach(() => {
 			// initialize the resume languages
 			resumeLang = new ResumeLang('dumb_username');
-		});
-
-		// configure the tests of hydrated
-		describe('hydrated', () => {
-			// configure the test with get
-			it('with get', () => {
-				// execute the function
-				const result = resumeLang.hydrated;
-
-				result.should.be.equal(false);
-			});
 		});
 
 		// configure the tests of username
@@ -137,22 +148,55 @@ describe('ResumeLang', () => {
 				should.not.exist(result);
 			});
 
-			// configure the test with set
-			it('with set', () => {
-				// execute the function
-				resumeLang.defaultLanguage = {
-					languageCode: 'en',
-					language: 'english'
-				};
-				const result = resumeLang.defaultLanguage;
+			// configure the tests with set
+			describe('with set', () => {
+				// configure the test with sample set
+				it('with sample set', () => {
+					// execute the function
+					resumeLang.defaultLanguage = {
+						languageCode: 'en',
+						language: 'english'
+					};
+					const result = resumeLang.defaultLanguage;
 
-				result.should.be.deep.equal({
-					languageCode: 'en',
-					language: 'english'
+					result.should.be.deep.equal({
+						languageCode: 'en',
+						language: 'english'
+					});
+					checkResumeLangStub.checkLanguage.should.have.been.calledWith(
+						{
+							languageCode: 'en',
+							language: 'english'
+						}
+					);
 				});
-				checkResumeLangStub.checkLanguage.should.have.been.calledWith({
-					languageCode: 'en',
-					language: 'english'
+
+				// configure the test with emulated error
+				it('with emulated error', () => {
+					// reset the stub
+					checkResumeLangStub.checkLanguage.throws(
+						new Error('dumb_error')
+					);
+
+					// try to execute the function
+					try {
+						// execute the function
+						resumeLang.defaultLanguage = {};
+
+						// shouldn't be executed
+						true.should.be.equal(false, 'should not be executed');
+					} catch (e) {
+						e.should.be
+							.a('Error')
+							.which.have.property(
+								'message',
+								'dumb_client_error'
+							);
+						clientErrorStub.should.have.been.calledWith(
+							'RESUME_LANG',
+							'dumb_error'
+						);
+					}
 				});
 			});
 		});
@@ -167,20 +211,51 @@ describe('ResumeLang', () => {
 				should.not.exist(result);
 			});
 
-			// configure the test with set
-			it('with set', () => {
-				// execute the function
-				resumeLang.languages = [
-					{ languageCode: 'en', language: 'english' }
-				];
-				const result = resumeLang.languages;
+			// configure the tests with set
+			describe('with set', () => {
+				// configure the test with sample set
+				it('with sample set', () => {
+					// execute the function
+					resumeLang.languages = [
+						{ languageCode: 'en', language: 'english' }
+					];
+					const result = resumeLang.languages;
 
-				result.should.be.deep.equal([
-					{ languageCode: 'en', language: 'english' }
-				]);
-				checkResumeLangStub.checkLanguages.should.have.been.calledWith([
-					{ languageCode: 'en', language: 'english' }
-				]);
+					result.should.be.deep.equal([
+						{ languageCode: 'en', language: 'english' }
+					]);
+					checkResumeLangStub.checkLanguages.should.have.been.calledWith(
+						[{ languageCode: 'en', language: 'english' }]
+					);
+				});
+
+				// configure the test with emulated error
+				it('with emulated error', () => {
+					// reset the stub
+					checkResumeLangStub.checkLanguages.throws(
+						new Error('dumb_error')
+					);
+
+					// try to execute the function
+					try {
+						// execute the function
+						resumeLang.languages = {};
+
+						// shouldn't be executed
+						true.should.be.equal(false, 'should not be executed');
+					} catch (e) {
+						e.should.be
+							.a('Error')
+							.which.have.property(
+								'message',
+								'dumb_client_error'
+							);
+						clientErrorStub.should.have.been.calledWith(
+							'RESUME_LANG',
+							'dumb_error'
+						);
+					}
+				});
 			});
 		});
 	});

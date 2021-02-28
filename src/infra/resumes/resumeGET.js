@@ -1,5 +1,8 @@
 'use strict';
 
+// import errors manager
+const errors = require('../../utils/errors');
+
 // import the io dependencies
 const http = require('../../io/http-io');
 const ddb = require('../../io/ddb-io');
@@ -12,8 +15,8 @@ const resumeGET = async event => {
 	// decode the input event
 	const input = http.httpRequestDecode(event, true, true);
 
-	// initialize the response
-	let response;
+	// initialize the response as a promise auto-resolved
+	let response = new Promise(resolve => resolve());
 
 	// check if the language code is defined in the request
 	if (input.queries.languageCode !== undefined) {
@@ -24,12 +27,56 @@ const resumeGET = async event => {
 		);
 
 		// hydrate the resume
-		response = await resume
-			.hydrate(ddb.dbReadByIdAndFilter)
-			.then(() => {
-				// check if the resume is hydrated
-				if (resume.hydrated) {
-					// return a success OK response
+		response = resume.hydrate(ddb.dbReadByIdAndFilter).then(() => {
+			// if success, return ok response with the resume
+			return http.ok({
+				username: resume.username,
+				languageCode: resume.languageCode,
+				basics: resume.basics,
+				work: resume.work,
+				volunteer: resume.volunteer,
+				education: resume.education,
+				projects: resume.projects,
+				skills: resume.skills,
+				languages: resume.languages,
+				interests: resume.interests,
+				references: resume.references
+			});
+		});
+	}
+
+	response = response
+		// catch eventual errors when the resume is hydrated with the language query
+		.catch(err => {
+			// check if the error is a `not found` error
+			if (err instanceof errors.NotFoundError) {
+				// return nothing, to pursue the stack, will try to find the default resume
+				return;
+			}
+
+			// rethrow the error to be catch by the last catcher
+			throw err;
+		})
+		.then(data => {
+			// check if data is defined
+			if (data !== undefined) {
+				// return directly the result as it was already computed
+				return data;
+			}
+
+			// generate a new resume languages container
+			const resumeLang = new ResumeLang(input.params.username);
+
+			// hydrate the resume languages container
+			return resumeLang.hydrate(ddb.dbReadByIdAndFilter).then(() => {
+				// generate a new resume
+				const resume = new Resume(
+					input.params.username,
+					resumeLang.defaultLanguage.languageCode
+				);
+
+				// return the hydrated resume
+				return resume.hydrate(ddb.dbReadByIdAndFilter).then(() => {
 					return http.ok({
 						username: resume.username,
 						languageCode: resume.languageCode,
@@ -43,72 +90,20 @@ const resumeGET = async event => {
 						interests: resume.interests,
 						references: resume.references
 					});
-				}
-			})
-			// check if an error during hydration occurs
-			.catch(err => {
-				// log the error
-				console.error(`DB ERROR: ${err}`);
-
-				// return a server error
-				return http.internalServerError();
+				});
 			});
-	}
+		})
+		.catch(err => {
+			// log the error
+			console.error(`ERROR: ${err}`);
 
-	// check if a response is not already defined
-	if (response === undefined) {
-		// generate a new resume languages container
-		const resumeLang = new ResumeLang(input.params.username);
+			// check the type of error
+			if (err instanceof errors.NotFoundError) {
+				return http.notFound();
+			}
 
-		// hydrate the resume languages container
-		response = await resumeLang
-			.hydrate(ddb.dbReadByIdAndFilter)
-			.then(() => {
-				// check if the resume languages container is hydrated
-				if (resumeLang.hydrated) {
-					// generate a new resume
-					const resume = new Resume(
-						input.params.username,
-						resumeLang.defaultLanguage.languageCode
-					);
-
-					// return the hydrated resume
-					return resume.hydrate(ddb.dbReadByIdAndFilter).then(() => {
-						// check if the resume is hydrated
-						if (resume.hydrated) {
-							// return a success OK response
-							return http.ok({
-								username: resume.username,
-								languageCode: resume.languageCode,
-								basics: resume.basics,
-								work: resume.work,
-								volunteer: resume.volunteer,
-								education: resume.education,
-								projects: resume.projects,
-								skills: resume.skills,
-								languages: resume.languages,
-								interests: resume.interests,
-								references: resume.references
-							});
-						} else {
-							// otherwise return a client error NOT FOUND response
-							return http.notFound();
-						}
-					});
-				} else {
-					// otherwise return a client error NOT FOUND response
-					return http.notFound();
-				}
-			})
-			// check if an error during hydration occurs
-			.catch(err => {
-				// log the error
-				console.error(`DB ERROR: ${err}`);
-
-				// return a server error
-				return http.internalServerError();
-			});
-	}
+			return http.internalServerError();
+		});
 
 	return response;
 };

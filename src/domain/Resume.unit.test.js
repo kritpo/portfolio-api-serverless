@@ -5,6 +5,7 @@ const sinon = require('sinon');
 
 // import the tested function dependency
 const checkResume = require('./utils/checkResume');
+const errors = require('../utils/errors');
 
 // retrieve the tested class
 const Resume = require('./Resume');
@@ -12,11 +13,22 @@ const Resume = require('./Resume');
 // configure the test suite
 describe('Resume', () => {
 	let checkResumeStub;
+	let clientErrorStub;
+	let notFoundErrorStub;
+	let serverErrorStub;
 
-	// setup the stub
+	// setup the stubs
 	beforeEach(() => {
-		// initialize the stub
+		// initialize the stubs
 		checkResumeStub = sinon.stub(checkResume);
+		clientErrorStub = sinon.stub(errors, 'ClientError');
+		notFoundErrorStub = sinon.stub(errors, 'NotFoundError');
+		serverErrorStub = sinon.stub(errors, 'ServerError');
+
+		// configure the stubs
+		clientErrorStub.throws(new Error('dumb_client_error'));
+		notFoundErrorStub.throws(new Error('dumb_not_found_error'));
+		serverErrorStub.throws(new Error('dumb_server_error'));
 	});
 
 	// reset the stubs
@@ -148,7 +160,6 @@ describe('Resume', () => {
 			// execute the function
 			await resume.hydrate(readStub);
 
-			resume.hydrated.should.be.equal(true);
 			resume.basics.should.be.deep.equal({
 				name: 'John DOE',
 				label: 'Programmer',
@@ -250,22 +261,25 @@ describe('Resume', () => {
 
 		// configure the test with wrong data
 		it('with wrong data', async () => {
-			// initialize the resume
-			const resume = new Resume('wrong_username', 'en');
+			// try to execute the function
+			try {
+				// initialize the resume
+				const resume = new Resume('wrong_username', 'en');
 
-			// execute the function
-			await resume.hydrate(readStub);
+				// execute the function
+				await resume.hydrate(readStub);
 
-			resume.hydrated.should.be.equal(false);
-			should.not.exist(resume.basics);
-			should.not.exist(resume.work);
-			should.not.exist(resume.volunteer);
-			should.not.exist(resume.education);
-			should.not.exist(resume.projects);
-			should.not.exist(resume.skills);
-			should.not.exist(resume.languages);
-			should.not.exist(resume.interests);
-			should.not.exist(resume.references);
+				// shouldn't be executed
+				true.should.be.equal(false, 'should not be executed');
+			} catch (e) {
+				e.should.be
+					.a('Error')
+					.which.have.property('message', 'dumb_not_found_error');
+				notFoundErrorStub.should.have.been.calledWith(
+					'RESUME',
+					'resume not found'
+				);
+			}
 		});
 
 		// configure the test with emulated db error
@@ -286,7 +300,8 @@ describe('Resume', () => {
 			} catch (e) {
 				e.should.be
 					.a('Error')
-					.which.have.property('message', 'dumb_error');
+					.which.have.property('message', 'dumb_server_error');
+				serverErrorStub.should.have.been.calledWith('DB', 'dumb_error');
 			}
 		});
 	});
@@ -299,17 +314,6 @@ describe('Resume', () => {
 		beforeEach(() => {
 			// initialize the resume
 			resume = new Resume('dumb_username', 'dumb_language_code');
-		});
-
-		// configure the tests of hydrated
-		describe('hydrated', () => {
-			// configure the test with get
-			it('with get', () => {
-				// execute the function
-				const result = resume.hydrated;
-
-				result.should.be.equal(false);
-			});
 		});
 
 		// configure the tests of username
@@ -344,79 +348,108 @@ describe('Resume', () => {
 				should.not.exist(result);
 			});
 
-			// configure the test with set
-			it('with set', () => {
-				// execute the function
-				resume.basics = {
-					name: 'John DOE',
-					label: 'Programmer',
-					picture: 'https://website.com/picture.jpg',
-					email: 'john@gmail.com',
-					phone: '(912) 555-4321',
-					website: 'http://johndoe.com',
-					summary: 'A summary of John Doe...',
-					location: {
-						address: '2712 Broadway St',
-						postalCode: 'CA 94115',
-						city: 'San Francisco',
-						countryCode: 'US',
-						region: 'California'
-					},
-					profiles: [
-						{
-							network: 'Twitter',
-							username: 'john',
-							url: 'http://twitter.com/john'
-						}
-					]
-				};
-				const result = resume.basics;
+			// configure the tests with set
+			describe('with set', () => {
+				// configure the test with sample set
+				it('with sample set', () => {
+					// execute the function
+					resume.basics = {
+						name: 'John DOE',
+						label: 'Programmer',
+						picture: 'https://website.com/picture.jpg',
+						email: 'john@gmail.com',
+						phone: '(912) 555-4321',
+						website: 'http://johndoe.com',
+						summary: 'A summary of John Doe...',
+						location: {
+							address: '2712 Broadway St',
+							postalCode: 'CA 94115',
+							city: 'San Francisco',
+							countryCode: 'US',
+							region: 'California'
+						},
+						profiles: [
+							{
+								network: 'Twitter',
+								username: 'john',
+								url: 'http://twitter.com/john'
+							}
+						]
+					};
+					const result = resume.basics;
 
-				result.should.be.deep.equal({
-					name: 'John DOE',
-					label: 'Programmer',
-					picture: 'https://website.com/picture.jpg',
-					email: 'john@gmail.com',
-					phone: '(912) 555-4321',
-					website: 'http://johndoe.com',
-					summary: 'A summary of John Doe...',
-					location: {
-						address: '2712 Broadway St',
-						postalCode: 'CA 94115',
-						city: 'San Francisco',
-						countryCode: 'US',
-						region: 'California'
-					},
-					profiles: [
-						{
-							network: 'Twitter',
-							username: 'john',
-							url: 'http://twitter.com/john'
-						}
-					]
+					result.should.be.deep.equal({
+						name: 'John DOE',
+						label: 'Programmer',
+						picture: 'https://website.com/picture.jpg',
+						email: 'john@gmail.com',
+						phone: '(912) 555-4321',
+						website: 'http://johndoe.com',
+						summary: 'A summary of John Doe...',
+						location: {
+							address: '2712 Broadway St',
+							postalCode: 'CA 94115',
+							city: 'San Francisco',
+							countryCode: 'US',
+							region: 'California'
+						},
+						profiles: [
+							{
+								network: 'Twitter',
+								username: 'john',
+								url: 'http://twitter.com/john'
+							}
+						]
+					});
+					checkResumeStub.checkBasics.should.have.been.calledWith({
+						name: 'John DOE',
+						label: 'Programmer',
+						picture: 'https://website.com/picture.jpg',
+						email: 'john@gmail.com',
+						phone: '(912) 555-4321',
+						website: 'http://johndoe.com',
+						summary: 'A summary of John Doe...',
+						location: {
+							address: '2712 Broadway St',
+							postalCode: 'CA 94115',
+							city: 'San Francisco',
+							countryCode: 'US',
+							region: 'California'
+						},
+						profiles: [
+							{
+								network: 'Twitter',
+								username: 'john',
+								url: 'http://twitter.com/john'
+							}
+						]
+					});
 				});
-				checkResumeStub.checkBasics.should.have.been.calledWith({
-					name: 'John DOE',
-					label: 'Programmer',
-					picture: 'https://website.com/picture.jpg',
-					email: 'john@gmail.com',
-					phone: '(912) 555-4321',
-					website: 'http://johndoe.com',
-					summary: 'A summary of John Doe...',
-					location: {
-						address: '2712 Broadway St',
-						postalCode: 'CA 94115',
-						city: 'San Francisco',
-						countryCode: 'US',
-						region: 'California'
-					},
-					profiles: [
-						{
-							network: 'Twitter',
-							username: 'john',
-							url: 'http://twitter.com/john'
-						}
-					]
+
+				// configure the test with emulated error
+				it('with emulated error', () => {
+					// reset the stub
+					checkResumeStub.checkBasics.throws(new Error('dumb_error'));
+
+					// try to execute the function
+					try {
+						// execute the function
+						resume.basics = {};
+
+						// shouldn't be executed
+						true.should.be.equal(false, 'should not be executed');
+					} catch (e) {
+						e.should.be
+							.a('Error')
+							.which.have.property(
+								'message',
+								'dumb_client_error'
+							);
+						clientErrorStub.should.have.been.calledWith(
+							'RESUME',
+							'dumb_error'
+						);
+					}
 				});
 			});
 		});
@@ -431,53 +464,12 @@ describe('Resume', () => {
 				should.not.exist(result);
 			});
 
-			// configure the test with set
-			it('with set', () => {
-				// execute the function
-				resume.work = [
-					{
-						company: 'Company',
-						position: 'Programmer',
-						website: 'https://company.com/',
-						startDate: '2020-01-01',
-						summary: 'Description...',
-						highlights: []
-					},
-					{
-						isInternship: true,
-						company: 'Company',
-						position: 'Programmer',
-						website: 'https://company.com/',
-						startDate: '2019-01-01',
-						endDate: '2020-01-01',
-						summary: 'Description...',
-						highlights: ['CProject']
-					}
-				];
-				const result = resume.work;
-
-				result.should.be.deep.equal([
-					{
-						company: 'Company',
-						position: 'Programmer',
-						website: 'https://company.com/',
-						startDate: '2020-01-01',
-						summary: 'Description...',
-						highlights: []
-					},
-					{
-						isInternship: true,
-						company: 'Company',
-						position: 'Programmer',
-						website: 'https://company.com/',
-						startDate: '2019-01-01',
-						endDate: '2020-01-01',
-						summary: 'Description...',
-						highlights: ['CProject']
-					}
-				]);
-				checkResumeStub.checkCareer.should.have.been.calledWith(
-					[
+			// configure the tests with set
+			describe('with set', () => {
+				// configure the test with sample set
+				it('with sample set', () => {
+					// execute the function
+					resume.work = [
 						{
 							company: 'Company',
 							position: 'Programmer',
@@ -496,9 +488,79 @@ describe('Resume', () => {
 							summary: 'Description...',
 							highlights: ['CProject']
 						}
-					],
-					true
-				);
+					];
+					const result = resume.work;
+
+					result.should.be.deep.equal([
+						{
+							company: 'Company',
+							position: 'Programmer',
+							website: 'https://company.com/',
+							startDate: '2020-01-01',
+							summary: 'Description...',
+							highlights: []
+						},
+						{
+							isInternship: true,
+							company: 'Company',
+							position: 'Programmer',
+							website: 'https://company.com/',
+							startDate: '2019-01-01',
+							endDate: '2020-01-01',
+							summary: 'Description...',
+							highlights: ['CProject']
+						}
+					]);
+					checkResumeStub.checkCareer.should.have.been.calledWith(
+						[
+							{
+								company: 'Company',
+								position: 'Programmer',
+								website: 'https://company.com/',
+								startDate: '2020-01-01',
+								summary: 'Description...',
+								highlights: []
+							},
+							{
+								isInternship: true,
+								company: 'Company',
+								position: 'Programmer',
+								website: 'https://company.com/',
+								startDate: '2019-01-01',
+								endDate: '2020-01-01',
+								summary: 'Description...',
+								highlights: ['CProject']
+							}
+						],
+						true
+					);
+				});
+
+				// configure the test with emulated error
+				it('with emulated error', () => {
+					// reset the stub
+					checkResumeStub.checkCareer.throws(new Error('dumb_error'));
+
+					// try to execute the function
+					try {
+						// execute the function
+						resume.work = {};
+
+						// shouldn't be executed
+						true.should.be.equal(false, 'should not be executed');
+					} catch (e) {
+						e.should.be
+							.a('Error')
+							.which.have.property(
+								'message',
+								'dumb_client_error'
+							);
+						clientErrorStub.should.have.been.calledWith(
+							'RESUME',
+							'dumb_error'
+						);
+					}
+				});
 			});
 		});
 
@@ -512,35 +574,12 @@ describe('Resume', () => {
 				should.not.exist(result);
 			});
 
-			// configure the test with set
-			it('with set', () => {
-				// execute the function
-				resume.volunteer = [
-					{
-						organization: 'Organization',
-						position: 'Volunteer',
-						website: 'https://organization.fr/',
-						startDate: '2019-01-01',
-						endDate: '2020-01-01',
-						summary: 'Description...',
-						highlights: ["Organization's website"]
-					}
-				];
-				const result = resume.volunteer;
-
-				result.should.be.deep.equal([
-					{
-						organization: 'Organization',
-						position: 'Volunteer',
-						website: 'https://organization.fr/',
-						startDate: '2019-01-01',
-						endDate: '2020-01-01',
-						summary: 'Description...',
-						highlights: ["Organization's website"]
-					}
-				]);
-				checkResumeStub.checkCareer.should.have.been.calledWith(
-					[
+			// configure the tests with set
+			describe('with set', () => {
+				// configure the test with sample set
+				it('with sample set', () => {
+					// execute the function
+					resume.volunteer = [
 						{
 							organization: 'Organization',
 							position: 'Volunteer',
@@ -550,9 +589,61 @@ describe('Resume', () => {
 							summary: 'Description...',
 							highlights: ["Organization's website"]
 						}
-					],
-					false
-				);
+					];
+					const result = resume.volunteer;
+
+					result.should.be.deep.equal([
+						{
+							organization: 'Organization',
+							position: 'Volunteer',
+							website: 'https://organization.fr/',
+							startDate: '2019-01-01',
+							endDate: '2020-01-01',
+							summary: 'Description...',
+							highlights: ["Organization's website"]
+						}
+					]);
+					checkResumeStub.checkCareer.should.have.been.calledWith(
+						[
+							{
+								organization: 'Organization',
+								position: 'Volunteer',
+								website: 'https://organization.fr/',
+								startDate: '2019-01-01',
+								endDate: '2020-01-01',
+								summary: 'Description...',
+								highlights: ["Organization's website"]
+							}
+						],
+						false
+					);
+				});
+
+				// configure the test with emulated error
+				it('with emulated error', () => {
+					// reset the stub
+					checkResumeStub.checkCareer.throws(new Error('dumb_error'));
+
+					// try to execute the function
+					try {
+						// execute the function
+						resume.volunteer = {};
+
+						// shouldn't be executed
+						true.should.be.equal(false, 'should not be executed');
+					} catch (e) {
+						e.should.be
+							.a('Error')
+							.which.have.property(
+								'message',
+								'dumb_client_error'
+							);
+						clientErrorStub.should.have.been.calledWith(
+							'RESUME',
+							'dumb_error'
+						);
+					}
+				});
 			});
 		});
 
@@ -566,71 +657,102 @@ describe('Resume', () => {
 				should.not.exist(result);
 			});
 
-			// configure the test with set
-			it('with set', () => {
-				// execute the function
-				resume.education = [
-					{
-						institution: 'School',
-						area: 'Computer Science',
-						studyType: 'Engineering Studies',
-						startDate: '2018-09-01',
-						endDate: '2020-07-01',
-						gpa: '4',
-						courses: [
-							{
-								category: 'Y1',
-								courses: ['TS1001 - Algorithmic']
-							},
-							{
-								category: 'Y2',
-								courses: ['TS2001 - Programming']
-							}
-						]
-					}
-				];
-				const result = resume.education;
+			// configure the tests with set
+			describe('with set', () => {
+				// configure the test with sample set
+				it('with sample set', () => {
+					// execute the function
+					resume.education = [
+						{
+							institution: 'School',
+							area: 'Computer Science',
+							studyType: 'Engineering Studies',
+							startDate: '2018-09-01',
+							endDate: '2020-07-01',
+							gpa: '4',
+							courses: [
+								{
+									category: 'Y1',
+									courses: ['TS1001 - Algorithmic']
+								},
+								{
+									category: 'Y2',
+									courses: ['TS2001 - Programming']
+								}
+							]
+						}
+					];
+					const result = resume.education;
 
-				result.should.be.deep.equal([
-					{
-						institution: 'School',
-						area: 'Computer Science',
-						studyType: 'Engineering Studies',
-						startDate: '2018-09-01',
-						endDate: '2020-07-01',
-						gpa: '4',
-						courses: [
-							{
-								category: 'Y1',
-								courses: ['TS1001 - Algorithmic']
-							},
-							{
-								category: 'Y2',
-								courses: ['TS2001 - Programming']
-							}
-						]
+					result.should.be.deep.equal([
+						{
+							institution: 'School',
+							area: 'Computer Science',
+							studyType: 'Engineering Studies',
+							startDate: '2018-09-01',
+							endDate: '2020-07-01',
+							gpa: '4',
+							courses: [
+								{
+									category: 'Y1',
+									courses: ['TS1001 - Algorithmic']
+								},
+								{
+									category: 'Y2',
+									courses: ['TS2001 - Programming']
+								}
+							]
+						}
+					]);
+					checkResumeStub.checkEducation.should.have.been.calledWith([
+						{
+							institution: 'School',
+							area: 'Computer Science',
+							studyType: 'Engineering Studies',
+							startDate: '2018-09-01',
+							endDate: '2020-07-01',
+							gpa: '4',
+							courses: [
+								{
+									category: 'Y1',
+									courses: ['TS1001 - Algorithmic']
+								},
+								{
+									category: 'Y2',
+									courses: ['TS2001 - Programming']
+								}
+							]
+						}
+					]);
+				});
+
+				// configure the test with emulated error
+				it('with emulated error', () => {
+					// reset the stub
+					checkResumeStub.checkEducation.throws(
+						new Error('dumb_error')
+					);
+
+					// try to execute the function
+					try {
+						// execute the function
+						resume.education = {};
+
+						// shouldn't be executed
+						true.should.be.equal(false, 'should not be executed');
+					} catch (e) {
+						e.should.be
+							.a('Error')
+							.which.have.property(
+								'message',
+								'dumb_client_error'
+							);
+						clientErrorStub.should.have.been.calledWith(
+							'RESUME',
+							'dumb_error'
+						);
 					}
-				]);
-				checkResumeStub.checkEducation.should.have.been.calledWith([
-					{
-						institution: 'School',
-						area: 'Computer Science',
-						studyType: 'Engineering Studies',
-						startDate: '2018-09-01',
-						endDate: '2020-07-01',
-						gpa: '4',
-						courses: [
-							{
-								category: 'Y1',
-								courses: ['TS1001 - Algorithmic']
-							},
-							{
-								category: 'Y2',
-								courses: ['TS2001 - Programming']
-							}
-						]
-					}
-				]);
+				});
 			});
 		});
 
@@ -644,44 +766,75 @@ describe('Resume', () => {
 				should.not.exist(result);
 			});
 
-			// configure the test with set
-			it('with set', () => {
-				// execute the function
-				resume.projects = [
-					{
-						name: 'Project',
-						summary: 'A single project to do everything!',
-						startDate: '2018-09-01',
-						endDate: '2020-07-01',
-						picture: 'https://website.com/cproject-picture.jpg',
-						url: 'https://github.com/john/cproject',
-						technologies: ['Javascript']
-					}
-				];
-				const result = resume.projects;
+			// configure the tests with set
+			describe('with set', () => {
+				// configure test with sample set
+				it('with sample set', () => {
+					// execute the function
+					resume.projects = [
+						{
+							name: 'Project',
+							summary: 'A single project to do everything!',
+							startDate: '2018-09-01',
+							endDate: '2020-07-01',
+							picture: 'https://website.com/cproject-picture.jpg',
+							url: 'https://github.com/john/cproject',
+							technologies: ['Javascript']
+						}
+					];
+					const result = resume.projects;
 
-				result.should.be.deep.equal([
-					{
-						name: 'Project',
-						summary: 'A single project to do everything!',
-						startDate: '2018-09-01',
-						endDate: '2020-07-01',
-						picture: 'https://website.com/cproject-picture.jpg',
-						url: 'https://github.com/john/cproject',
-						technologies: ['Javascript']
+					result.should.be.deep.equal([
+						{
+							name: 'Project',
+							summary: 'A single project to do everything!',
+							startDate: '2018-09-01',
+							endDate: '2020-07-01',
+							picture: 'https://website.com/cproject-picture.jpg',
+							url: 'https://github.com/john/cproject',
+							technologies: ['Javascript']
+						}
+					]);
+					checkResumeStub.checkProjects.should.have.been.calledWith([
+						{
+							name: 'Project',
+							summary: 'A single project to do everything!',
+							startDate: '2018-09-01',
+							endDate: '2020-07-01',
+							picture: 'https://website.com/cproject-picture.jpg',
+							url: 'https://github.com/john/cproject',
+							technologies: ['Javascript']
+						}
+					]);
+				});
+
+				// configure the test with emulated error
+				it('with emulated error', () => {
+					// reset the stub
+					checkResumeStub.checkProjects.throws(
+						new Error('dumb_error')
+					);
+
+					// try to execute the function
+					try {
+						// execute the function
+						resume.projects = {};
+
+						// shouldn't be executed
+						true.should.be.equal(false, 'should not be executed');
+					} catch (e) {
+						e.should.be
+							.a('Error')
+							.which.have.property(
+								'message',
+								'dumb_client_error'
+							);
+						clientErrorStub.should.have.been.calledWith(
+							'RESUME',
+							'dumb_error'
+						);
 					}
-				]);
-				checkResumeStub.checkProjects.should.have.been.calledWith([
-					{
-						name: 'Project',
-						summary: 'A single project to do everything!',
-						startDate: '2018-09-01',
-						endDate: '2020-07-01',
-						picture: 'https://website.com/cproject-picture.jpg',
-						url: 'https://github.com/john/cproject',
-						technologies: ['Javascript']
-					}
-				]);
+				});
 			});
 		});
 
@@ -695,32 +848,61 @@ describe('Resume', () => {
 				should.not.exist(result);
 			});
 
-			// configure the test with set
-			it('with set', () => {
-				// execute the function
-				resume.skills = [
-					{
-						name: 'Javascript',
-						level: 'Advanced'
-					}
-				];
-				const result = resume.skills;
-
-				result.should.be.deep.equal([
-					{
-						name: 'Javascript',
-						level: 'Advanced'
-					}
-				]);
-				checkResumeStub.checkSkills.should.have.been.calledWith(
-					[
+			// configure the tests with set
+			describe('with set', () => {
+				// configure the test with sample set
+				it('with sample set', () => {
+					// execute the function
+					resume.skills = [
 						{
 							name: 'Javascript',
 							level: 'Advanced'
 						}
-					],
-					true
-				);
+					];
+					const result = resume.skills;
+
+					result.should.be.deep.equal([
+						{
+							name: 'Javascript',
+							level: 'Advanced'
+						}
+					]);
+					checkResumeStub.checkSkills.should.have.been.calledWith(
+						[
+							{
+								name: 'Javascript',
+								level: 'Advanced'
+							}
+						],
+						true
+					);
+				});
+
+				// configure the test with emulated error
+				it('with emulated error', () => {
+					// reset the stub
+					checkResumeStub.checkSkills.throws(new Error('dumb_error'));
+
+					// try to execute the function
+					try {
+						// execute the function
+						resume.skills = {};
+
+						// shouldn't be executed
+						true.should.be.equal(false, 'should not be executed');
+					} catch (e) {
+						e.should.be
+							.a('Error')
+							.which.have.property(
+								'message',
+								'dumb_client_error'
+							);
+						clientErrorStub.should.have.been.calledWith(
+							'RESUME',
+							'dumb_error'
+						);
+					}
+				});
 			});
 		});
 
@@ -734,32 +916,61 @@ describe('Resume', () => {
 				should.not.exist(result);
 			});
 
-			// configure the test with set
-			it('with set', () => {
-				// execute the function
-				resume.languages = [
-					{
-						language: 'French',
-						fluency: 'Advanced'
-					}
-				];
-				const result = resume.languages;
-
-				result.should.be.deep.equal([
-					{
-						language: 'French',
-						fluency: 'Advanced'
-					}
-				]);
-				checkResumeStub.checkSkills.should.have.been.calledWith(
-					[
+			// configure the tests with set
+			describe('with set', () => {
+				// configure the test with sample set
+				it('with sample set', () => {
+					// execute the function
+					resume.languages = [
 						{
 							language: 'French',
 							fluency: 'Advanced'
 						}
-					],
-					false
-				);
+					];
+					const result = resume.languages;
+
+					result.should.be.deep.equal([
+						{
+							language: 'French',
+							fluency: 'Advanced'
+						}
+					]);
+					checkResumeStub.checkSkills.should.have.been.calledWith(
+						[
+							{
+								language: 'French',
+								fluency: 'Advanced'
+							}
+						],
+						false
+					);
+				});
+
+				// configure the test with emulated error
+				it('with emulated error', () => {
+					// reset the stub
+					checkResumeStub.checkSkills.throws(new Error('dumb_error'));
+
+					// try to execute the function
+					try {
+						// execute the function
+						resume.languages = {};
+
+						// shouldn't be executed
+						true.should.be.equal(false, 'should not be executed');
+					} catch (e) {
+						e.should.be
+							.a('Error')
+							.which.have.property(
+								'message',
+								'dumb_client_error'
+							);
+						clientErrorStub.should.have.been.calledWith(
+							'RESUME',
+							'dumb_error'
+						);
+					}
+				});
 			});
 		});
 
@@ -773,41 +984,72 @@ describe('Resume', () => {
 				should.not.exist(result);
 			});
 
-			// configure the test with set
-			it('with set', () => {
-				// execute the function
-				resume.interests = [
-					{
-						name: 'Computer',
-						keywords: [
-							'Problem solving',
-							'Programming',
-							'Algorithmic'
-						]
-					}
-				];
-				const result = resume.interests;
+			// configure the tests with set
+			describe('with set', () => {
+				// configure the test with sample set
+				it('with sample set', () => {
+					// execute the function
+					resume.interests = [
+						{
+							name: 'Computer',
+							keywords: [
+								'Problem solving',
+								'Programming',
+								'Algorithmic'
+							]
+						}
+					];
+					const result = resume.interests;
 
-				result.should.be.deep.equal([
-					{
-						name: 'Computer',
-						keywords: [
-							'Problem solving',
-							'Programming',
-							'Algorithmic'
-						]
+					result.should.be.deep.equal([
+						{
+							name: 'Computer',
+							keywords: [
+								'Problem solving',
+								'Programming',
+								'Algorithmic'
+							]
+						}
+					]);
+					checkResumeStub.checkInterests.should.have.been.calledWith([
+						{
+							name: 'Computer',
+							keywords: [
+								'Problem solving',
+								'Programming',
+								'Algorithmic'
+							]
+						}
+					]);
+				});
+
+				// configure the test with emulated error
+				it('with emulated error', () => {
+					// reset the stub
+					checkResumeStub.checkInterests.throws(
+						new Error('dumb_error')
+					);
+
+					// try to execute the function
+					try {
+						// execute the function
+						resume.interests = {};
+
+						// shouldn't be executed
+						true.should.be.equal(false, 'should not be executed');
+					} catch (e) {
+						e.should.be
+							.a('Error')
+							.which.have.property(
+								'message',
+								'dumb_client_error'
+							);
+						clientErrorStub.should.have.been.calledWith(
+							'RESUME',
+							'dumb_error'
+						);
 					}
-				]);
-				checkResumeStub.checkInterests.should.have.been.calledWith([
-					{
-						name: 'Computer',
-						keywords: [
-							'Problem solving',
-							'Programming',
-							'Algorithmic'
-						]
-					}
-				]);
+				});
 			});
 		});
 
@@ -821,29 +1063,62 @@ describe('Resume', () => {
 				should.not.exist(result);
 			});
 
-			// configure the test with set
-			it('with set', () => {
-				// execute the function
-				resume.references = [
-					{
-						name: 'Jane Doe',
-						reference: 'Reference...'
-					}
-				];
-				const result = resume.references;
+			// configure the tests with set
+			describe('with set', () => {
+				// configure the test with sample set
+				it('with sample set', () => {
+					// execute the function
+					resume.references = [
+						{
+							name: 'Jane Doe',
+							reference: 'Reference...'
+						}
+					];
+					const result = resume.references;
 
-				result.should.be.deep.equal([
-					{
-						name: 'Jane Doe',
-						reference: 'Reference...'
+					result.should.be.deep.equal([
+						{
+							name: 'Jane Doe',
+							reference: 'Reference...'
+						}
+					]);
+					checkResumeStub.checkReferences.should.have.been.calledWith(
+						[
+							{
+								name: 'Jane Doe',
+								reference: 'Reference...'
+							}
+						]
+					);
+				});
+
+				// configure the test with emulated error
+				it('with emulated error', () => {
+					// reset the stub
+					checkResumeStub.checkReferences.throws(
+						new Error('dumb_error')
+					);
+
+					// try to execute the function
+					try {
+						// execute the function
+						resume.references = {};
+
+						// shouldn't be executed
+						true.should.be.equal(false, 'should not be executed');
+					} catch (e) {
+						e.should.be
+							.a('Error')
+							.which.have.property(
+								'message',
+								'dumb_client_error'
+							);
+						clientErrorStub.should.have.been.calledWith(
+							'RESUME',
+							'dumb_error'
+						);
 					}
-				]);
-				checkResumeStub.checkReferences.should.have.been.calledWith([
-					{
-						name: 'Jane Doe',
-						reference: 'Reference...'
-					}
-				]);
+				});
 			});
 		});
 	});

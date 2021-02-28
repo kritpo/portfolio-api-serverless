@@ -1,5 +1,8 @@
 'use strict';
 
+// import errors manager
+const errors = require('../../utils/errors');
+
 // import the io dependencies
 const http = require('../../io/http-io');
 const ddb = require('../../io/ddb-io');
@@ -15,32 +18,26 @@ const resumeLangGET = async event => {
 	const resumeLang = new ResumeLang(input.params.username);
 
 	// hydrate the resume languages container
-	return (
-		resumeLang
-			.hydrate(ddb.dbReadByIdAndFilter)
-			.then(() => {
-				// check if the resume languages container is hydrated
-				if (resumeLang.hydrated) {
-					// return a success OK response
-					return http.ok({
-						username: resumeLang.username,
-						defaultLanguage: resumeLang.defaultLanguage,
-						languages: resumeLang.languages
-					});
-				} else {
-					// otherwise return a client error NOT FOUND response
-					return http.notFound();
-				}
-			})
-			// check if an error during hydration occurs
-			.catch(err => {
-				// log the error
-				console.error(`DB ERROR: ${err}`);
+	return resumeLang
+		.hydrate(ddb.dbReadByIdAndFilter)
+		.then(() => {
+			return http.ok({
+				username: resumeLang.username,
+				defaultLanguage: resumeLang.defaultLanguage,
+				languages: resumeLang.languages
+			});
+		})
+		.catch(err => {
+			// log the error
+			console.error(`ERROR: ${err}`);
 
-				// return a server error
-				return http.internalServerError();
-			})
-	);
+			// check the type of error
+			if (err instanceof errors.NotFoundError) {
+				return http.notFound();
+			}
+
+			return http.internalServerError();
+		});
 };
 
 module.exports = resumeLangGET;

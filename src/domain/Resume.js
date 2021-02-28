@@ -3,13 +3,15 @@
 // import data checkers
 const checkResume = require('./utils/checkResume');
 
+// import errors manager
+const errors = require('../utils/errors');
+
 /**
  * Manage resumes
  */
 class Resume {
 	#id1;
 	#filter;
-	#hydrated;
 	#username;
 	#languageCode;
 	#basics;
@@ -29,7 +31,6 @@ class Resume {
 		// update the resource identification
 		this.#id1 = 'user_' + this.#username;
 		this.#filter = 'resume_' + this.#languageCode;
-		this.#hydrated = false;
 	}
 
 	/**
@@ -39,6 +40,12 @@ class Resume {
 	async hydrate(dbReadByIdAndFilter) {
 		// get data from database
 		await dbReadByIdAndFilter(this.#id1, this.#filter)
+			// catch db error
+			.catch(err => {
+				// throw server db error
+				throw new errors.ServerError(errors.ioTypes.DB, err.message);
+			})
+			// compute db response
 			.then(data => {
 				// check if the data is retrieved
 				if (data !== undefined) {
@@ -52,20 +59,18 @@ class Resume {
 					this.#languages = data.languages;
 					this.#interests = data.interests;
 					this.#references = data.references;
-					this.#hydrated = true;
+				} else {
+					// throw a not found resume error
+					throw new errors.NotFoundError(
+						'RESUME',
+						'resume not found'
+					);
 				}
 			})
 			.catch(err => {
-				// throw db error to be catch by upper function
+				// throw error to be catch by upper function
 				throw err;
 			});
-	}
-
-	/**
-	 * the hydration status
-	 */
-	get hydrated() {
-		return this.#hydrated;
 	}
 
 	/**
@@ -95,7 +100,12 @@ class Resume {
 	}
 	set basics(basics) {
 		// check the basics information object
-		checkResume.checkBasics(basics);
+		try {
+			checkResume.checkBasics(basics);
+		} catch (err) {
+			// throw a client resume error
+			throw new errors.ClientError('RESUME', err.message);
+		}
 
 		// transpose all data into object
 		this.#basics = {
@@ -134,7 +144,12 @@ class Resume {
 	}
 	set work(work) {
 		// check the work experiences array
-		checkResume.checkCareer(work, true);
+		try {
+			checkResume.checkCareer(work, true);
+		} catch (err) {
+			// throw a client resume error
+			throw new errors.ClientError('RESUME', err.message);
+		}
 
 		// transpose all data into object
 		this.#work = work.map(experience => ({
@@ -162,7 +177,12 @@ class Resume {
 	}
 	set volunteer(volunteer) {
 		// check the volunteering experiences array
-		checkResume.checkCareer(volunteer, false);
+		try {
+			checkResume.checkCareer(volunteer, false);
+		} catch (err) {
+			// throw a client resume error
+			throw new errors.ClientError('RESUME', err.message);
+		}
 
 		// transpose all data into object
 		this.#volunteer = volunteer.map(experience => ({
@@ -189,7 +209,12 @@ class Resume {
 	}
 	set education(education) {
 		// check the academic background array
-		checkResume.checkEducation(education);
+		try {
+			checkResume.checkEducation(education);
+		} catch (err) {
+			// throw a client resume error
+			throw new errors.ClientError('RESUME', err.message);
+		}
 
 		// transpose all data into object
 		this.#education = education.map(entry => ({
@@ -219,7 +244,12 @@ class Resume {
 	}
 	set projects(projects) {
 		// check the projects array
-		checkResume.checkProjects(projects);
+		try {
+			checkResume.checkProjects(projects);
+		} catch (err) {
+			// throw a client resume error
+			throw new errors.ClientError('RESUME', err.message);
+		}
 
 		// transpose all data into object
 		this.#projects = projects.map(project => ({
@@ -246,7 +276,12 @@ class Resume {
 	}
 	set skills(skills) {
 		// check the skills array
-		checkResume.checkSkills(skills, true);
+		try {
+			checkResume.checkSkills(skills, true);
+		} catch (err) {
+			// throw a client resume error
+			throw new errors.ClientError('RESUME', err.message);
+		}
 
 		// transpose all data into object
 		this.#skills = skills.map(skill => ({
@@ -268,7 +303,12 @@ class Resume {
 	}
 	set languages(languages) {
 		// check the languages array
-		checkResume.checkSkills(languages, false);
+		try {
+			checkResume.checkSkills(languages, false);
+		} catch (err) {
+			// throw a client resume error
+			throw new errors.ClientError('RESUME', err.message);
+		}
 
 		// transpose all data into object
 		this.#languages = languages.map(language => ({
@@ -290,7 +330,12 @@ class Resume {
 	}
 	set interests(interests) {
 		// check the interests array
-		checkResume.checkInterests(interests);
+		try {
+			checkResume.checkInterests(interests);
+		} catch (err) {
+			// throw a client resume error
+			throw new errors.ClientError('RESUME', err.message);
+		}
 
 		// transpose all data into object
 		this.#interests = interests.map(interest => ({
@@ -312,7 +357,12 @@ class Resume {
 	}
 	set references(references) {
 		// check the references array
-		checkResume.checkReferences(references);
+		try {
+			checkResume.checkReferences(references);
+		} catch (err) {
+			// throw a client resume error
+			throw new errors.ClientError('RESUME', err.message);
+		}
 
 		// transpose all data into object
 		this.#references = references.map(reference => ({
