@@ -55,22 +55,27 @@ class Resume {
 		}
 
 		// put data into database
-		await dbCreate(this.#id1, this.#filter, null, {
-			basics: this.#basics,
-			work: this.#work,
-			volunteer: this.#volunteer,
-			education: this.#education,
-			projects: this.#projects,
-			skills: this.#skills,
-			languages: this.#languages,
-			interests: this.#interests,
-			references: this.#references
-		})
-			// catch db error
-			.catch(err => {
-				// throw server db error
-				throw new errors.ServerError(errors.ioTypes.DB, err.message);
-			});
+		return (
+			dbCreate(this.#id1, this.#filter, null, {
+				basics: this.#basics,
+				work: this.#work,
+				volunteer: this.#volunteer,
+				education: this.#education,
+				projects: this.#projects,
+				skills: this.#skills,
+				languages: this.#languages,
+				interests: this.#interests,
+				references: this.#references
+			})
+				// catch db error
+				.catch(err => {
+					// throw server db error
+					throw new errors.ServerError(
+						errors.ioTypes.DB,
+						err.message
+					);
+				})
+		);
 	}
 
 	/**
@@ -79,38 +84,43 @@ class Resume {
 	 */
 	async hydrate(dbReadByIdAndFilter) {
 		// get data from database
-		await dbReadByIdAndFilter(this.#id1, this.#filter)
-			// catch db error
-			.catch(err => {
-				// throw server db error
-				throw new errors.ServerError(errors.ioTypes.DB, err.message);
-			})
-			// compute db response
-			.then(data => {
-				// check if the data is retrieved
-				if (data !== undefined) {
-					// hydrate with the data
-					this.#basics = data.basics;
-					this.#work = data.work;
-					this.#volunteer = data.volunteer;
-					this.#education = data.education;
-					this.#projects = data.projects;
-					this.#skills = data.skills;
-					this.#languages = data.languages;
-					this.#interests = data.interests;
-					this.#references = data.references;
-				} else {
-					// throw a not found resume error
-					throw new errors.NotFoundError(
-						'RESUME',
-						'resume not found'
+		return (
+			dbReadByIdAndFilter(this.#id1, this.#filter)
+				// catch db error
+				.catch(err => {
+					// throw server db error
+					throw new errors.ServerError(
+						errors.ioTypes.DB,
+						err.message
 					);
-				}
-			})
-			.catch(err => {
-				// throw error to be catch by upper function
-				throw err;
-			});
+				})
+				// compute db response
+				.then(data => {
+					// check if the data is retrieved
+					if (data !== undefined) {
+						// hydrate with the data
+						this.#basics = data.basics;
+						this.#work = data.work;
+						this.#volunteer = data.volunteer;
+						this.#education = data.education;
+						this.#projects = data.projects;
+						this.#skills = data.skills;
+						this.#languages = data.languages;
+						this.#interests = data.interests;
+						this.#references = data.references;
+					} else {
+						// throw a not found resume error
+						throw new errors.NotFoundError(
+							'RESUME',
+							'resume not found'
+						);
+					}
+				})
+				.catch(err => {
+					// throw error to be catch by upper function
+					throw err;
+				})
+		);
 	}
 
 	/**

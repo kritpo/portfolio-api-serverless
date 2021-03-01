@@ -45,15 +45,20 @@ class ResumeLang {
 		}
 
 		// put data into database
-		await dbCreate(this.#id1, this.#filter, null, {
-			defaultLanguage: this.#defaultLanguage,
-			languages: this.#languages
-		})
-			// catch db error
-			.catch(err => {
-				// throw server db error
-				throw new errors.ServerError(errors.ioTypes.DB, err.message);
-			});
+		return (
+			dbCreate(this.#id1, this.#filter, null, {
+				defaultLanguage: this.#defaultLanguage,
+				languages: this.#languages
+			})
+				// catch db error
+				.catch(err => {
+					// throw server db error
+					throw new errors.ServerError(
+						errors.ioTypes.DB,
+						err.message
+					);
+				})
+		);
 	}
 
 	/**
@@ -62,30 +67,35 @@ class ResumeLang {
 	 */
 	async hydrate(dbReadByIdAndFilter) {
 		// get data from database
-		await dbReadByIdAndFilter(this.#id1, this.#filter)
-			// catch db error
-			.catch(err => {
-				// throw server db error
-				throw new errors.ServerError(errors.ioTypes.DB, err.message);
-			})
-			.then(data => {
-				// check if the data is retrieved
-				if (data !== undefined) {
-					// hydrate with the data
-					this.#defaultLanguage = data.defaultLanguage;
-					this.#languages = data.languages;
-				} else {
-					// throw a not found resume languages error
-					throw new errors.NotFoundError(
-						'RESUME_LANG',
-						'resume languages not found'
+		return (
+			dbReadByIdAndFilter(this.#id1, this.#filter)
+				// catch db error
+				.catch(err => {
+					// throw server db error
+					throw new errors.ServerError(
+						errors.ioTypes.DB,
+						err.message
 					);
-				}
-			})
-			.catch(err => {
-				// throw error to be catch by upper function
-				throw err;
-			});
+				})
+				.then(data => {
+					// check if the data is retrieved
+					if (data !== undefined) {
+						// hydrate with the data
+						this.#defaultLanguage = data.defaultLanguage;
+						this.#languages = data.languages;
+					} else {
+						// throw a not found resume languages error
+						throw new errors.NotFoundError(
+							'RESUME_LANG',
+							'resume languages not found'
+						);
+					}
+				})
+				.catch(err => {
+					// throw error to be catch by upper function
+					throw err;
+				})
+		);
 	}
 
 	/**
@@ -106,15 +116,20 @@ class ResumeLang {
 		}
 
 		// replace data in the database
-		await dbUpdateByReplace(this.#id1, this.#filter, {
-			defaultLanguage: this.#defaultLanguage,
-			languages: this.#languages
-		})
-			// catch db error
-			.catch(err => {
-				// throw server db error
-				throw new errors.ServerError(errors.ioTypes.DB, err.message);
-			});
+		return (
+			dbUpdateByReplace(this.#id1, this.#filter, {
+				defaultLanguage: this.#defaultLanguage,
+				languages: this.#languages
+			})
+				// catch db error
+				.catch(err => {
+					// throw server db error
+					throw new errors.ServerError(
+						errors.ioTypes.DB,
+						err.message
+					);
+				})
+		);
 	}
 
 	add(languageCode) {

@@ -54,7 +54,7 @@ const resumesPOST = async event => {
 						resumeLang.add(input.body.languageCode);
 
 						// update the resume languages container
-						resumeLang.updateByReplace(ddb.dbUpdateByReplace);
+						return resumeLang.updateByReplace(ddb.dbUpdateByReplace);
 					})
 					.catch(err => {
 						// check if the error is a `not found` error
@@ -63,10 +63,7 @@ const resumesPOST = async event => {
 							resumeLang.add(input.body.languageCode);
 
 							// save the resume languages container
-							resumeLang.create(ddb.dbCreate);
-
-							// return nothing, to pursue the stack, will try to save the resume
-							return;
+							return resumeLang.create(ddb.dbCreate);
 						}
 
 						// rethrow the error to be catch by the last catcher
