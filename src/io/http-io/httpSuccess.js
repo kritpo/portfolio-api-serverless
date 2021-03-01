@@ -17,7 +17,7 @@ const ok = (body, headers = {}) => {
  * @param {object} headers the optional additional headers
  */
 const created = (headers = {}) => {
-	return encodeResponse(201, { ...headers }, null, 'http-io(created)');
+	return encodeResponse(201, { ...headers }, undefined, 'http-io(created)');
 };
 
 /**
@@ -25,7 +25,12 @@ const created = (headers = {}) => {
  * @param {object} headers the optional additional headers
  */
 const noContent = (headers = {}) => {
-	return encodeResponse(204, { ...headers }, null, 'http-io(no-content)');
+	return encodeResponse(
+		204,
+		{ ...headers },
+		undefined,
+		'http-io(no-content)'
+	);
 };
 
 module.exports = {

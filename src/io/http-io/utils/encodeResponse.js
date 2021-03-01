@@ -2,6 +2,7 @@
 
 // import the params checker
 const checkRequiredParamType = require('../../../utils/checkRequiredParamType');
+const checkParamType = require('../../../utils/checkParamType');
 
 /**
  * encode a http response
@@ -14,7 +15,7 @@ const encodeResponse = (statusCode, headers, body, scope) => {
 	// check if the parameters are right
 	checkRequiredParamType(statusCode, 'number', 'statusCode', scope);
 	checkRequiredParamType(headers, 'object', 'headers', scope);
-	checkRequiredParamType(body, 'object', 'body', scope);
+	checkParamType(body, 'object', 'body', scope);
 
 	// configure the encoded response
 	const response = {

@@ -61,7 +61,7 @@ describe('httpSuccess', () => {
 			encodeResponseStub.should.have.been.calledWith(
 				201,
 				{ dumb_header: 42 },
-				null,
+				undefined,
 				'http-io(created)'
 			);
 		});
@@ -74,7 +74,7 @@ describe('httpSuccess', () => {
 			encodeResponseStub.should.have.been.calledWith(
 				201,
 				{},
-				null,
+				undefined,
 				'http-io(created)'
 			);
 		});
@@ -90,7 +90,7 @@ describe('httpSuccess', () => {
 			encodeResponseStub.should.have.been.calledWith(
 				204,
 				{ dumb_header: 42 },
-				null,
+				undefined,
 				'http-io(no-content)'
 			);
 		});
@@ -103,7 +103,7 @@ describe('httpSuccess', () => {
 			encodeResponseStub.should.have.been.calledWith(
 				204,
 				{},
-				null,
+				undefined,
 				'http-io(no-content)'
 			);
 		});

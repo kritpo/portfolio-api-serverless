@@ -45,8 +45,8 @@ describe('ResumeLang', () => {
 
 			// configure the stub
 			readStub.withArgs('user_good_username', 'resume').resolves({
-				defaultLanguage: { languageCode: 'en', language: 'english' },
-				languages: [{ languageCode: 'en', language: 'english' }]
+				defaultLanguage: { languageCode: 'en', language: 'English' },
+				languages: [{ languageCode: 'en', language: 'English' }]
 			});
 			readStub
 				.withArgs('user_wrong_username', 'resume')
@@ -63,10 +63,10 @@ describe('ResumeLang', () => {
 
 			resumeLang.defaultLanguage.should.be.deep.equal({
 				languageCode: 'en',
-				language: 'english'
+				language: 'English'
 			});
 			resumeLang.languages.should.be.deep.equal([
-				{ languageCode: 'en', language: 'english' }
+				{ languageCode: 'en', language: 'English' }
 			]);
 		});
 
@@ -155,18 +155,18 @@ describe('ResumeLang', () => {
 					// execute the function
 					resumeLang.defaultLanguage = {
 						languageCode: 'en',
-						language: 'english'
+						language: 'English'
 					};
 					const result = resumeLang.defaultLanguage;
 
 					result.should.be.deep.equal({
 						languageCode: 'en',
-						language: 'english'
+						language: 'English'
 					});
 					checkResumeLangStub.checkLanguage.should.have.been.calledWith(
 						{
 							languageCode: 'en',
-							language: 'english'
+							language: 'English'
 						}
 					);
 				});
@@ -217,15 +217,15 @@ describe('ResumeLang', () => {
 				it('with sample set', () => {
 					// execute the function
 					resumeLang.languages = [
-						{ languageCode: 'en', language: 'english' }
+						{ languageCode: 'en', language: 'English' }
 					];
 					const result = resumeLang.languages;
 
 					result.should.be.deep.equal([
-						{ languageCode: 'en', language: 'english' }
+						{ languageCode: 'en', language: 'English' }
 					]);
 					checkResumeLangStub.checkLanguages.should.have.been.calledWith(
-						[{ languageCode: 'en', language: 'english' }]
+						[{ languageCode: 'en', language: 'English' }]
 					);
 				});
 

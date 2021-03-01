@@ -5,6 +5,7 @@ const sinon = require('sinon');
 
 // import the tested function dependency
 const checkRequiredParamType = require('../../../utils/checkRequiredParamType');
+const checkParamType = require('../../../utils/checkParamType');
 
 // retrieve the tested function
 const encodeResponse = require('./encodeResponse');
@@ -12,6 +13,7 @@ const encodeResponse = require('./encodeResponse');
 // configure the test suite
 describe('encodeResponse', () => {
 	let checkReqParamStub;
+	let checkParamStub;
 
 	// setup the stub
 	beforeEach(() => {
@@ -20,6 +22,7 @@ describe('encodeResponse', () => {
 			checkRequiredParamType,
 			'checkRequiredParamType'
 		);
+		checkParamStub = sinon.stub(checkParamType, 'checkParamType');
 	});
 
 	// reset the stub
@@ -56,7 +59,7 @@ describe('encodeResponse', () => {
 			'headers',
 			'dumb_scope'
 		);
-		checkReqParamStub.should.have.been.calledWith(
+		checkParamStub.should.have.been.calledWith(
 			{ data: 42 },
 			'object',
 			'body',
