@@ -414,6 +414,24 @@ describe('resumeGET', () => {
 		});
 	});
 
+	// configure the test with BAD REQUEST response
+	it('with BAD REQUEST response', async () => {
+		// initialize the sample http event
+		const sampleHttpEvent = httpEventGenerator('GET', false, {});
+
+		// retrieve the result of the handler
+		const result = await resumeGET(sampleHttpEvent);
+
+		result.should.be.deep.equal({
+			statusCode: 400,
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Credentials': true
+			},
+			body: JSON.stringify({ message: 'Bad Request' })
+		});
+	});
+
 	// configure the tests with NOT FOUND response
 	describe('with NOT FOUND response', () => {
 		// configure the test with inexistant user

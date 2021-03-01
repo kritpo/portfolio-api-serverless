@@ -369,6 +369,24 @@ describe('resumesPOST', () => {
 			});
 		});
 
+		// configure the test with no language code
+		it('with no language code', async () => {
+			// initialize the sample http event
+			const sampleHttpEvent = httpEventGenerator('POST', {});
+
+			// retrieve the result of the handler
+			const result = await resumesPOST(sampleHttpEvent);
+
+			result.should.be.deep.equal({
+				statusCode: 400,
+				headers: {
+					'Access-Control-Allow-Origin': '*',
+					'Access-Control-Allow-Credentials': true
+				},
+				body: JSON.stringify({ message: 'Bad Request' })
+			});
+		});
+
 		// configure the tests with bad language
 		describe('with bad language', () => {
 			// configure the test with existing resume languages container

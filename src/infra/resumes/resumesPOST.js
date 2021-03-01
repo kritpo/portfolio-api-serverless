@@ -15,6 +15,16 @@ const resumesPOST = async event => {
 	// decode the input event
 	const input = http.httpRequestDecode(event, true, true);
 
+	// check if the username or the language code is not defined
+	if (
+		input.user == undefined ||
+		input.user.username == undefined ||
+		input.body.languageCode === undefined
+	) {
+		// return a BAD REQUEST response
+		return http.badRequest();
+	}
+
 	// generate a new resume
 	const resume = new Resume(input.user.username, input.body.languageCode);
 

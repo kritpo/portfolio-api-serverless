@@ -14,6 +14,12 @@ const resumeLangGET = async event => {
 	// decode the input event
 	const input = http.httpRequestDecode(event, true);
 
+	// check if the username is not defined
+	if (input.params.username === undefined) {
+		// return a BAD REQUEST response
+		return http.badRequest();
+	}
+
 	// generate a new resume languages container
 	const resumeLang = new ResumeLang(input.params.username);
 

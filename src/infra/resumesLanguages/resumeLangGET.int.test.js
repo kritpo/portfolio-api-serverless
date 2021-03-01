@@ -63,6 +63,24 @@ describe('resumeLangGET', () => {
 		});
 	});
 
+	// configure the test with BAD REQUEST response
+	it('with BAD REQUEST response', async () => {
+		// initialize the sample http event
+		const sampleHttpEvent = httpEventGenerator('GET', false, {});
+
+		// retrieve the result of the handler
+		const result = await resumeLangGET(sampleHttpEvent);
+
+		result.should.be.deep.equal({
+			statusCode: 400,
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Credentials': true
+			},
+			body: JSON.stringify({ message: 'Bad Request' })
+		});
+	});
+
 	// configure the test with NOT FOUND response
 	it('with NOT FOUND response', async () => {
 		// initialize the sample http event

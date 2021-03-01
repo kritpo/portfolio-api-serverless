@@ -15,6 +15,12 @@ const resumeGET = async event => {
 	// decode the input event
 	const input = http.httpRequestDecode(event, true, true);
 
+	// check if the username is not defined
+	if (input.params.username === undefined) {
+		// return a BAD REQUEST response
+		return http.badRequest();
+	}
+
 	// initialize the response as a promise auto-resolved
 	let response = new Promise(resolve => resolve());
 
