@@ -1,3 +1,13 @@
+resumesPOST:
+    handler: src/infra/resumes.resumesPOST
+    events:
+        - http:
+              path: /resumes
+              method: post
+              cors: true
+              authorizer:
+                  arn: ${env:COGNITO_USER_POOL_ARN}
+
 resumeGET:
     handler: src/infra/resumes.resumeGET
     events:

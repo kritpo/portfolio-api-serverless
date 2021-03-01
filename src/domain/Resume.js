@@ -34,6 +34,46 @@ class Resume {
 	}
 
 	/**
+	 * create the resume
+	 * @param {function} dbCreate the data creator
+	 */
+	async create(dbCreate) {
+		// check if some attributes are not defined
+		if (
+			this.#basics === undefined ||
+			this.#work === undefined ||
+			this.#volunteer === undefined ||
+			this.#education === undefined ||
+			this.#projects === undefined ||
+			this.#skills === undefined ||
+			this.#languages === undefined ||
+			this.#interests === undefined ||
+			this.#references === undefined
+		) {
+			// throw a client resume error
+			throw new errors.ClientError('RESUME', 'resume attribute missing');
+		}
+
+		// put data into database
+		await dbCreate(this.#id1, this.#filter, null, {
+			basics: this.#basics,
+			work: this.#work,
+			volunteer: this.#volunteer,
+			education: this.#education,
+			projects: this.#projects,
+			skills: this.#skills,
+			languages: this.#languages,
+			interests: this.#interests,
+			references: this.#references
+		})
+			// catch db error
+			.catch(err => {
+				// throw server db error
+				throw new errors.ServerError(errors.ioTypes.DB, err.message);
+			});
+	}
+
+	/**
 	 * hydrate the resume
 	 * @param {function} dbReadByIdAndFilter the data reader
 	 */
