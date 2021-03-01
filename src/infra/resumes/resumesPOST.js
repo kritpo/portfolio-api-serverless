@@ -19,6 +19,7 @@ const resumesPOST = async event => {
 	if (
 		input.user == undefined ||
 		input.user.username == undefined ||
+		input.body == undefined ||
 		input.body.languageCode === undefined
 	) {
 		// return a BAD REQUEST response
@@ -54,7 +55,9 @@ const resumesPOST = async event => {
 						resumeLang.add(input.body.languageCode);
 
 						// update the resume languages container
-						return resumeLang.updateByReplace(ddb.dbUpdateByReplace);
+						return resumeLang.updateByReplace(
+							ddb.dbUpdateByReplace
+						);
 					})
 					.catch(err => {
 						// check if the error is a `not found` error
