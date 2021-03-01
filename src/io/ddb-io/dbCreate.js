@@ -48,7 +48,7 @@ const dbCreate = async (id1, filter, id2, data) => {
 			...data,
 			PK: id1,
 			SK: filter,
-			GSI: id2
+			GSI: id2 === null ? undefined : id2
 		}
 	};
 
