@@ -1,6 +1,6 @@
 {
 	"name": "portfolio-api-serverless",
-	"version": "0.10.0",
+	"version": "0.10.1",
 	"private": true,
 	"dependencies": {
 		"dotenv": "^8.2.0"
