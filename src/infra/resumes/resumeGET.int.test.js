@@ -26,10 +26,10 @@ describe('resumeGET', () => {
 							filter: 'resume',
 							defaultLanguage: {
 								languageCode: 'en',
-								language: 'english'
+								language: 'English'
 							},
 							languages: [
-								{ languageCode: 'en', language: 'english' }
+								{ languageCode: 'en', language: 'English' }
 							]
 						}
 					});
@@ -454,12 +454,12 @@ describe('resumeGET', () => {
 									filter: 'resume',
 									defaultLanguage: {
 										languageCode: 'en',
-										language: 'english'
+										language: 'English'
 									},
 									languages: [
 										{
 											languageCode: 'en',
-											language: 'english'
+											language: 'English'
 										}
 									]
 								}
@@ -508,12 +508,12 @@ describe('resumeGET', () => {
 									filter: 'resume',
 									defaultLanguage: {
 										languageCode: 'en',
-										language: 'english'
+										language: 'English'
 									},
 									languages: [
 										{
 											languageCode: 'en',
-											language: 'english'
+											language: 'English'
 										}
 									]
 								}

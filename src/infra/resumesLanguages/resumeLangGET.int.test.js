@@ -24,9 +24,9 @@ describe('resumeLangGET', () => {
 						filter: 'resume',
 						defaultLanguage: {
 							languageCode: 'en',
-							language: 'english'
+							language: 'English'
 						},
-						languages: [{ languageCode: 'en', language: 'english' }]
+						languages: [{ languageCode: 'en', language: 'English' }]
 					}
 				});
 			} else {
@@ -57,8 +57,8 @@ describe('resumeLangGET', () => {
 			},
 			body: JSON.stringify({
 				username: 'good_username',
-				defaultLanguage: { languageCode: 'en', language: 'english' },
-				languages: [{ languageCode: 'en', language: 'english' }]
+				defaultLanguage: { languageCode: 'en', language: 'English' },
+				languages: [{ languageCode: 'en', language: 'English' }]
 			})
 		});
 	});

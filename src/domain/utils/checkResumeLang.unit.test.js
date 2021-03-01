@@ -32,11 +32,11 @@ describe('checkResumeLang', () => {
 			// execute the function
 			checkResumeLang.checkLanguage({
 				languageCode: 'en',
-				language: 'english'
+				language: 'English'
 			});
 
 			checkReqParamTypeStub.should.have.been.calledWith(
-				{ languageCode: 'en', language: 'english' },
+				{ languageCode: 'en', language: 'English' },
 				'object',
 				'language',
 				'check-resume-lang(language)'
@@ -47,7 +47,7 @@ describe('checkResumeLang', () => {
 				'language.languageCode'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
-				'english',
+				'English',
 				'string',
 				'language.language',
 				'check-resume-lang(language)'
@@ -61,17 +61,17 @@ describe('checkResumeLang', () => {
 		it('with sample set', () => {
 			// execute the function
 			checkResumeLang.checkLanguages([
-				{ languageCode: 'en', language: 'english' }
+				{ languageCode: 'en', language: 'English' }
 			]);
 
 			checkReqParamTypeStub.should.have.been.calledWith(
-				[{ languageCode: 'en', language: 'english' }],
+				[{ languageCode: 'en', language: 'English' }],
 				'object',
 				'languages',
 				'check-resume-lang(languages)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
-				{ languageCode: 'en', language: 'english' },
+				{ languageCode: 'en', language: 'English' },
 				'object',
 				'language',
 				'check-resume-lang(language)'
@@ -83,7 +83,7 @@ describe('checkResumeLang', () => {
 				'check-resume-lang(language)'
 			);
 			checkReqParamTypeStub.should.have.been.calledWith(
-				'english',
+				'English',
 				'string',
 				'language.language',
 				'check-resume-lang(language)'

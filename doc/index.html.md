@@ -658,10 +658,10 @@ GET https://api.jimmyweng.fr/resumes/{username}/languages
 ```json
 {
 	"username": "john",
-	"defaultLanguage": { "languageCode": "en", "language": "english" },
+	"defaultLanguage": { "languageCode": "en", "language": "English" },
 	"languages": [
-		{ "languageCode": "en", "language": "english" },
-		{ "languageCode": "fr", "language": "français" }
+		{ "languageCode": "en", "language": "English" },
+		{ "languageCode": "fr", "language": "Français" }
 	]
 }
 ```
