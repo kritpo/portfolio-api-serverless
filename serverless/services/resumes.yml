@@ -19,3 +19,17 @@ resumeGET:
                   parameters:
                       paths:
                           username: true
+
+resumePUT:
+    handler: src/infra/resumes.resumePUT
+    events:
+        - http:
+              path: /resumes/{username}
+              method: put
+              cors: true
+              request:
+                  parameters:
+                      paths:
+                          username: true
+              authorizer:
+                  arn: ${env:COGNITO_USER_POOL_ARN}

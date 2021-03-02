@@ -124,6 +124,138 @@ class Resume {
 	}
 
 	/**
+	 * update the resume
+	 * @param {function} dbUpdateByExpression the data updater
+	 */
+	async updateByExpression(dbUpdateByExpression) {
+		// initialize containers
+		const expressions = [];
+		const names = {};
+		const values = {};
+
+		// check if each attribute is defined
+		// if so, add the update expression, and values identifiers
+		if (this.#basics !== undefined) {
+			expressions.push('#basics = :basics');
+			names['#basics'] = 'basics';
+			values[':basics'] = this.#basics;
+		}
+		if (this.#work !== undefined) {
+			expressions.push('#work = :work');
+			names['#work'] = 'work';
+			values[':work'] = this.#work;
+		}
+		if (this.#volunteer !== undefined) {
+			expressions.push('#volunteer = :volunteer');
+			names['#volunteer'] = 'volunteer';
+			values[':volunteer'] = this.#volunteer;
+		}
+		if (this.#education !== undefined) {
+			expressions.push('#education = :education');
+			names['#education'] = 'education';
+			values[':education'] = this.#education;
+		}
+		if (this.#projects !== undefined) {
+			expressions.push('#projects = :projects');
+			names['#projects'] = 'projects';
+			values[':projects'] = this.#projects;
+		}
+		if (this.#skills !== undefined) {
+			expressions.push('#skills = :skills');
+			names['#skills'] = 'skills';
+			values[':skills'] = this.#skills;
+		}
+		if (this.#languages !== undefined) {
+			expressions.push('#languages = :languages');
+			names['#languages'] = 'languages';
+			values[':languages'] = this.#languages;
+		}
+		if (this.#interests !== undefined) {
+			expressions.push('#interests = :interests');
+			names['#interests'] = 'interests';
+			values[':interests'] = this.#interests;
+		}
+		if (this.#references !== undefined) {
+			expressions.push('#references = :references');
+			names['#references'] = 'references';
+			values[':references'] = this.#references;
+		}
+
+		// check if no update is asked
+		if (expressions.length === 0) {
+			// throw a client request error
+			throw new errors.ClientError(
+				'RESUME',
+				'no resume attribute to update'
+			);
+		}
+
+		// update data in the database
+		return (
+			dbUpdateByExpression(
+				this.#id1,
+				this.#filter,
+				expressions.join(', '),
+				names,
+				values
+			)
+				// catch db error
+				.catch(err => {
+					// throw server db error
+					throw new errors.ServerError(
+						errors.ioTypes.DB,
+						err.message
+					);
+				})
+		);
+	}
+
+	/**
+	 * replace the resume
+	 * @param {function} dbUpdateByReplace the data updater
+	 */
+	async updateByReplace(dbUpdateByReplace) {
+		// check if some attributes are not defined
+		if (
+			this.#basics === undefined ||
+			this.#work === undefined ||
+			this.#volunteer === undefined ||
+			this.#education === undefined ||
+			this.#projects === undefined ||
+			this.#skills === undefined ||
+			this.#languages === undefined ||
+			this.#interests === undefined ||
+			this.#references === undefined
+		) {
+			// throw a client resume error
+			throw new errors.ClientError('RESUME', 'resume attribute missing');
+		}
+
+		// replace data in the database
+		return (
+			dbUpdateByReplace(this.#id1, this.#filter, {
+				basics: this.#basics,
+				work: this.#work,
+				volunteer: this.#volunteer,
+				education: this.#education,
+				projects: this.#projects,
+				skills: this.#skills,
+				languages: this.#languages,
+				interests: this.#interests,
+				references: this.#references
+			})
+				// catch db error
+				.catch(err => {
+					// throw server db error
+					throw new errors.ServerError(
+						errors.ioTypes.DB,
+						err.message
+					);
+				})
+		);
+	}
+
+	/**
 	 * the owner of the resume
 	 */
 	get username() {

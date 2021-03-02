@@ -450,6 +450,67 @@ describe('ResumeLang', () => {
 		});
 	});
 
+	// configure the tests of contains
+	describe('contains', () => {
+		// configure the test with existant language
+		it('with existant language', () => {
+			// initialize the resume languages container
+			const resumeLang = new ResumeLang('dumb_username');
+
+			// configure the resume languages container
+			resumeLang.defaultLanguage = {
+				languageCode: 'en',
+				language: 'English'
+			};
+			resumeLang.languages = [
+				{
+					languageCode: 'en',
+					language: 'English'
+				}
+			];
+
+			// execute the function
+			resumeLang.contains('en');
+
+			// nothing should happen
+		});
+
+		// configure the test with new language
+		it('with new language', () => {
+			// try to execute the function
+			try {
+				// initialize the resume languages container
+				const resumeLang = new ResumeLang('dumb_username');
+
+				// configure the resume languages container
+				resumeLang.defaultLanguage = {
+					languageCode: 'en',
+					language: 'English'
+				};
+				resumeLang.languages = [
+					{
+						languageCode: 'en',
+						language: 'English'
+					}
+				];
+
+				// execute the function
+				resumeLang.contains('fr');
+
+				// shouldn't be executed
+				true.should.be.equal(false, 'should not be executed');
+			} catch (e) {
+				e.should.be
+					.a('Error')
+					.which.have.property('message', 'dumb_not_found_error');
+				notFoundErrorStub.should.have.been.calledWith(
+					'RESUME_LANG',
+					'language not defined'
+				);
+			}
+		});
+	});
+
 	// configure the tests of getters and setters
 	describe('getters and setters', () => {
 		let resumeLang;

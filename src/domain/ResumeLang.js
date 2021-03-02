@@ -132,6 +132,10 @@ class ResumeLang {
 		);
 	}
 
+	/**
+	 * add a language code into the resume languages container
+	 * @param {string} languageCode the language code
+	 */
 	add(languageCode) {
 		// check if the language code is not correct
 		if (languageConst[languageCode] === undefined) {
@@ -165,6 +169,26 @@ class ResumeLang {
 			throw new errors.ClientError(
 				'RESUME_LANG',
 				'language already exist'
+			);
+		}
+	}
+
+	/**
+	 * check if the language code is in the resume languages container
+	 * @param {string} languageCode the language code
+	 */
+	contains(languageCode) {
+		// retrieve the language in the languages container
+		const foundedLanguages = this.#languages.find(
+			lang => lang.languageCode === languageCode
+		);
+
+		// check if the language is not already in the languages container
+		if (foundedLanguages === undefined) {
+			// throw a client error
+			throw new errors.NotFoundError(
+				'RESUME_LANG',
+				'language not defined'
 			);
 		}
 	}

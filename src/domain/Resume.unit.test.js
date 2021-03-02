@@ -52,7 +52,7 @@ describe('Resume', () => {
 			// initialize the resume
 			const resume = new Resume('dumb_username', 'dumb_language');
 
-			// configure the resume languages container
+			// configure the resume
 			resume.basics = {
 				name: 'John DOE',
 				label: 'Programmer',
@@ -295,7 +295,7 @@ describe('Resume', () => {
 				// initialize the resume
 				const resume = new Resume('dumb_username', 'dumb_language');
 
-				// configure the resume languages container
+				// configure the resume
 				resume.basics = {
 					name: 'John DOE',
 					label: 'Programmer',
@@ -675,6 +675,962 @@ describe('Resume', () => {
 
 				// execute the function
 				await resume.hydrate(readStub);
+
+				// shouldn't be executed
+				true.should.be.equal(false, 'should not be executed');
+			} catch (e) {
+				e.should.be
+					.a('Error')
+					.which.have.property('message', 'dumb_server_error');
+				serverErrorStub.should.have.been.calledWith('DB', 'dumb_error');
+			}
+		});
+	});
+
+	// configure the tests of update by expression
+	describe('updateByExpression', () => {
+		let updateStub;
+
+		// setup the resume
+		beforeEach(() => {
+			// initialize the stub
+			updateStub = sinon.stub();
+
+			// configure the stub
+			updateStub.resolves();
+		});
+
+		// configure the tests with right data
+		describe('with right data', async () => {
+			// configure the test with all data
+			it('with all data', async () => {
+				// initialize the resume
+				const resume = new Resume('dumb_username', 'dumb_language');
+
+				// configure the resume
+				resume.basics = {
+					name: 'John DOE',
+					label: 'Programmer',
+					picture: 'https://website.com/picture.jpg',
+					email: 'john@gmail.com',
+					phone: '(912) 555-4321',
+					website: 'http://johndoe.com',
+					summary: 'A summary of John Doe...',
+					location: {
+						address: '2712 Broadway St',
+						postalCode: 'CA 94115',
+						city: 'San Francisco',
+						countryCode: 'US',
+						region: 'California'
+					},
+					profiles: [
+						{
+							network: 'Twitter',
+							username: 'john',
+							url: 'http://twitter.com/john'
+						}
+					]
+				};
+				resume.work = [
+					{
+						isInternship: true,
+						company: 'Company',
+						position: 'Programmer',
+						website: 'https://company.com/',
+						startDate: '2019-01-01',
+						endDate: '2020-01-01',
+						summary: 'Description...',
+						highlights: ['CProject']
+					}
+				];
+				resume.volunteer = [
+					{
+						organization: 'Organization',
+						position: 'Volunteer',
+						website: 'https://organization.fr/',
+						startDate: '2019-01-01',
+						endDate: '2020-01-01',
+						summary: 'Description...',
+						highlights: ["Organization's website"]
+					}
+				];
+				resume.education = [
+					{
+						institution: 'School',
+						area: 'Computer Science',
+						studyType: 'Engineering Studies',
+						startDate: '2018-09-01',
+						endDate: '2020-07-01',
+						gpa: '4',
+						courses: [
+							{
+								category: 'Y1',
+								courses: ['TS1001 - Algorithmic']
+							}
+						]
+					}
+				];
+				resume.projects = [
+					{
+						name: 'Project',
+						summary: 'A single project to do everything!',
+						startDate: '2018-09-01',
+						endDate: '2020-07-01',
+						picture: 'https://website.com/cproject-picture.jpg',
+						url: 'https://github.com/john/cproject',
+						technologies: ['Javascript']
+					}
+				];
+				resume.skills = [
+					{
+						name: 'Javascript',
+						level: 'Advanced'
+					}
+				];
+				resume.languages = [
+					{
+						language: 'French',
+						fluency: 'Advanced'
+					}
+				];
+				resume.interests = [
+					{
+						name: 'Computer',
+						keywords: [
+							'Problem solving',
+							'Programming',
+							'Algorithmic'
+						]
+					}
+				];
+				resume.references = [
+					{
+						name: 'Jane Doe',
+						reference: 'Reference...'
+					}
+				];
+
+				// execute the function
+				await resume.updateByExpression(updateStub);
+
+				updateStub.should.have.been.calledWith(
+					'user_dumb_username',
+					'resume_dumb_language',
+					'#basics = :basics, #work = :work, #volunteer = :volunteer, #education = :education, #projects = :projects, #skills = :skills, #languages = :languages, #interests = :interests, #references = :references',
+					{
+						'#basics': 'basics',
+						'#work': 'work',
+						'#volunteer': 'volunteer',
+						'#education': 'education',
+						'#projects': 'projects',
+						'#skills': 'skills',
+						'#languages': 'languages',
+						'#interests': 'interests',
+						'#references': 'references'
+					},
+					{
+						':basics': {
+							name: 'John DOE',
+							label: 'Programmer',
+							picture: 'https://website.com/picture.jpg',
+							email: 'john@gmail.com',
+							phone: '(912) 555-4321',
+							website: 'http://johndoe.com',
+							summary: 'A summary of John Doe...',
+							location: {
+								address: '2712 Broadway St',
+								postalCode: 'CA 94115',
+								city: 'San Francisco',
+								countryCode: 'US',
+								region: 'California'
+							},
+							profiles: [
+								{
+									network: 'Twitter',
+									username: 'john',
+									url: 'http://twitter.com/john'
+								}
+							]
+						},
+						':work': [
+							{
+								isInternship: true,
+								company: 'Company',
+								position: 'Programmer',
+								website: 'https://company.com/',
+								startDate: '2019-01-01',
+								endDate: '2020-01-01',
+								summary: 'Description...',
+								highlights: ['CProject']
+							}
+						],
+						':volunteer': [
+							{
+								organization: 'Organization',
+								position: 'Volunteer',
+								website: 'https://organization.fr/',
+								startDate: '2019-01-01',
+								endDate: '2020-01-01',
+								summary: 'Description...',
+								highlights: ["Organization's website"]
+							}
+						],
+						':education': [
+							{
+								institution: 'School',
+								area: 'Computer Science',
+								studyType: 'Engineering Studies',
+								startDate: '2018-09-01',
+								endDate: '2020-07-01',
+								gpa: '4',
+								courses: [
+									{
+										category: 'Y1',
+										courses: ['TS1001 - Algorithmic']
+									}
+								]
+							}
+						],
+						':projects': [
+							{
+								name: 'Project',
+								summary: 'A single project to do everything!',
+								startDate: '2018-09-01',
+								endDate: '2020-07-01',
+								picture:
+									'https://website.com/cproject-picture.jpg',
+								url: 'https://github.com/john/cproject',
+								technologies: ['Javascript']
+							}
+						],
+						':skills': [
+							{
+								name: 'Javascript',
+								level: 'Advanced'
+							}
+						],
+						':languages': [
+							{
+								language: 'French',
+								fluency: 'Advanced'
+							}
+						],
+						':interests': [
+							{
+								name: 'Computer',
+								keywords: [
+									'Problem solving',
+									'Programming',
+									'Algorithmic'
+								]
+							}
+						],
+						':references': [
+							{
+								name: 'Jane Doe',
+								reference: 'Reference...'
+							}
+						]
+					}
+				);
+			});
+
+			// configure the test with first half data
+			it('with first half data', async () => {
+				// initialize the resume
+				const resume = new Resume('dumb_username', 'dumb_language');
+
+				// configure the resume
+				resume.basics = {
+					name: 'John DOE',
+					label: 'Programmer',
+					picture: 'https://website.com/picture.jpg',
+					email: 'john@gmail.com',
+					phone: '(912) 555-4321',
+					website: 'http://johndoe.com',
+					summary: 'A summary of John Doe...',
+					location: {
+						address: '2712 Broadway St',
+						postalCode: 'CA 94115',
+						city: 'San Francisco',
+						countryCode: 'US',
+						region: 'California'
+					},
+					profiles: [
+						{
+							network: 'Twitter',
+							username: 'john',
+							url: 'http://twitter.com/john'
+						}
+					]
+				};
+				resume.work = [
+					{
+						isInternship: true,
+						company: 'Company',
+						position: 'Programmer',
+						website: 'https://company.com/',
+						startDate: '2019-01-01',
+						endDate: '2020-01-01',
+						summary: 'Description...',
+						highlights: ['CProject']
+					}
+				];
+				resume.volunteer = [
+					{
+						organization: 'Organization',
+						position: 'Volunteer',
+						website: 'https://organization.fr/',
+						startDate: '2019-01-01',
+						endDate: '2020-01-01',
+						summary: 'Description...',
+						highlights: ["Organization's website"]
+					}
+				];
+				resume.education = [
+					{
+						institution: 'School',
+						area: 'Computer Science',
+						studyType: 'Engineering Studies',
+						startDate: '2018-09-01',
+						endDate: '2020-07-01',
+						gpa: '4',
+						courses: [
+							{
+								category: 'Y1',
+								courses: ['TS1001 - Algorithmic']
+							}
+						]
+					}
+				];
+				resume.projects = [
+					{
+						name: 'Project',
+						summary: 'A single project to do everything!',
+						startDate: '2018-09-01',
+						endDate: '2020-07-01',
+						picture: 'https://website.com/cproject-picture.jpg',
+						url: 'https://github.com/john/cproject',
+						technologies: ['Javascript']
+					}
+				];
+
+				// execute the function
+				await resume.updateByExpression(updateStub);
+
+				updateStub.should.have.been.calledWith(
+					'user_dumb_username',
+					'resume_dumb_language',
+					'#basics = :basics, #work = :work, #volunteer = :volunteer, #education = :education, #projects = :projects',
+					{
+						'#basics': 'basics',
+						'#work': 'work',
+						'#volunteer': 'volunteer',
+						'#education': 'education',
+						'#projects': 'projects'
+					},
+					{
+						':basics': {
+							name: 'John DOE',
+							label: 'Programmer',
+							picture: 'https://website.com/picture.jpg',
+							email: 'john@gmail.com',
+							phone: '(912) 555-4321',
+							website: 'http://johndoe.com',
+							summary: 'A summary of John Doe...',
+							location: {
+								address: '2712 Broadway St',
+								postalCode: 'CA 94115',
+								city: 'San Francisco',
+								countryCode: 'US',
+								region: 'California'
+							},
+							profiles: [
+								{
+									network: 'Twitter',
+									username: 'john',
+									url: 'http://twitter.com/john'
+								}
+							]
+						},
+						':work': [
+							{
+								isInternship: true,
+								company: 'Company',
+								position: 'Programmer',
+								website: 'https://company.com/',
+								startDate: '2019-01-01',
+								endDate: '2020-01-01',
+								summary: 'Description...',
+								highlights: ['CProject']
+							}
+						],
+						':volunteer': [
+							{
+								organization: 'Organization',
+								position: 'Volunteer',
+								website: 'https://organization.fr/',
+								startDate: '2019-01-01',
+								endDate: '2020-01-01',
+								summary: 'Description...',
+								highlights: ["Organization's website"]
+							}
+						],
+						':education': [
+							{
+								institution: 'School',
+								area: 'Computer Science',
+								studyType: 'Engineering Studies',
+								startDate: '2018-09-01',
+								endDate: '2020-07-01',
+								gpa: '4',
+								courses: [
+									{
+										category: 'Y1',
+										courses: ['TS1001 - Algorithmic']
+									}
+								]
+							}
+						],
+						':projects': [
+							{
+								name: 'Project',
+								summary: 'A single project to do everything!',
+								startDate: '2018-09-01',
+								endDate: '2020-07-01',
+								picture:
+									'https://website.com/cproject-picture.jpg',
+								url: 'https://github.com/john/cproject',
+								technologies: ['Javascript']
+							}
+						]
+					}
+				);
+			});
+
+			// configure the test with second half data
+			it('with second half data', async () => {
+				// initialize the resume
+				const resume = new Resume('dumb_username', 'dumb_language');
+
+				// configure the resume
+				resume.skills = [
+					{
+						name: 'Javascript',
+						level: 'Advanced'
+					}
+				];
+				resume.languages = [
+					{
+						language: 'French',
+						fluency: 'Advanced'
+					}
+				];
+				resume.interests = [
+					{
+						name: 'Computer',
+						keywords: [
+							'Problem solving',
+							'Programming',
+							'Algorithmic'
+						]
+					}
+				];
+				resume.references = [
+					{
+						name: 'Jane Doe',
+						reference: 'Reference...'
+					}
+				];
+
+				// execute the function
+				await resume.updateByExpression(updateStub);
+
+				updateStub.should.have.been.calledWith(
+					'user_dumb_username',
+					'resume_dumb_language',
+					'#skills = :skills, #languages = :languages, #interests = :interests, #references = :references',
+					{
+						'#skills': 'skills',
+						'#languages': 'languages',
+						'#interests': 'interests',
+						'#references': 'references'
+					},
+					{
+						':skills': [
+							{
+								name: 'Javascript',
+								level: 'Advanced'
+							}
+						],
+						':languages': [
+							{
+								language: 'French',
+								fluency: 'Advanced'
+							}
+						],
+						':interests': [
+							{
+								name: 'Computer',
+								keywords: [
+									'Problem solving',
+									'Programming',
+									'Algorithmic'
+								]
+							}
+						],
+						':references': [
+							{
+								name: 'Jane Doe',
+								reference: 'Reference...'
+							}
+						]
+					}
+				);
+			});
+		});
+
+		// configure the test with no data
+		it('with no data', async () => {
+			// try to execute the function
+			try {
+				// initialize the resume
+				const resume = new Resume('dumb_username', 'dumb_language');
+
+				// execute the function
+				await resume.updateByExpression(updateStub);
+
+				// shouldn't be executed
+				true.should.be.equal(false, 'should not be executed');
+			} catch (e) {
+				e.should.be
+					.a('Error')
+					.which.have.property('message', 'dumb_client_error');
+				clientErrorStub.should.have.been.calledWith(
+					'RESUME',
+					'no resume attribute to update'
+				);
+				updateStub.should.not.have.been.called;
+			}
+		});
+
+		// configure the test with emulated db error
+		it('with emulated db error', async () => {
+			// try to execute the function
+			try {
+				// initialize the resume
+				const resume = new Resume('dumb_username', 'dumb_language');
+
+				// configure the resume with minimum data
+				resume.basics = {
+					name: 'John DOE',
+					label: 'Programmer',
+					picture: 'https://website.com/picture.jpg',
+					email: 'john@gmail.com',
+					phone: '(912) 555-4321',
+					website: 'http://johndoe.com',
+					summary: 'A summary of John Doe...',
+					location: {
+						address: '2712 Broadway St',
+						postalCode: 'CA 94115',
+						city: 'San Francisco',
+						countryCode: 'US',
+						region: 'California'
+					},
+					profiles: [
+						{
+							network: 'Twitter',
+							username: 'john',
+							url: 'http://twitter.com/john'
+						}
+					]
+				};
+
+				// configure the stub
+				updateStub.rejects(new Error('dumb_error'));
+
+				// execute the function
+				await resume.updateByExpression(updateStub);
+
+				// shouldn't be executed
+				true.should.be.equal(false, 'should not be executed');
+			} catch (e) {
+				e.should.be
+					.a('Error')
+					.which.have.property('message', 'dumb_server_error');
+				serverErrorStub.should.have.been.calledWith('DB', 'dumb_error');
+			}
+		});
+	});
+
+	// configure the tests of update by replace
+	describe('updateByReplace', () => {
+		let updateStub;
+
+		// setup the resume
+		beforeEach(() => {
+			// initialize the stub
+			updateStub = sinon.stub();
+
+			// configure the stub
+			updateStub.resolves();
+		});
+
+		// configure the test with right data
+		it('with right data', async () => {
+			// initialize the resume
+			const resume = new Resume('dumb_username', 'dumb_language');
+
+			// configure the resume
+			resume.basics = {
+				name: 'John DOE',
+				label: 'Programmer',
+				picture: 'https://website.com/picture.jpg',
+				email: 'john@gmail.com',
+				phone: '(912) 555-4321',
+				website: 'http://johndoe.com',
+				summary: 'A summary of John Doe...',
+				location: {
+					address: '2712 Broadway St',
+					postalCode: 'CA 94115',
+					city: 'San Francisco',
+					countryCode: 'US',
+					region: 'California'
+				},
+				profiles: [
+					{
+						network: 'Twitter',
+						username: 'john',
+						url: 'http://twitter.com/john'
+					}
+				]
+			};
+			resume.work = [
+				{
+					isInternship: true,
+					company: 'Company',
+					position: 'Programmer',
+					website: 'https://company.com/',
+					startDate: '2019-01-01',
+					endDate: '2020-01-01',
+					summary: 'Description...',
+					highlights: ['CProject']
+				}
+			];
+			resume.volunteer = [
+				{
+					organization: 'Organization',
+					position: 'Volunteer',
+					website: 'https://organization.fr/',
+					startDate: '2019-01-01',
+					endDate: '2020-01-01',
+					summary: 'Description...',
+					highlights: ["Organization's website"]
+				}
+			];
+			resume.education = [
+				{
+					institution: 'School',
+					area: 'Computer Science',
+					studyType: 'Engineering Studies',
+					startDate: '2018-09-01',
+					endDate: '2020-07-01',
+					gpa: '4',
+					courses: [
+						{
+							category: 'Y1',
+							courses: ['TS1001 - Algorithmic']
+						}
+					]
+				}
+			];
+			resume.projects = [
+				{
+					name: 'Project',
+					summary: 'A single project to do everything!',
+					startDate: '2018-09-01',
+					endDate: '2020-07-01',
+					picture: 'https://website.com/cproject-picture.jpg',
+					url: 'https://github.com/john/cproject',
+					technologies: ['Javascript']
+				}
+			];
+			resume.skills = [
+				{
+					name: 'Javascript',
+					level: 'Advanced'
+				}
+			];
+			resume.languages = [
+				{
+					language: 'French',
+					fluency: 'Advanced'
+				}
+			];
+			resume.interests = [
+				{
+					name: 'Computer',
+					keywords: ['Problem solving', 'Programming', 'Algorithmic']
+				}
+			];
+			resume.references = [
+				{
+					name: 'Jane Doe',
+					reference: 'Reference...'
+				}
+			];
+
+			// execute the function
+			await resume.updateByReplace(updateStub);
+
+			updateStub.should.have.been.calledWith(
+				'user_dumb_username',
+				'resume_dumb_language',
+				{
+					basics: {
+						name: 'John DOE',
+						label: 'Programmer',
+						picture: 'https://website.com/picture.jpg',
+						email: 'john@gmail.com',
+						phone: '(912) 555-4321',
+						website: 'http://johndoe.com',
+						summary: 'A summary of John Doe...',
+						location: {
+							address: '2712 Broadway St',
+							postalCode: 'CA 94115',
+							city: 'San Francisco',
+							countryCode: 'US',
+							region: 'California'
+						},
+						profiles: [
+							{
+								network: 'Twitter',
+								username: 'john',
+								url: 'http://twitter.com/john'
+							}
+						]
+					},
+					work: [
+						{
+							isInternship: true,
+							company: 'Company',
+							position: 'Programmer',
+							website: 'https://company.com/',
+							startDate: '2019-01-01',
+							endDate: '2020-01-01',
+							summary: 'Description...',
+							highlights: ['CProject']
+						}
+					],
+					volunteer: [
+						{
+							organization: 'Organization',
+							position: 'Volunteer',
+							website: 'https://organization.fr/',
+							startDate: '2019-01-01',
+							endDate: '2020-01-01',
+							summary: 'Description...',
+							highlights: ["Organization's website"]
+						}
+					],
+					education: [
+						{
+							institution: 'School',
+							area: 'Computer Science',
+							studyType: 'Engineering Studies',
+							startDate: '2018-09-01',
+							endDate: '2020-07-01',
+							gpa: '4',
+							courses: [
+								{
+									category: 'Y1',
+									courses: ['TS1001 - Algorithmic']
+								}
+							]
+						}
+					],
+					projects: [
+						{
+							name: 'Project',
+							summary: 'A single project to do everything!',
+							startDate: '2018-09-01',
+							endDate: '2020-07-01',
+							picture: 'https://website.com/cproject-picture.jpg',
+							url: 'https://github.com/john/cproject',
+							technologies: ['Javascript']
+						}
+					],
+					skills: [
+						{
+							name: 'Javascript',
+							level: 'Advanced'
+						}
+					],
+					languages: [
+						{
+							language: 'French',
+							fluency: 'Advanced'
+						}
+					],
+					interests: [
+						{
+							name: 'Computer',
+							keywords: [
+								'Problem solving',
+								'Programming',
+								'Algorithmic'
+							]
+						}
+					],
+					references: [
+						{
+							name: 'Jane Doe',
+							reference: 'Reference...'
+						}
+					]
+				}
+			);
+		});
+
+		// configure the test with no data
+		it('with no data', async () => {
+			// try to execute the function
+			try {
+				// initialize the resume
+				const resume = new Resume('dumb_username', 'dumb_language');
+
+				// execute the function
+				await resume.updateByReplace(updateStub);
+
+				// shouldn't be executed
+				true.should.be.equal(false, 'should not be executed');
+			} catch (e) {
+				e.should.be
+					.a('Error')
+					.which.have.property('message', 'dumb_client_error');
+				clientErrorStub.should.have.been.calledWith(
+					'RESUME',
+					'resume attribute missing'
+				);
+				updateStub.should.not.have.been.called;
+			}
+		});
+
+		// configure the test with emulated db error
+		it('with emulated db error', async () => {
+			// try to execute the function
+			try {
+				// initialize the resume
+				const resume = new Resume('dumb_username', 'dumb_language');
+
+				// configure the resume
+				resume.basics = {
+					name: 'John DOE',
+					label: 'Programmer',
+					picture: 'https://website.com/picture.jpg',
+					email: 'john@gmail.com',
+					phone: '(912) 555-4321',
+					website: 'http://johndoe.com',
+					summary: 'A summary of John Doe...',
+					location: {
+						address: '2712 Broadway St',
+						postalCode: 'CA 94115',
+						city: 'San Francisco',
+						countryCode: 'US',
+						region: 'California'
+					},
+					profiles: [
+						{
+							network: 'Twitter',
+							username: 'john',
+							url: 'http://twitter.com/john'
+						}
+					]
+				};
+				resume.work = [
+					{
+						isInternship: true,
+						company: 'Company',
+						position: 'Programmer',
+						website: 'https://company.com/',
+						startDate: '2019-01-01',
+						endDate: '2020-01-01',
+						summary: 'Description...',
+						highlights: ['CProject']
+					}
+				];
+				resume.volunteer = [
+					{
+						organization: 'Organization',
+						position: 'Volunteer',
+						website: 'https://organization.fr/',
+						startDate: '2019-01-01',
+						endDate: '2020-01-01',
+						summary: 'Description...',
+						highlights: ["Organization's website"]
+					}
+				];
+				resume.education = [
+					{
+						institution: 'School',
+						area: 'Computer Science',
+						studyType: 'Engineering Studies',
+						startDate: '2018-09-01',
+						endDate: '2020-07-01',
+						gpa: '4',
+						courses: [
+							{
+								category: 'Y1',
+								courses: ['TS1001 - Algorithmic']
+							}
+						]
+					}
+				];
+				resume.projects = [
+					{
+						name: 'Project',
+						summary: 'A single project to do everything!',
+						startDate: '2018-09-01',
+						endDate: '2020-07-01',
+						picture: 'https://website.com/cproject-picture.jpg',
+						url: 'https://github.com/john/cproject',
+						technologies: ['Javascript']
+					}
+				];
+				resume.skills = [
+					{
+						name: 'Javascript',
+						level: 'Advanced'
+					}
+				];
+				resume.languages = [
+					{
+						language: 'French',
+						fluency: 'Advanced'
+					}
+				];
+				resume.interests = [
+					{
+						name: 'Computer',
+						keywords: [
+							'Problem solving',
+							'Programming',
+							'Algorithmic'
+						]
+					}
+				];
+				resume.references = [
+					{
+						name: 'Jane Doe',
+						reference: 'Reference...'
+					}
+				];
+
+				// configure the stub
+				updateStub.rejects(new Error('dumb_error'));
+
+				// execute the function
+				await resume.updateByReplace(updateStub);
 
 				// shouldn't be executed
 				true.should.be.equal(false, 'should not be executed');
