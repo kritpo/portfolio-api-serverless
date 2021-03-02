@@ -13,7 +13,7 @@ const ResumeLang = require('../../domain/ResumeLang');
 
 const resumesPOST = async event => {
 	// decode the input event
-	const input = http.httpRequestDecode(event, true, true);
+	const input = http.httpRequestDecode(event, true);
 
 	// check if the username or the language code is not defined
 	if (

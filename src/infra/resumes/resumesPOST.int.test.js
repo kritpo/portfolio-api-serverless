@@ -51,8 +51,8 @@ describe('resumesPOST', () => {
 	// reset the aws mock
 	afterEach(() => AWS.restore());
 
-	// configure the tests with OK response
-	describe('with OK response', () => {
+	// configure the tests with CREATED response
+	describe('with CREATED response', () => {
 		// configure the test with existing resume languages container
 		it('with existing resume languages container', async () => {
 			// initialize the sample http event
