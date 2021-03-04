@@ -683,3 +683,43 @@ On success, the HTTP status code in the response header is <strong><em>200 OK</e
 <aside class="warning">
 On error, the HTTP status code in the response header is an <a href="#errors"><strong><em>error code</em></strong></a> and the response body contains an object with the associated <a href="#errors"><strong><em>error message</em></strong></a> in the <em>message</em> property in JSON format.
 </aside>
+
+## Update Default Language of a Resume
+
+```http
+PUT https://api.jimmyweng.fr/resumes/{username}/languages
+```
+
+> JSON request:
+
+```json
+{
+	"languageCode": "en"
+}
+```
+
+Put a new default language to replace the previous one.
+
+### Request
+
+| HEADER        | TYPE   | REQUIRED     | DESCRIPTION                            |
+| ------------- | ------ | ------------ | -------------------------------------- |
+| Authorization | String | **Required** | The access token given by AWS Cognito. |
+
+| PATH PARAMETER | TYPE   | REQUIRED     | DESCRIPTION                              |
+| -------------- | ------ | ------------ | ---------------------------------------- |
+| {username}     | String | **Required** | The username of the owner of the resume. |
+
+| JSON BODY PARAMETER | TYPE   | REQUIRED     | DESCRIPTION                                                          |
+| ------------------- | ------ | ------------ | -------------------------------------------------------------------- |
+| languageCode        | String | **Required** | The language code of the resume (must be standardized to ISO 639-1). |
+
+### Response
+
+<aside class="success">
+On success, the HTTP status code in the response header is <strong><em>204 NO CONTENT</em></strong> and the response body will be empty.
+</aside>
+
+<aside class="warning">
+On error, the HTTP status code in the response header is an <a href="#errors"><strong><em>error code</em></strong></a> and the response body contains an object with the associated <a href="#errors"><strong><em>error message</em></strong></a> in the <em>message</em> property in JSON format.
+</aside>
