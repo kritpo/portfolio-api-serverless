@@ -9,3 +9,17 @@ resumeLangGET:
                   parameters:
                       paths:
                           username: true
+
+resumeLangPUT:
+    handler: src/infra/resumesLanguages.resumeLangPUT
+    events:
+        - http:
+              path: /resumes/{username}/languages
+              method: put
+              cors: true
+              request:
+                  parameters:
+                      paths:
+                          username: true
+              authorizer:
+                  arn: ${env:COGNITO_USER_POOL_ARN}

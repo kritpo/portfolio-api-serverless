@@ -152,6 +152,26 @@ class ResumeLang {
 	}
 
 	/**
+	 * update the default language of the resume languages container
+	 * @param {string} languageCode the language code
+	 */
+	updateDefaultLanguage(languageCode) {
+		// retrieve the language in the languages container
+		const foundedLanguagesIndex = this.#languages.findIndex(
+			lang => lang.languageCode === languageCode
+		);
+
+		// check if the language is not in the resume languages container
+		if (foundedLanguagesIndex === -1) {
+			// throw a client error
+			throw new errors.ClientError('RESUME_LANG', 'language not exist');
+		}
+
+		// replace the default language
+		this.#defaultLanguage = { ...this.#languages[foundedLanguagesIndex] };
+	}
+
+	/**
 	 * add a language code into the resume languages container
 	 * @param {string} languageCode the language code
 	 */
@@ -205,10 +225,7 @@ class ResumeLang {
 		// check if the language is not in the resume languages container
 		if (foundedLanguages === -1) {
 			// throw a client error
-			throw new errors.ClientError(
-				'RESUME_LANG',
-				'language not exist'
-			);
+			throw new errors.ClientError('RESUME_LANG', 'language not exist');
 		} else {
 			// otherwise remove the language from the list
 			this.#languages.splice(foundedLanguages, 1);

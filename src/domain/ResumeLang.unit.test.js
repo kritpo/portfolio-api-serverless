@@ -381,6 +381,84 @@ describe('ResumeLang', () => {
 		});
 	});
 
+	// configure the tests of update default language
+	describe('updateDefaultLanguage', () => {
+		// configure the test with existing language
+		it('with existing language', () => {
+			// initialize the resume languages container
+			const resumeLang = new ResumeLang('dumb_username');
+
+			// configure the resume languages container
+			resumeLang.defaultLanguage = {
+				languageCode: 'en',
+				language: 'English'
+			};
+			resumeLang.languages = [
+				{
+					languageCode: 'en',
+					language: 'English'
+				},
+				{
+					languageCode: 'fr',
+					language: 'Français'
+				}
+			];
+
+			// execute the function
+			resumeLang.updateDefaultLanguage('fr');
+
+			resumeLang.defaultLanguage.should.be.deep.equal({
+				languageCode: 'fr',
+				language: 'Français'
+			});
+			resumeLang.languages.should.be.deep.equal([
+				{
+					languageCode: 'en',
+					language: 'English'
+				},
+				{
+					languageCode: 'fr',
+					language: 'Français'
+				}
+			]);
+		});
+
+		// configure the test with not existing language
+		it('with not existing language', () => {
+			// try to execute the function
+			try {
+				// initialize the resume languages container
+				const resumeLang = new ResumeLang('dumb_username');
+
+				// configure the resume languages container
+				resumeLang.defaultLanguage = {
+					languageCode: 'en',
+					language: 'English'
+				};
+				resumeLang.languages = [
+					{
+						languageCode: 'en',
+						language: 'English'
+					}
+				];
+
+				// execute the function
+				resumeLang.updateDefaultLanguage('wrong_language_code');
+
+				// shouldn't be executed
+				true.should.be.equal(false, 'should not be executed');
+			} catch (e) {
+				e.should.be
+					.a('Error')
+					.which.have.property('message', 'dumb_client_error');
+				clientErrorStub.should.have.been.calledWith(
+					'RESUME_LANG',
+					'language not exist'
+				);
+			}
+		});
+	});
+
 	// configure the tests of add
 	describe('add', () => {
 		// configure the tests with existing languages container
