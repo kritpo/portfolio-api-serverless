@@ -1,5 +1,9 @@
 # Portfolio of Jimmy Weng - API Serverless Project
 
+[![circleci](https://circleci.com/gh/kritpo/portfolio-api-serverless.svg?style=shield)](https://circleci.com/gh/kritpo/portfolio-api-serverless)
+[![codecov](https://codecov.io/gh/kritpo/portfolio-api-serverless/branch/main/graph/badge.svg?token=1OU8X24NUT)](https://codecov.io/gh/kritpo/portfolio-api-serverless)
+[![maintainability](https://api.codeclimate.com/v1/badges/9ad878b543fbe578675b/maintainability)](https://codeclimate.com/github/kritpo/portfolio-api-serverless/maintainability)
+
 Created with the help of `serverless` framework.\
 API to manage resumes and associated data.
 
