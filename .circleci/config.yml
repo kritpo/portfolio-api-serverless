@@ -10,14 +10,8 @@ commands:
                   command: sudo npm install -g serverless
             - run:
                   command: npm install
-
-jobs:
-    build-and-test:
-        docker:
-            - image: circleci/node:12
+    test:
         steps:
-            - checkout
-            - build
             - run:
                   command: npm install --save-dev jest-junit
             - run:
@@ -32,12 +26,22 @@ jobs:
                   path: ./reports/junit
             - codecov/upload:
                   file: ./coverage/clover.xml
-    build-and-deploy:
+
+jobs:
+    build-and-test:
         docker:
             - image: circleci/node:12
         steps:
             - checkout
             - build
+            - test
+    build-test-and-deploy:
+        docker:
+            - image: circleci/node:12
+        steps:
+            - checkout
+            - build
+            - test
             - run:
                   command: sls config credentials --provider aws --key $AWS_ACCESS_KEY --secret $AWS_SECRET_KEY
             - run:
@@ -50,9 +54,9 @@ workflows:
                   filters:
                       branches:
                           ignore: main
-    build-and-deploy:
+    build-test-and-deploy:
         jobs:
-            - build-and-deploy:
+            - build-test-and-deploy:
                   filters:
                       branches:
                           only:
