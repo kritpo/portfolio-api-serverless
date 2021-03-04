@@ -54,3 +54,15 @@ npm run deploy
 ```
 
 You must ensure that you have correctly [configured](https://www.serverless.com/framework/docs/providers/aws/guide/credentials/) your AWS credentials.
+
+## Documentation
+
+The API reference was made with [slate](https://github.com/slatedocs/slate).
+
+Generate the docs files:
+
+```sh
+docker run --rm --name slate -v $(output):/srv/slate/build -v $(input):/srv/slate/source slatedocs/slate
+```
+
+With `$(output)` the path to the output files repository and `$(input)` the path to the `doc/` repository.
