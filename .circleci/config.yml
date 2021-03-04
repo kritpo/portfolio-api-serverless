@@ -21,7 +21,7 @@ jobs:
             - run:
                   command: npm install --save-dev jest-junit
             - run:
-                  command: npm install -g codecov
+                  command: sudo npm install -g codecov
             - run:
                   command: npm test -- --ci --runInBand --reporters=default --reporters=jest-junit --coverage && codecov
                   environment:
