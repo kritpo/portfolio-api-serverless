@@ -133,6 +133,25 @@ class ResumeLang {
 	}
 
 	/**
+	 * delete the resume languages container
+	 * @param {function} dbDelete the data deleter
+	 */
+	async delete(dbDelete) {
+		// delete data from the database
+		return (
+			dbDelete(this.#id1, this.#filter)
+				// catch db error
+				.catch(err => {
+					// throw server db error
+					throw new errors.ServerError(
+						errors.ioTypes.DB,
+						err.message
+					);
+				})
+		);
+	}
+
+	/**
 	 * add a language code into the resume languages container
 	 * @param {string} languageCode the language code
 	 */
@@ -171,6 +190,67 @@ class ResumeLang {
 				'language already exist'
 			);
 		}
+	}
+
+	/**
+	 * remove a language code from the resume languages container
+	 * @param {string} languageCode the language code
+	 */
+	remove(languageCode) {
+		// retrieve the language in the languages container
+		const foundedLanguages = this.#languages.findIndex(
+			lang => lang.languageCode === languageCode
+		);
+
+		// check if the language is not in the resume languages container
+		if (foundedLanguages === -1) {
+			// throw a client error
+			throw new errors.ClientError(
+				'RESUME_LANG',
+				'language not exist'
+			);
+		} else {
+			// otherwise remove the language from the list
+			this.#languages.splice(foundedLanguages, 1);
+		}
+
+		// check if the default language is the language
+		if (this.#defaultLanguage.languageCode === languageCode) {
+			// check if the languages container is not empty
+			if (this.#languages.length > 0) {
+				// replace the default language with the first language
+				this.#defaultLanguage = { ...this.#languages[0] };
+			} else {
+				// otherwise replace the default language with nothing
+				this.#defaultLanguage = undefined;
+			}
+		}
+	}
+
+	/**
+	 * empty the resume languages container
+	 */
+	empty() {
+		// empty container
+		this.#defaultLanguage = undefined;
+		this.#languages = [];
+	}
+
+	/**
+	 * size of the resume languages container
+	 */
+	size() {
+		// return the size of the resume languages container array
+		return this.#languages.length;
+	}
+
+	/**
+	 * Array.map() equivalent in the resume languages container
+	 * @param {function} func the function which perform the map
+	 */
+	map(func) {
+		// perform the map
+		return this.#languages.map(func);
 	}
 
 	/**

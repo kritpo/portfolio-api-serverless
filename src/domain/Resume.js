@@ -256,6 +256,25 @@ class Resume {
 	}
 
 	/**
+	 * delete the resume
+	 * @param {function} dbDelete the data deleter
+	 */
+	async delete(dbDelete) {
+		// delete data from the database
+		return (
+			dbDelete(this.#id1, this.#filter)
+				// catch db error
+				.catch(err => {
+					// throw server db error
+					throw new errors.ServerError(
+						errors.ioTypes.DB,
+						err.message
+					);
+				})
+		);
+	}
+
+	/**
 	 * the owner of the resume
 	 */
 	get username() {

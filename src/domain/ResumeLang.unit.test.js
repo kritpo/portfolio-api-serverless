@@ -330,6 +330,57 @@ describe('ResumeLang', () => {
 		});
 	});
 
+	// configure the tests of delete
+	describe('delete', () => {
+		let deleteStub;
+
+		// setup the resume
+		beforeEach(() => {
+			// initialize the stub
+			deleteStub = sinon.stub();
+
+			// configure the stub
+			deleteStub.resolves();
+		});
+
+		// configure the test with right data
+		it('with right data', async () => {
+			// initialize the resume languages container
+			const resumeLang = new ResumeLang('dumb_username');
+
+			// execute the function
+			await resumeLang.delete(deleteStub);
+
+			deleteStub.should.have.been.calledWith(
+				'user_dumb_username',
+				'resume'
+			);
+		});
+
+		// configure the test with emulated db error
+		it('with emulated db error', async () => {
+			// try to execute the function
+			try {
+				// initialize the resume
+				const resumeLang = new ResumeLang('dumb_username');
+
+				// configure the stub
+				deleteStub.rejects(new Error('dumb_error'));
+
+				// execute the function
+				await resumeLang.delete(deleteStub);
+
+				// shouldn't be executed
+				true.should.be.equal(false, 'should not be executed');
+			} catch (e) {
+				e.should.be
+					.a('Error')
+					.which.have.property('message', 'dumb_server_error');
+				serverErrorStub.should.have.been.calledWith('DB', 'dumb_error');
+			}
+		});
+	});
+
 	// configure the tests of add
 	describe('add', () => {
 		// configure the tests with existing languages container
@@ -447,6 +498,234 @@ describe('ResumeLang', () => {
 					'language code not correct'
 				);
 			}
+		});
+	});
+
+	// configure the tests of remove
+	describe('remove', () => {
+		// configure the tests with existing language
+		describe('with existing language', () => {
+			// configure the test with normal language
+			it('with normal language', () => {
+				// initialize the resume languages container
+				const resumeLang = new ResumeLang('dumb_username');
+
+				// configure the resume languages container
+				resumeLang.defaultLanguage = {
+					languageCode: 'en',
+					language: 'English'
+				};
+				resumeLang.languages = [
+					{
+						languageCode: 'en',
+						language: 'English'
+					},
+					{
+						languageCode: 'fr',
+						language: 'Français'
+					}
+				];
+
+				// execute the function
+				resumeLang.remove('fr');
+
+				resumeLang.defaultLanguage.should.be.deep.equal({
+					languageCode: 'en',
+					language: 'English'
+				});
+				resumeLang.languages.should.be.deep.equal([
+					{
+						languageCode: 'en',
+						language: 'English'
+					}
+				]);
+			});
+
+			// configure the tests with default language
+			describe('with default language', () => {
+				// configure the test with more than 1 language
+				it('with more than 1 language', () => {
+					// initialize the resume languages container
+					const resumeLang = new ResumeLang('dumb_username');
+
+					// configure the resume languages container
+					resumeLang.defaultLanguage = {
+						languageCode: 'en',
+						language: 'English'
+					};
+					resumeLang.languages = [
+						{
+							languageCode: 'en',
+							language: 'English'
+						},
+						{
+							languageCode: 'fr',
+							language: 'Français'
+						}
+					];
+
+					// execute the function
+					resumeLang.remove('en');
+
+					resumeLang.defaultLanguage.should.be.deep.equal({
+						languageCode: 'fr',
+						language: 'Français'
+					});
+					resumeLang.languages.should.be.deep.equal([
+						{
+							languageCode: 'fr',
+							language: 'Français'
+						}
+					]);
+				});
+
+				// configure the test with last language
+				it('with last language', () => {
+					// initialize the resume languages container
+					const resumeLang = new ResumeLang('dumb_username');
+
+					// configure the resume languages container
+					resumeLang.defaultLanguage = {
+						languageCode: 'en',
+						language: 'English'
+					};
+					resumeLang.languages = [
+						{
+							languageCode: 'en',
+							language: 'English'
+						}
+					];
+
+					// execute the function
+					resumeLang.remove('en');
+
+					should.not.exist(resumeLang.defaultLanguage);
+					resumeLang.languages.should.be.deep.equal([]);
+				});
+			});
+		});
+
+		// configure the test with not existing language
+		it('with not existing language', () => {
+			// try to execute the function
+			try {
+				// initialize the resume languages container
+				const resumeLang = new ResumeLang('dumb_username');
+
+				// configure the resume languages container
+				resumeLang.defaultLanguage = {
+					languageCode: 'en',
+					language: 'English'
+				};
+				resumeLang.languages = [
+					{
+						languageCode: 'en',
+						language: 'English'
+					}
+				];
+
+				// execute the function
+				resumeLang.remove('wrong_language_code');
+
+				// shouldn't be executed
+				true.should.be.equal(false, 'should not be executed');
+			} catch (e) {
+				e.should.be
+					.a('Error')
+					.which.have.property('message', 'dumb_client_error');
+				clientErrorStub.should.have.been.calledWith(
+					'RESUME_LANG',
+					'language not exist'
+				);
+			}
+		});
+	});
+
+	// configure the tests of empty
+	describe('empty', () => {
+		// configure the test with sample set
+		it('with sample set', () => {
+			// initialize the resume languages container
+			const resumeLang = new ResumeLang('dumb_username');
+
+			// configure the resume languages container
+			resumeLang.defaultLanguage = {
+				languageCode: 'en',
+				language: 'English'
+			};
+			resumeLang.languages = [
+				{
+					languageCode: 'en',
+					language: 'English'
+				}
+			];
+
+			// execute the function
+			resumeLang.empty();
+
+			should.not.exist(resumeLang.defaultLanguage);
+			resumeLang.languages.should.be.deep.equal([]);
+		});
+	});
+
+	// configure the tests of size
+	describe('size', () => {
+		// configure the test with sample set
+		it('with sample set', () => {
+			// initialize the resume languages container
+			const resumeLang = new ResumeLang('dumb_username');
+
+			// configure the resume languages container
+			resumeLang.defaultLanguage = {
+				languageCode: 'en',
+				language: 'English'
+			};
+			resumeLang.languages = [
+				{
+					languageCode: 'en',
+					language: 'English'
+				}
+			];
+
+			// execute the function
+			const result = resumeLang.size();
+
+			result.should.be.equal(1);
+		});
+	});
+
+	// configure the tests of map
+	describe('map', () => {
+		// configure the test with sample set
+		it('with sample set', () => {
+			// initialize the resume languages container
+			const resumeLang = new ResumeLang('dumb_username');
+
+			// configure the resume languages container
+			resumeLang.defaultLanguage = {
+				languageCode: 'en',
+				language: 'English'
+			};
+			resumeLang.languages = [
+				{
+					languageCode: 'en',
+					language: 'English'
+				}
+			];
+
+			// execute the function
+			const result = resumeLang.map(language => ({
+				...language,
+				data: 42
+			}));
+
+			result.should.be.deep.equal([
+				{
+					languageCode: 'en',
+					language: 'English',
+					data: 42
+				}
+			]);
 		});
 	});
 

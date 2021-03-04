@@ -33,3 +33,17 @@ resumePUT:
                           username: true
               authorizer:
                   arn: ${env:COGNITO_USER_POOL_ARN}
+
+resumeDELETE:
+    handler: src/infra/resumes.resumeDELETE
+    events:
+        - http:
+              path: /resumes/{username}
+              method: delete
+              cors: true
+              request:
+                  parameters:
+                      paths:
+                          username: true
+              authorizer:
+                  arn: ${env:COGNITO_USER_POOL_ARN}

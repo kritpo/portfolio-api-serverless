@@ -1643,6 +1643,57 @@ describe('Resume', () => {
 		});
 	});
 
+	// configure the tests of delete
+	describe('delete', () => {
+		let deleteStub;
+
+		// setup the resume
+		beforeEach(() => {
+			// initialize the stub
+			deleteStub = sinon.stub();
+
+			// configure the stub
+			deleteStub.resolves();
+		});
+
+		// configure the test with right data
+		it('with right data', async () => {
+			// initialize the resume
+			const resume = new Resume('dumb_username', 'dumb_language');
+
+			// execute the function
+			await resume.delete(deleteStub);
+
+			deleteStub.should.have.been.calledWith(
+				'user_dumb_username',
+				'resume_dumb_language'
+			);
+		});
+
+		// configure the test with emulated db error
+		it('with emulated db error', async () => {
+			// try to execute the function
+			try {
+				// initialize the resume
+				const resume = new Resume('dumb_username', 'dumb_language');
+
+				// configure the stub
+				deleteStub.rejects(new Error('dumb_error'));
+
+				// execute the function
+				await resume.delete(deleteStub);
+
+				// shouldn't be executed
+				true.should.be.equal(false, 'should not be executed');
+			} catch (e) {
+				e.should.be
+					.a('Error')
+					.which.have.property('message', 'dumb_server_error');
+				serverErrorStub.should.have.been.calledWith('DB', 'dumb_error');
+			}
+		});
+	});
+
 	// configure the tests of getters and setters
 	describe('getters and setters', () => {
 		let resume;
