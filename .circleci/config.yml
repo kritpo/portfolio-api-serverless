@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
     node: circleci/node@3.0.0
+    codecov: codecov/codecov@1.0.2
 
 commands:
     build:
@@ -20,13 +21,17 @@ jobs:
             - run:
                   command: npm install --save-dev jest-junit
             - run:
-                  command: npm test -- --ci --runInBand --reporters=default --reporters=jest-junit
+                  command: npm install -g codecov
+            - run:
+                  command: npm test -- --ci --runInBand --reporters=default --reporters=jest-junit --coverage && codecov
                   environment:
                       JEST_JUNIT_OUTPUT_DIR: ./reports/junit/
             - store_test_results:
                   path: ./reports/junit/
             - store_artifacts:
                   path: ./reports/junit
+            - codecov/upload:
+                  file: ./coverage/clover.xml
     build-and-deploy:
         docker:
             - image: circleci/node:12
