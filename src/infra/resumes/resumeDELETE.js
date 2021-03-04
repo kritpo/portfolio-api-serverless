@@ -17,9 +17,9 @@ const resumeDELETE = async event => {
 
 	// check if the username is not defined
 	if (
-		input.user == undefined ||
-		input.user.username == undefined ||
-		input.params.username == undefined
+		input.user === undefined ||
+		input.user.username === undefined ||
+		input.params.username === undefined
 	) {
 		// return a BAD REQUEST response
 		return http.badRequest();

@@ -17,9 +17,9 @@ const resumesPOST = async event => {
 
 	// check if the username or the language code is not defined
 	if (
-		input.user == undefined ||
-		input.user.username == undefined ||
-		input.body == undefined ||
+		input.user === undefined ||
+		input.user.username === undefined ||
+		input.body === null ||
 		input.body.languageCode === undefined
 	) {
 		// return a BAD REQUEST response

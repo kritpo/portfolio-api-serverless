@@ -16,9 +16,9 @@ const resumeLangPUT = async event => {
 
 	// check if the username is not defined
 	if (
-		input.user == undefined ||
-		input.user.username == undefined ||
-		input.params.username == undefined
+		input.user === undefined ||
+		input.user.username === undefined ||
+		input.params.username === undefined
 	) {
 		// return a BAD REQUEST response
 		return http.badRequest();
@@ -38,10 +38,7 @@ const resumeLangPUT = async event => {
 		.hydrate(ddb.dbReadByIdAndFilter)
 		.then(() => {
 			// check if the language code is not defined
-			if (
-				input.body === null ||
-				input.body.languageCode === undefined
-			) {
+			if (input.body === null || input.body.languageCode === undefined) {
 				// throw a client error
 				throw new errors.ClientError(
 					'RESUME_LANG_PUT',
