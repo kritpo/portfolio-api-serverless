@@ -1,0 +1,56 @@
+version: 2.1
+orbs:
+    node: circleci/node@3.0.0
+
+commands:
+    build:
+        steps:
+            - run:
+                  command: sudo npm install -g serverless
+            - run:
+                  command: npm install
+
+jobs:
+    build-and-test:
+        docker:
+            - image: circleci/node:12
+        steps:
+            - checkout
+            - build
+            - run:
+                  command: npm install --save-dev jest-junit
+            - run:
+                  command: npm test -- --ci --runInBand --reporters=default --reporters=jest-junit
+                  environment:
+                      JEST_JUNIT_OUTPUT_DIR: ./reports/junit/
+            - store_test_results:
+                  path: ./reports/junit/
+            - store_artifacts:
+                  path: ./reports/junit
+    build-and-deploy:
+        docker:
+            - image: circleci/node:12
+        steps:
+            - checkout
+            - build
+            - run:
+                  command: sls config credentials --provider aws --key $AWS_ACCESS_KEY --secret $AWS_SECRET_KEY
+            - run:
+                  command: npm run deploy -- --stage prod
+
+workflows:
+    build-and-test:
+        jobs:
+            - build-and-test:
+                  filters:
+                      branches:
+                          ignore: main
+    build-and-deploy:
+        jobs:
+            - build-and-deploy:
+                  filters:
+                      branches:
+                          only:
+                              - main
+                  context:
+                      - aws-serverless
