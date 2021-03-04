@@ -5,9 +5,8 @@ provider:
     name: aws
     runtime: nodejs12.x
     lambdaHashingVersion: 20201221
-    stage: ${env:STAGE}
     region: eu-west-3
-    stackName: serverless-portfolio-cloudformation-${self:provider.stage}
+    stackName: serverless-portfolio-cloudformation-${env:STAGE}
     environment:
         STAGE: ${env:STAGE}
         DDB_TABLE_NAME: ${env:DDB_TABLE_NAME}
@@ -41,12 +40,13 @@ custom:
         other: false
     customDomain:
         domainName: ${env:DOMAIN_NAME}
-        stage: ${self:provider.stage}
+        stage: ${env:STAGE}
         createRoute53Record: true
-        enabled: ${self:custom.domainEnabled.${self:provider.stage}, self:custom.domainEnabled.other}
+        enabled: ${self:custom.domainEnabled.${env:STAGE}, self:custom.domainEnabled.other}
 
 functions:
-    - ${file(serverless/services/hello.yml)}
+    - ${file(serverless/services/resumesLanguages.yml)}
+    - ${file(serverless/services/resumes.yml)}
 
 resources:
     - ${file(serverless/resources/ddb.yml)}
@@ -56,3 +56,4 @@ plugins:
     - serverless-offline
 
 configValidationMode: error
+variablesResolutionMode: 20210219

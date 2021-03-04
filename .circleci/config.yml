@@ -1,0 +1,65 @@
+version: 2.1
+orbs:
+    node: circleci/node@3.0.0
+    codecov: codecov/codecov@1.0.2
+
+commands:
+    build:
+        steps:
+            - run:
+                  command: sudo npm install -g serverless
+            - run:
+                  command: npm install
+    test:
+        steps:
+            - run:
+                  command: npm install --save-dev jest-junit
+            - run:
+                  command: sudo npm install -g codecov
+            - run:
+                  command: npm test -- --ci --runInBand --reporters=default --reporters=jest-junit --coverage && codecov
+                  environment:
+                      JEST_JUNIT_OUTPUT_DIR: ./reports/junit/
+            - store_test_results:
+                  path: ./reports/junit/
+            - store_artifacts:
+                  path: ./reports/junit
+            - codecov/upload:
+                  file: ./coverage/clover.xml
+
+jobs:
+    build-and-test:
+        docker:
+            - image: circleci/node:12
+        steps:
+            - checkout
+            - build
+            - test
+    build-test-and-deploy:
+        docker:
+            - image: circleci/node:12
+        steps:
+            - checkout
+            - build
+            - test
+            - run:
+                  command: sls config credentials --provider aws --key $AWS_ACCESS_KEY --secret $AWS_SECRET_KEY
+            - run:
+                  command: npm run deploy -- --stage prod
+
+workflows:
+    build-and-test:
+        jobs:
+            - build-and-test:
+                  filters:
+                      branches:
+                          ignore: main
+    build-test-and-deploy:
+        jobs:
+            - build-test-and-deploy:
+                  filters:
+                      branches:
+                          only:
+                              - main
+                  context:
+                      - aws-serverless
