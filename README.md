@@ -35,6 +35,20 @@ npm install
 
 ## Usage
 
+### Configuration
+
+You must provide a `.env` file at the root of the application:
+
+```env
+# domain name configuration
+DOMAIN_NAME=[YOUR_CUSTOM_API_DOMAIN_NAME]
+
+# serverless configuration
+STAGE=[YOUR_API_STAGE]
+DDB_TABLE_NAME=serverless-portfolio-dynamodb
+COGNITO_USER_POOL_ARN=[YOUR_COGNITO_USER_POOL_ARN]
+```
+
 ### Run the application on your computer locally
 
 As the application was developed with the plugin `serverless-offline`, you can run the application locally, run:
