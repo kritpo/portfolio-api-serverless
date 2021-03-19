@@ -126,7 +126,8 @@ POST https://api.jimmyweng.fr/resumes
 	"languages": [
 		{
 			"language": "French",
-			"fluency": "Advanced"
+			"fluency": "Advanced",
+			"countryCode": "FR"
 		}
 	],
 	"interests": [
@@ -222,6 +223,7 @@ Post a new resume.
 | &nbsp;&nbsp;>&nbsp;&nbsp;language                                        | Object        | _Optional_   | A specific language in the list.                                     |
 | &nbsp;&nbsp;-&nbsp;&nbsp;>&nbsp;&nbsp;language                           | String        | **Required** | The language.                                                        |
 | &nbsp;&nbsp;-&nbsp;&nbsp;>&nbsp;&nbsp;fluency                            | String        | **Required** | The fluency (must be standardized).                                  |
+| &nbsp;&nbsp;-&nbsp;&nbsp;>&nbsp;&nbsp;countryCode                        | String        | **Required** | The country code (must be standardized to ISO 3166 alpha-2).         |
 | interests                                                                | Array[Object] | **Required** | List of interests.                                                   |
 | &nbsp;&nbsp;>&nbsp;&nbsp;interest                                        | Object        | _Optional_   | A specific interest in the list.                                     |
 | &nbsp;&nbsp;-&nbsp;&nbsp;>&nbsp;&nbsp;name                               | String        | **Required** | The interest name.                                                   |
@@ -347,7 +349,8 @@ GET https://api.jimmyweng.fr/resumes/{username}
 	"languages": [
 		{
 			"language": "French",
-			"fluency": "Advanced"
+			"fluency": "Advanced",
+			"countryCode": "FR"
 		}
 	],
 	"interests": [
@@ -493,7 +496,8 @@ PUT https://api.jimmyweng.fr/resumes/{username}
 	"languages": [
 		{
 			"language": "French",
-			"fluency": "Advanced"
+			"fluency": "Advanced",
+			"countryCode": "FR"
 		}
 	],
 	"interests": [
@@ -594,6 +598,7 @@ Put a new resume to replace a specific one.
 | &nbsp;&nbsp;>&nbsp;&nbsp;language                                        | Object        | _Optional_   | A specific language in the list.                                                                     |
 | &nbsp;&nbsp;-&nbsp;&nbsp;>&nbsp;&nbsp;language                           | String        | **Required** | The language.                                                                                        |
 | &nbsp;&nbsp;-&nbsp;&nbsp;>&nbsp;&nbsp;fluency                            | String        | **Required** | The fluency (must be standardized).                                                                  |
+| &nbsp;&nbsp;-&nbsp;&nbsp;>&nbsp;&nbsp;countryCode                        | String        | **Required** | The country code (must be standardized to ISO 3166 alpha-2).                                         |
 | interests                                                                | Array[Object] | **Required** | List of interests.                                                                                   |
 | &nbsp;&nbsp;>&nbsp;&nbsp;interest                                        | Object        | _Optional_   | A specific interest in the list.                                                                     |
 | &nbsp;&nbsp;-&nbsp;&nbsp;>&nbsp;&nbsp;name                               | String        | **Required** | The interest name.                                                                                   |

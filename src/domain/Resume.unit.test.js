@@ -135,7 +135,8 @@ describe('Resume', () => {
 			resume.languages = [
 				{
 					language: 'French',
-					fluency: 'Advanced'
+					fluency: 'Advanced',
+					countryCode: 'FR'
 				}
 			];
 			resume.interests = [
@@ -241,7 +242,8 @@ describe('Resume', () => {
 					languages: [
 						{
 							language: 'French',
-							fluency: 'Advanced'
+							fluency: 'Advanced',
+							countryCode: 'FR'
 						}
 					],
 					interests: [
@@ -378,7 +380,8 @@ describe('Resume', () => {
 				resume.languages = [
 					{
 						language: 'French',
-						fluency: 'Advanced'
+						fluency: 'Advanced',
+						countryCode: 'FR'
 					}
 				];
 				resume.interests = [
@@ -508,7 +511,8 @@ describe('Resume', () => {
 				languages: [
 					{
 						language: 'French',
-						fluency: 'Advanced'
+						fluency: 'Advanced',
+						countryCode: 'FR'
 					}
 				],
 				interests: [
@@ -623,7 +627,8 @@ describe('Resume', () => {
 			resume.languages.should.be.deep.equal([
 				{
 					language: 'French',
-					fluency: 'Advanced'
+					fluency: 'Advanced',
+					countryCode: 'FR'
 				}
 			]);
 			resume.interests.should.be.deep.equal([
@@ -790,7 +795,8 @@ describe('Resume', () => {
 				resume.languages = [
 					{
 						language: 'French',
-						fluency: 'Advanced'
+						fluency: 'Advanced',
+						countryCode: 'FR'
 					}
 				];
 				resume.interests = [
@@ -912,7 +918,8 @@ describe('Resume', () => {
 						':languages': [
 							{
 								language: 'French',
-								fluency: 'Advanced'
+								fluency: 'Advanced',
+								countryCode: 'FR'
 							}
 						],
 						':interests': [
@@ -1123,7 +1130,8 @@ describe('Resume', () => {
 				resume.languages = [
 					{
 						language: 'French',
-						fluency: 'Advanced'
+						fluency: 'Advanced',
+						countryCode: 'FR'
 					}
 				];
 				resume.interests = [
@@ -1166,7 +1174,8 @@ describe('Resume', () => {
 						':languages': [
 							{
 								language: 'French',
-								fluency: 'Advanced'
+								fluency: 'Advanced',
+								countryCode: 'FR'
 							}
 						],
 						':interests': [
@@ -1364,7 +1373,8 @@ describe('Resume', () => {
 			resume.languages = [
 				{
 					language: 'French',
-					fluency: 'Advanced'
+					fluency: 'Advanced',
+					countryCode: 'FR'
 				}
 			];
 			resume.interests = [
@@ -1469,7 +1479,8 @@ describe('Resume', () => {
 					languages: [
 						{
 							language: 'French',
-							fluency: 'Advanced'
+							fluency: 'Advanced',
+							countryCode: 'FR'
 						}
 					],
 					interests: [
@@ -1606,7 +1617,8 @@ describe('Resume', () => {
 				resume.languages = [
 					{
 						language: 'French',
-						fluency: 'Advanced'
+						fluency: 'Advanced',
+						countryCode: 'FR'
 					}
 				];
 				resume.interests = [
@@ -2312,7 +2324,8 @@ describe('Resume', () => {
 					resume.languages = [
 						{
 							language: 'French',
-							fluency: 'Advanced'
+							fluency: 'Advanced',
+							countryCode: 'FR'
 						}
 					];
 					const result = resume.languages;
@@ -2320,14 +2333,16 @@ describe('Resume', () => {
 					result.should.be.deep.equal([
 						{
 							language: 'French',
-							fluency: 'Advanced'
+							fluency: 'Advanced',
+							countryCode: 'FR'
 						}
 					]);
 					checkResumeStub.checkSkills.should.have.been.calledWith(
 						[
 							{
 								language: 'French',
-								fluency: 'Advanced'
+								fluency: 'Advanced',
+								countryCode: 'FR'
 							}
 						],
 						false
