@@ -69,6 +69,13 @@ function checkBasics(basics) {
 		scope
 	);
 
+	// check if the country code does not exists
+	if (!COUNTRY_CONST.includes(basics.location.countryCode)) {
+		throw new Error(
+			`${scope}: \`basics.location.countryCode\` param is incorrect, ${basics.location.countryCode} does not exist.`
+		);
+	}
+
 	// loop profiles list
 	for (const profile of basics.profiles) {
 		// check profile information types

@@ -209,6 +209,159 @@ describe('checkResume', () => {
 				'check-resume(basics)'
 			);
 		});
+
+		// configure the test with bad country code
+		it('with bad country code', () => {
+			// try to execute the function
+			try {
+				// execute the function
+				checkResume.checkBasics({
+					name: 'John DOE',
+					label: 'Programmer',
+					picture: 'https://website.com/picture.jpg',
+					email: 'john@gmail.com',
+					phone: '(912) 555-4321',
+					website: 'http://johndoe.com',
+					summary: 'A summary of John Doe...',
+					location: {
+						address: '2712 Broadway St',
+						postalCode: 'CA 94115',
+						city: 'San Francisco',
+						countryCode: 'bad_country_code',
+						region: 'California'
+					},
+					profiles: [
+						{
+							network: 'Twitter',
+							username: 'john',
+							url: 'http://twitter.com/john'
+						}
+					]
+				});
+
+				// shouldn't be executed
+				true.should.be.equal(false, 'should not be executed');
+			} catch (e) {
+				e.should.be
+					.a('Error')
+					.which.have.property(
+						'message',
+						'check-resume(basics): `basics.location.countryCode` param is incorrect, bad_country_code does not exist.'
+					);
+				checkReqParamTypeStub.should.have.been.calledWith(
+					{
+						name: 'John DOE',
+						label: 'Programmer',
+						picture: 'https://website.com/picture.jpg',
+						email: 'john@gmail.com',
+						phone: '(912) 555-4321',
+						website: 'http://johndoe.com',
+						summary: 'A summary of John Doe...',
+						location: {
+							address: '2712 Broadway St',
+							postalCode: 'CA 94115',
+							city: 'San Francisco',
+							countryCode: 'bad_country_code',
+							region: 'California'
+						},
+						profiles: [
+							{
+								network: 'Twitter',
+								username: 'john',
+								url: 'http://twitter.com/john'
+							}
+						]
+					},
+					'object',
+					'basics',
+					'check-resume(basics)'
+				);
+				checkReqParamTypeStub.should.have.been.calledWith(
+					'John DOE',
+					'string',
+					'basics.name',
+					'check-resume(basics)'
+				);
+				checkReqParamTypeStub.should.have.been.calledWith(
+					'Programmer',
+					'string',
+					'basics.label',
+					'check-resume(basics)'
+				);
+				checkReqParamTypeStub.should.have.been.calledWith(
+					'https://website.com/picture.jpg',
+					'string',
+					'basics.picture',
+					'check-resume(basics)'
+				);
+				checkReqParamTypeStub.should.have.been.calledWith(
+					'john@gmail.com',
+					'string',
+					'basics.email',
+					'check-resume(basics)'
+				);
+				checkReqParamTypeStub.should.have.been.calledWith(
+					'(912) 555-4321',
+					'string',
+					'basics.phone',
+					'check-resume(basics)'
+				);
+				checkReqParamTypeStub.should.have.been.calledWith(
+					'http://johndoe.com',
+					'string',
+					'basics.website',
+					'check-resume(basics)'
+				);
+				checkReqParamTypeStub.should.have.been.calledWith(
+					'A summary of John Doe...',
+					'string',
+					'basics.summary',
+					'check-resume(basics)'
+				);
+				checkReqParamTypeStub.should.have.been.calledWith(
+					{
+						address: '2712 Broadway St',
+						postalCode: 'CA 94115',
+						city: 'San Francisco',
+						countryCode: 'bad_country_code',
+						region: 'California'
+					},
+					'object',
+					'basics.location',
+					'check-resume(basics)'
+				);
+				checkReqParamTypeStub.should.have.been.calledWith(
+					'2712 Broadway St',
+					'string',
+					'basics.location.address',
+					'check-resume(basics)'
+				);
+				checkReqParamTypeStub.should.have.been.calledWith(
+					'CA 94115',
+					'string',
+					'basics.location.postalCode',
+					'check-resume(basics)'
+				);
+				checkReqParamTypeStub.should.have.been.calledWith(
+					'San Francisco',
+					'string',
+					'basics.location.city',
+					'check-resume(basics)'
+				);
+				checkReqParamTypeStub.should.have.been.calledWith(
+					'bad_country_code',
+					'string',
+					'basics.location.countryCode',
+					'check-resume(basics)'
+				);
+				checkReqParamTypeStub.should.have.been.calledWith(
+					'California',
+					'string',
+					'basics.location.region',
+					'check-resume(basics)'
+				);
+			}
+		});
 	});
 
 	// configure the tests of career check
