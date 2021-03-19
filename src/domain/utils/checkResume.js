@@ -8,6 +8,9 @@ const checkRequiredParamType = require('../../utils/checkRequiredParamType');
 const checkParamType = require('../../utils/checkParamType');
 const checkParamFormat = require('../../utils/checkParamFormat');
 
+// import country code constants
+const COUNTRY_CONST = require('./countryConst');
+
 /**
  * check if a basics information object set is correct
  * @param {object} basics the basics information object to check
@@ -341,6 +344,24 @@ function checkSkills(skills, isSkills) {
 			isSkills ? 'skill.level' : 'skill.fluency',
 			scope
 		);
+
+		// check if it is not a skills
+		if (!isSkills) {
+			// check the type
+			checkRequiredParamType(
+				skill.countryCode,
+				'string',
+				'skill.countryCode',
+				scope
+			);
+
+			// check if the country code does not exists
+			if (!COUNTRY_CONST.includes(skill.countryCode)) {
+				throw new Error(
+					`${scope}: \`skill.countryCode\` param is incorrect, ${skill.countryCode} does not exist.`
+				);
+			}
+		}
 	}
 }
 

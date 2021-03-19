@@ -672,41 +672,111 @@ describe('checkResume', () => {
 			);
 		});
 
-		// configure the test with languages sample set
-		it('with languages sample set', () => {
-			// execute the function
-			checkResume.checkSkills(
-				[
-					{
-						language: 'French',
-						fluency: 'Advanced'
-					}
-				],
-				false
-			);
+		// configure the tests with languages
+		describe('with languages', () => {
+			// configure the test with sample set
+			it('with sample set', () => {
+				// execute the function
+				checkResume.checkSkills(
+					[
+						{
+							language: 'French',
+							fluency: 'Advanced',
+							countryCode: 'FR'
+						}
+					],
+					false
+				);
 
-			checkReqParamTypeStub.should.have.been.calledWith(
-				[
-					{
-						language: 'French',
-						fluency: 'Advanced'
-					}
-				],
-				'object',
-				'skills',
-				'check-resume(skills)'
-			);
-			checkReqParamTypeStub.should.have.been.calledWith(
-				'French',
-				'string',
-				'skill.language'
-			);
-			checkReqParamTypeStub.should.have.been.calledWith(
-				'Advanced',
-				'string',
-				'skill.fluency',
-				'check-resume(skills)'
-			);
+				checkReqParamTypeStub.should.have.been.calledWith(
+					[
+						{
+							language: 'French',
+							fluency: 'Advanced',
+							countryCode: 'FR'
+						}
+					],
+					'object',
+					'skills',
+					'check-resume(skills)'
+				);
+				checkReqParamTypeStub.should.have.been.calledWith(
+					'French',
+					'string',
+					'skill.language',
+					'check-resume(skills)'
+				);
+				checkReqParamTypeStub.should.have.been.calledWith(
+					'Advanced',
+					'string',
+					'skill.fluency',
+					'check-resume(skills)'
+				);
+				checkReqParamTypeStub.should.have.been.calledWith(
+					'FR',
+					'string',
+					'skill.countryCode',
+					'check-resume(skills)'
+				);
+			});
+
+			// configure the test with bad country code
+			it('with bad country code', () => {
+				// try execute the function
+				try {
+					// execute the function
+					checkResume.checkSkills(
+						[
+							{
+								language: 'French',
+								fluency: 'Advanced',
+								countryCode: 'bad_country_code'
+							}
+						],
+						false
+					);
+
+					// shouldn't be executed
+					true.should.be.equal(false, 'should not be executed');
+				} catch (e) {
+					e.should.be
+						.a('Error')
+						.which.have.property(
+							'message',
+							'check-resume(skills): `skill.countryCode` param is incorrect, bad_country_code does not exist.'
+						);
+					checkReqParamTypeStub.should.have.been.calledWith(
+						[
+							{
+								language: 'French',
+								fluency: 'Advanced',
+								countryCode: 'bad_country_code'
+							}
+						],
+						'object',
+						'skills',
+						'check-resume(skills)'
+					);
+					checkReqParamTypeStub.should.have.been.calledWith(
+						'French',
+						'string',
+						'skill.language',
+						'check-resume(skills)'
+					);
+					checkReqParamTypeStub.should.have.been.calledWith(
+						'Advanced',
+						'string',
+						'skill.fluency',
+						'check-resume(skills)'
+					);
+					checkReqParamTypeStub.should.have.been.calledWith(
+						'bad_country_code',
+						'string',
+						'skill.countryCode',
+						'check-resume(skills)'
+					);
+				}
+			});
 		});
 	});
 

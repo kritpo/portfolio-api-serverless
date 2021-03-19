@@ -514,7 +514,8 @@ class Resume {
 		// transpose all data into object
 		this.#languages = languages.map(language => ({
 			language: language.language,
-			fluency: language.fluency
+			fluency: language.fluency,
+			countryCode: language.countryCode
 		}));
 	}
 

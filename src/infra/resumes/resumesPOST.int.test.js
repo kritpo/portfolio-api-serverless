@@ -154,7 +154,8 @@ describe('resumesPOST', () => {
 					languages: [
 						{
 							language: 'French',
-							fluency: 'Advanced'
+							fluency: 'Advanced',
+							countryCode: 'FR'
 						}
 					],
 					interests: [
@@ -296,7 +297,8 @@ describe('resumesPOST', () => {
 					languages: [
 						{
 							language: 'French',
-							fluency: 'Advanced'
+							fluency: 'Advanced',
+							countryCode: 'FR'
 						}
 					],
 					interests: [
@@ -491,7 +493,8 @@ describe('resumesPOST', () => {
 						languages: [
 							{
 								language: 'French',
-								fluency: 'Advanced'
+								fluency: 'Advanced',
+								countryCode: 'FR'
 							}
 						],
 						interests: [
@@ -634,7 +637,8 @@ describe('resumesPOST', () => {
 						languages: [
 							{
 								language: 'French',
-								fluency: 'Advanced'
+								fluency: 'Advanced',
+								countryCode: 'FR'
 							}
 						],
 						interests: [
@@ -784,7 +788,8 @@ describe('resumesPOST', () => {
 				languages: [
 					{
 						language: 'French',
-						fluency: 'Advanced'
+						fluency: 'Advanced',
+						countryCode: 'FR'
 					}
 				],
 				interests: [

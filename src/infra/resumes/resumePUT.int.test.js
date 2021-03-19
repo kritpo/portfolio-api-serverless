@@ -125,7 +125,8 @@ describe('resumePUT', () => {
 							languages: [
 								{
 									language: 'French',
-									fluency: 'Advanced'
+									fluency: 'Advanced',
+									countryCode: 'FR'
 								}
 							],
 							interests: [
@@ -271,7 +272,8 @@ describe('resumePUT', () => {
 					languages: [
 						{
 							language: 'French',
-							fluency: 'Advanced'
+							fluency: 'Advanced',
+							countryCode: 'FR'
 						}
 					],
 					interests: [
@@ -520,7 +522,8 @@ describe('resumePUT', () => {
 				languages: [
 					{
 						language: 'French',
-						fluency: 'Advanced'
+						fluency: 'Advanced',
+						countryCode: 'FR'
 					}
 				],
 				interests: [
@@ -660,7 +663,8 @@ describe('resumePUT', () => {
 				languages: [
 					{
 						language: 'French',
-						fluency: 'Advanced'
+						fluency: 'Advanced',
+						countryCode: 'FR'
 					}
 				],
 				interests: [
@@ -806,7 +810,8 @@ describe('resumePUT', () => {
 				languages: [
 					{
 						language: 'French',
-						fluency: 'Advanced'
+						fluency: 'Advanced',
+						countryCode: 'FR'
 					}
 				],
 				interests: [
